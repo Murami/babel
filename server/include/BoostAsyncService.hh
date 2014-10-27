@@ -9,6 +9,9 @@ private:
   boost::asio::io_service	m_io_service;
 
 public:
+  BoostAsyncService();
+  ~BoostAsyncService();
+
   void	getIOService();
   void	run();
 };
