@@ -1,4 +1,8 @@
+#include "Babel.hh"
+
 int	main()
 {
-  return (0);
+  Babel	babel;
+
+  return (babel.run());
 }

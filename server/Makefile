@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Mon Oct 27 18:41:17 2014 anto
+## Last update Mon Oct 27 18:46:10 2014 anto
 ##
 
 ## FILES
@@ -13,6 +13,7 @@
 NAME		=	babel_server
 
 SRC		=	main				\
+			Babel
 
 SRC_EXT		=	.cpp
 
