@@ -5,18 +5,14 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Tue Oct 28 13:44:27 2014 anto
+## Last update Tue Oct 28 16:23:33 2014 anto
 ##
 
 ## FILES
 
 NAME		=	babel_server
 
-SRC		=	main				\
-			Babel				\
-			BoostAsyncService		\
-			TcpAsyncServer			\
-			BoostTcpAsyncServer		\
+SRC		=	main
 
 SRC_EXT		=	.cpp
 
@@ -56,7 +52,7 @@ MD		=	mkdir -p
 
 ## CONSTANTS
 
-DBGBOOL		=	no
+DBGBOOL		=	yes
 
 PROFILE		=	no
 
