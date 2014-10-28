@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Mon Oct 27 18:46:10 2014 anto
+## Last update Tue Oct 28 13:44:27 2014 anto
 ##
 
 ## FILES
@@ -13,7 +13,10 @@
 NAME		=	babel_server
 
 SRC		=	main				\
-			Babel
+			Babel				\
+			BoostAsyncService		\
+			TcpAsyncServer			\
+			BoostTcpAsyncServer		\
 
 SRC_EXT		=	.cpp
 

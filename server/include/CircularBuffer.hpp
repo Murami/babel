@@ -1,7 +1,6 @@
 #ifndef CIRCULARBUFFER_HPP
 #define CIRCULARBUFFER_HPP
 
-
 template<unsigned int BufferSize = 1024>
 class CircularBuffer
 {
