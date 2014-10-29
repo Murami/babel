@@ -1,21 +1,22 @@
 #ifndef ITCPASYNCSERVER_HH
-#define IASYNCSERVER_HH
+#define ITCPASYNCSERVER_HH
 
-class IAsyncServerListener;
+class ITcpAsyncServerListener;
+class ITcpAsyncClient;
 
-class ITpcAsyncServer
+class ITcpAsyncServer
 {
 public:
-  virtual void		addListener(IASyncServerListener* listener) = 0;
-  virtual void		deleteListener(IAsyncServerListener* listener) = 0;
+  virtual ~ITcpAsyncServer() {};
 
-  virtual void		accept() = 0;
-  virtual void		setTimeout(unsigned int second, unsigned int millisecond) = 0;
+  virtual void			addListener(ITcpAsyncServerListener* listener) = 0;
+  virtual void			deleteListener(ITcpAsyncServerListener* listener) = 0;
 
-  virtual void		notifyAccept(ITcpAsyncClient* client) = 0;
-  virtual void		notifyTimeout() = 0;
+  virtual void			accept() = 0;
+  virtual void			setTimeout(unsigned int second, unsigned int millisecond) = 0;
 
-  virtual IAsyncService	getService() = 0;
+  virtual void			notifyAccept(ITcpAsyncClient* client) = 0;
+  virtual void			notifyTimeout() = 0;
 };
 
 #endif /* ITCPASYNCSERVER_HH */

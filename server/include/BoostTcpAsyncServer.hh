@@ -11,7 +11,7 @@ private:
 
 public:
   BoostTcpAsyncServer(BoostAsyncService& service);
-    ~BoostTcpAsyncServer();
+  virtual ~BoostTcpAsyncServer();
 
   void		accept();
   void		setTimeout(unsigned int second, unsigned int millisecond);

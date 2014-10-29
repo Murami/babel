@@ -3,20 +3,21 @@
 
 #include "ITcpAsyncServer.hh"
 
-class ITcpAsyncClientListener;
-class ITcpAsyncClient;
+#include <list>
 
 class TcpAsyncServer : public ITcpAsyncServer
 {
 private:
-  std::list<ITcpAsyncServerListener*>	m_listenerList;
+  typedef std::list<ITcpAsyncServerListener*> TcpAsyncServerListenerList;
+
+  TcpAsyncServerListenerList	m_listenerList;
 
 public:
   TcpAsyncServer(){}
-  ~TcpAsyncServer(){}
+  virtual ~TcpAsyncServer(){}
 
   void		addListener(ITcpAsyncServerListener* listener);
-  void		deleteListener(ITcpASyncServerListener* listener);
+  void		deleteListener(ITcpAsyncServerListener* listener);
 
   void		notifyAccept(ITcpAsyncClient* client);
   void		notifyTimeout();

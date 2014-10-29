@@ -4,6 +4,8 @@
 class IAsyncService
 {
 public:
+  virtual ~IAsyncService() {};
+
   virtual void	run() = 0;
 };
 

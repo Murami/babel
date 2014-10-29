@@ -11,10 +11,10 @@ private:
 
 public:
   BoostAsyncService();
-  ~BoostAsyncService();
+  virtual ~BoostAsyncService();
 
-  void	getIOService();
-  void	run();
+  boost::asio::io_service&	getIOService();
+  void				run();
 };
 
 #endif /* BOOSTASYNCSERVICE_HH */
