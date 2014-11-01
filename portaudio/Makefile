@@ -1,4 +1,4 @@
-SRC=		srcs/test.cpp		\
+SRC=		srcs/test2.cpp		\
 
 OBJ=		$(SRC:.cpp=.o)
 
