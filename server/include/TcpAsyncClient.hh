@@ -2,22 +2,16 @@
 #define TCPASYNCCLIENT_HPP
 
 #include "ITcpAsyncClient.hh"
-#include "CircularBuffer.hpp"
 
 class ITcpAsyncClientListener;
 
-template<class UserData>
 class TcpAsyncClient : public ITcpAsyncClient
 {
-public:
-  UserData			userdata;
-
 protected:
-  CircularBuffer<BufferSize>	m_inputBuffer;
-  CircularBuffer<BufferSize>	m_outputBuffer;
+  CircularBuffer		m_inputBuffer;
 
 private:
-  std::list<ITcpAsyncClientListener*>	m_listenerList;
+  std::list<AsyncListener*>	m_listenerList;
 
 public:
   TcpAsyncClient();
@@ -32,7 +26,5 @@ public:
 
   void		notifyRead();
 };
-
-#include "TcpAsyncClient.hpp"
 
 #endif /* TCPASYNCCLIENT_HPP */

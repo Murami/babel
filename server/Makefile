@@ -5,16 +5,15 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Wed Oct 29 15:28:18 2014 anto
+## Last update Fri Oct 31 22:58:12 2014 anto
 ##
 
 ## FILES
 
 NAME		=	babel_server
 
-SRC		=	main			\
-			BoostAsyncService	\
-			TcpAsyncServer
+SRC		=	main		\
+			circular_buffer	\
 
 SRC_EXT		=	.cpp
 
@@ -44,7 +43,8 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	g++
+CC		=	g++ -fmax-errors=1
+# CC		=	clang++ -ferror-limit=2
 RM		=	rm -rf
 MD		=	mkdir -p
 
