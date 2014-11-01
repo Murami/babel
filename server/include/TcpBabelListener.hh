@@ -4,7 +4,7 @@
 #include "AsyncServerListener.hh"
 #include "AsyncClientListener.hh"
 
-class TcpBabelListener : public AsyncServerListener, public AsyncClientListener
+class TcpBabelListener : public IAsyncServerListener, public IAsyncClientListener
 {
 private:
   std::list<BabelAccountEntry>	m_accountList;
@@ -25,7 +25,7 @@ private:
   void	onLogin(TcpAsyncClient& client, UserInfos& userInfo);
   void	onLogout(TcpAsyncClient& client);
   void	onRegister(TcpAsyncClient& client, UserInfo& userInfo);
-  boid	onSendmsg(TcpAsyncClient& client, MsgInfo& msgInfos);
+  void	onSendmsg(TcpAsyncClient& client, MsgInfo& msgInfos);
 };
 
 #endif /* TCPBABELLISTENER_HH */
