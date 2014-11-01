@@ -10,6 +10,7 @@ class BoostTcpAsyncClient;
 class BoostTcpAsyncServer : public TcpAsyncServer
 {
 private:
+  BoostAsyncService&			m_io_service;
   boost::asio::ip::tcp::acceptor	m_acceptor;
   boost::asio::deadline_timer		m_timer;
 

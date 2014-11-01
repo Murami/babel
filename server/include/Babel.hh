@@ -2,13 +2,13 @@
 #define BABEL_HH
 
 class BoostAsyncService;
-class BoostAsyncServer;
+class BoostTcpAsyncServer;
 
 class Babel
 {
 private:
   BoostAsyncService*		m_service;
-  BoostAsyncServer*		m_server;
+  BoostTcpAsyncServer*		m_server;
 
 public:
   Babel();

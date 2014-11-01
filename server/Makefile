@@ -5,15 +5,20 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Fri Oct 31 22:58:12 2014 anto
+## Last update Sat Nov  1 14:23:56 2014 anto
 ##
 
 ## FILES
 
 NAME		=	babel_server
 
-SRC		=	main		\
-			circular_buffer	\
+SRC		=	main			\
+			Babel			\
+			BoostAsyncService	\
+			TcpAsyncServer		\
+			BoostTcpAsyncServer	\
+			TcpAsyncClient		\
+			BoostTcpAsyncClient
 
 SRC_EXT		=	.cpp
 

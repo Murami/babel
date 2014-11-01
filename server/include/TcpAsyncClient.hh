@@ -1,17 +1,17 @@
-#ifndef TCPASYNCCLIENT_HPP
-#define TCPASYNCCLIENT_HPP
+#ifndef TCPASYNCCLIENT_HH
+#define TCPASYNCCLIENT_HH
 
 #include "ITcpAsyncClient.hh"
+
+#include <list>
+
 
 class ITcpAsyncClientListener;
 
 class TcpAsyncClient : public ITcpAsyncClient
 {
-protected:
-  CircularBuffer		m_inputBuffer;
-
 private:
-  std::list<AsyncListener*>	m_listenerList;
+  std::list<ITcpAsyncClientListener*>	m_listenerList;
 
 public:
   TcpAsyncClient();
@@ -20,11 +20,7 @@ public:
   void		addListener(ITcpAsyncClientListener* listener);
   void		deleteListener(ITcpAsyncClientListener* listener);
 
-  unsigned int	peekData(void* buffer, size_t size);
-  unsigned int	readData(void* buffer, size_t size);
-  unsigned int	writeData(void* buffer, size_t size);
-
   void		notifyRead();
 };
 
-#endif /* TCPASYNCCLIENT_HPP */
+#endif /* TCPASYNCCLIENT_HH */
