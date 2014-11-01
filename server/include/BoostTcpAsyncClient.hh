@@ -18,6 +18,8 @@ public:
 
   void				read(char* buffer, size_t size);
   void				write(char* buffer, size_t size);
+
+  void				onRead(
   boost::asio::ip::tcp::socket&	getSocket();
 };
 
