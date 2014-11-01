@@ -1,17 +1,19 @@
 #ifndef BABEL_HH
 #define BABEL_HH
 
-class BoostAsyncService;
-class BoostTcpAsyncServer;
+#include "BoostAsyncService.hh"
+#include "BoostTcpAsyncServer.hh"
+#include "BabelServer.hh"
 
 class Babel
 {
 private:
-  BoostAsyncService*		m_service;
-  BoostTcpAsyncServer*		m_server;
+  BoostAsyncService	m_service;
+  BoostTcpAsyncServer	m_server;
+  BabelServer		m_babelServer;
 
 public:
-  Babel();
+  Babel(int port);
   ~Babel();
 
   int	run();

@@ -19,10 +19,10 @@ public:
   virtual ~BoostTcpAsyncServer() {};
 
   void		accept();
-  void		wait(unsigned int second, unsigned int nanosecond);
-  void		waitUntil(unsigned int second, unsigned int nanosecond);
-  void		onRead(BoostTcpAsyncClient* client, boost::system::error_code& e);
-  void		onTimeout(boost::system::error_code& e);
+  void		wait(unsigned int second, unsigned int microsecond);
+  void		waitUntil(unsigned int second, unsigned int microsecond);
+  void		onRead(BoostTcpAsyncClient* client, const boost::system::error_code& e);
+  void		onTimeout(const boost::system::error_code& e);
 };
 
 #endif /* BOOSTTCPASYNCSERVER_HPP */

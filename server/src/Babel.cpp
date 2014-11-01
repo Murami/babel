@@ -1,12 +1,9 @@
 #include "Babel.hh"
 
-#include "BoostAsyncService.hh"
-#include "BoostTcpAsyncServer.hh"
-
-Babel::Babel()
+Babel::Babel(int port) :
+  m_server(m_service, port),
+  m_babelServer(m_server)
 {
-  m_service = new BoostAsyncService();
-  m_server = new BoostTcpAsyncServer(*m_service, 4242);
 }
 
 Babel::~Babel()
@@ -15,5 +12,6 @@ Babel::~Babel()
 
 int	Babel::run()
 {
+  m_service.run();
   return (0);
 }
