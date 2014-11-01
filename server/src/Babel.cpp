@@ -1,0 +1,17 @@
+#include "Babel.hh"
+
+Babel::Babel(int port) :
+  m_server(m_service, port),
+  m_babelServer(m_server)
+{
+}
+
+Babel::~Babel()
+{
+}
+
+int	Babel::run()
+{
+  m_service.run();
+  return (0);
+}
