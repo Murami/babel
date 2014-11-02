@@ -10,8 +10,10 @@ class ITcpAsyncClientListener;
 
 class TcpAsyncClient : public ITcpAsyncClient
 {
+  typedef std::list<ITcpAsyncClientListener*> TcpAsyncClientListenerList;
+
 private:
-  std::list<ITcpAsyncClientListener*>	m_listenerList;
+  TcpAsyncClientListenerList	m_listenerList;
 
 public:
   TcpAsyncClient();
@@ -20,7 +22,8 @@ public:
   void		addListener(ITcpAsyncClientListener* listener);
   void		deleteListener(ITcpAsyncClientListener* listener);
 
-  void		notifyRead();
+  void		notifyRead(char* buffer, std::size_t transferred);
+  void		notifyWrite(char* buffer, std::size_t transferred);
 };
 
 #endif /* TCPASYNCCLIENT_HH */

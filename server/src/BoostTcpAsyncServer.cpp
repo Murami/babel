@@ -16,31 +16,31 @@ void	BoostTcpAsyncServer::accept()
 {
   BoostTcpAsyncClient*	client = new BoostTcpAsyncClient(m_io_service);
 
-  m_acceptor.async_accept(client->getSocket(), boost::bind(&BoostTcpAsyncServer::onRead,
+  m_acceptor.async_accept(client->getSocket(), boost::bind(&BoostTcpAsyncServer::onAccept,
   							  this, client, boost::asio::placeholders::error));
 }
 
-void	BoostTcpAsyncServer::wait(unsigned int second, unsigned int microsecond)
-{
-  m_timer.expires_from_now(boost::posix_time::seconds(second) + boost::posix_time::microseconds(microsecond));
-  m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
-}
+// void	BoostTcpAsyncServer::wait(unsigned int second, unsigned int microsecond)
+// {
+//   m_timer.expires_from_now(boost::posix_time::seconds(second) + boost::posix_time::microseconds(microsecond));
+//   m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
+// }
 
-void	BoostTcpAsyncServer::waitUntil(unsigned int second, unsigned int microsecond)
-{
-  boost::posix_time::ptime	expiration(boost::gregorian::date(1970,1,1),
-					   boost::posix_time::seconds(second) +
-					   boost::posix_time::microseconds(microsecond));
-  m_timer.expires_at(expiration);
-  m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
-}
+// void	BoostTcpAsyncServer::waitUntil(unsigned int second, unsigned int microsecond)
+// {
+//   boost::posix_time::ptime	expiration(boost::gregorian::date(1970,1,1),
+// 					   boost::posix_time::seconds(second) +
+// 					   boost::posix_time::microseconds(microsecond));
+//   m_timer.expires_at(expiration);
+//   m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
+// }
 
-void	BoostTcpAsyncServer::onRead(BoostTcpAsyncClient* /*client*/, const boost::system::error_code& /*e*/)
+void	BoostTcpAsyncServer::onAccept(BoostTcpAsyncClient* /*client*/, const boost::system::error_code& /*e*/)
 {
   /* gerer les erreurs et nofifer les listener */
 }
 
-void	BoostTcpAsyncServer::onTimeout(const boost::system::error_code& /*e*/)
-{
-  /* gerer les erreurs et notifier les litener */
-}
+// void	BoostTcpAsyncServer::onTimeout(const boost::system::error_code& /*e*/)
+// {
+//   /* gerer les erreurs et notifier les litener */
+// }

@@ -24,10 +24,10 @@ void	TcpAsyncServer::notifyAccept(ITcpAsyncClient* client)
     (*it)->onAccept(*this, client);
 }
 
-void	TcpAsyncServer::notifyTimeout()
-{
-  TcpAsyncServerListenerList::iterator	it;
+// void	TcpAsyncServer::notifyTimeout()
+// {
+//   TcpAsyncServerListenerList::iterator	it;
 
-  for (it = m_listenerList.begin(); it != m_listenerList.end(); it++)
-    (*it)->onTimeout(*this);
-}
+//   for (it = m_listenerList.begin(); it != m_listenerList.end(); it++)
+//     (*it)->onTimeout(*this);
+// }

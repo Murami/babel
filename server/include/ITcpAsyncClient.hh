@@ -13,8 +13,12 @@ public:
 
   virtual void			read(char* buffer, size_t size) = 0;
   virtual void			write(char* buffer, size_t size) = 0;
+  // virtual void			wait(unsigned int second, unsigned int millisecond) = 0;
+  // virtual void			waitUntil(unsigned int second, unsigned int millisecond) = 0;
 
-  virtual void			notifyRead() = 0;
+  virtual void			notifyRead(char* buffer, std::size_t transferred) = 0;
+  virtual void			notifyWrite(char* buffer, std::size_t transferred) = 0;
+
 };
 
 #endif /* ITCPASYNCCLIENT_HH */

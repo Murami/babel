@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Sat Nov  1 14:23:56 2014 anto
+## Last update Sun Nov  2 15:05:05 2014 guerot
 ##
 
 ## FILES
@@ -48,7 +48,7 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	g++ -fmax-errors=1
+CC		=	g++ -fmax-errors=5
 # CC		=	clang++ -ferror-limit=2
 RM		=	rm -rf
 MD		=	mkdir -p

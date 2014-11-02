@@ -2,10 +2,11 @@
 #define BABELSERVER_HH
 
 #include "ITcpAsyncServerListener.hh"
+#include "IAsyncTimerListener.hh"
 
 class BabelClient;
 
-class BabelServer : public ITcpAsyncServerListener
+class BabelServer : public ITcpAsyncServerListener, public IAsyncTimerListener
 {
 private:
   ITcpAsyncServer&		m_server;
@@ -17,7 +18,7 @@ public:
   ~BabelServer();
 
   void	onAccept(ITcpAsyncServer& server, ITcpAsyncClient* client);
-  void	onTimeout(ITcpAsyncServer& server);
+  void	onTimeout(IAsyncTimer& server);
 };
 
 #endif /* BABELSERVER_HH */
