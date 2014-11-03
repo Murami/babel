@@ -1,5 +1,5 @@
 CONFIG += qt
-QT += widgets network
+QT += core gui widgets network
 INCLUDEPATH += include/
 
 HEADERS += 	include/QTcpAsyncSocket.hh 	\
@@ -11,3 +11,5 @@ HEADERS += 	include/QTcpAsyncSocket.hh 	\
 SOURCES += 	src/main.cpp 			\
 		src/QTcpAsyncSocket.cpp 	\
 		src/BabelCoreClient.cpp
+
+OBJECTS_DIR	=	src/
