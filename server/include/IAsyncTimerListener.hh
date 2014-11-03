@@ -6,9 +6,9 @@ class IAsyncTimer;
 class IAsyncTimerListener
 {
 public:
-  virtual ~IAsyncTimerListener();
+  virtual ~IAsyncTimerListener() {}
 
-  virtual void	onTimeout(IAsyncTimer& timer);
+  virtual void	onTimeout(IAsyncTimer& timer) = 0;
 };
 
 #endif /* IASYNCTIMERLISTENER_HH */

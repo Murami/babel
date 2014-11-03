@@ -8,9 +8,9 @@
 class Babel
 {
 private:
-  BoostAsyncService	m_service;
-  BoostTcpAsyncServer	m_server;
-  BabelServer		m_babelServer;
+  BoostAsyncService		m_service;
+  BoostTcpAsyncServer		m_server;
+  BabelServer			m_babelServer;
 
 public:
   Babel(int port);

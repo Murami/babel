@@ -1,6 +1,8 @@
 #ifndef ITCPASYNCCLIENTLISTENER_HH
 #define ITCPASYNCCLIENTLISTENER_HH
 
+#include <cstdlib>
+
 class ITcpAsyncClient;
 
 class ITcpAsyncClientListener

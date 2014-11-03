@@ -7,7 +7,7 @@
 void	TcpAsyncServer::addListener(ITcpAsyncServerListener* listener)
 {
   if (std::find(m_listenerList.begin(),
-		m_listenerList.end(), listener) != m_listenerList.end())
+		m_listenerList.end(), listener) == m_listenerList.end())
     m_listenerList.push_back(listener);
 }
 

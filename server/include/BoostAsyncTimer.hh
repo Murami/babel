@@ -1,12 +1,13 @@
 #ifndef BOOSTASYNCTIMER_HH
 #define BOOSTASYNCTIMER_HH
 
+#include "BoostImpl.hh"
 #include "AsyncTimer.hh"
 
 class BoostAsyncTimer : public AsyncTimer
 {
 public:
-  BoostAsyncTimer();
+  BoostAsyncTimer(Impl::AsyncService& service);
   ~BoostAsyncTimer();
 
   void	wait(unsigned int second, unsigned int microsecond);

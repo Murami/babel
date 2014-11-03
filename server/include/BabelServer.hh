@@ -4,6 +4,8 @@
 #include "ITcpAsyncServerListener.hh"
 #include "IAsyncTimerListener.hh"
 
+#include <list>
+
 class BabelClient;
 
 class BabelServer : public ITcpAsyncServerListener, public IAsyncTimerListener
