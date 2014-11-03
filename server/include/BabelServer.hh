@@ -7,16 +7,18 @@
 #include <list>
 
 class BabelClient;
+class BoostAsyncService;
 
 class BabelServer : public ITcpAsyncServerListener, public IAsyncTimerListener
 {
 private:
   ITcpAsyncServer&		m_server;
+  BoostAsyncService&		m_service;
   // std::list<BabelAccountEntry>	m_accountList;
-  std::list<BabelClient*>	m_sessionList;
+  std::list<BabelClient*>	m_clients;
 
 public:
-  BabelServer(ITcpAsyncServer& server);
+  BabelServer(ITcpAsyncServer& server, BoostAsyncService& service);
   ~BabelServer();
 
   void	onAccept(ITcpAsyncServer& server, ITcpAsyncClient* client);

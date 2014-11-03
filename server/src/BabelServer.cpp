@@ -1,14 +1,13 @@
+#include "BabelClient.hh"
 #include "BabelServer.hh"
 #include "BoostTcpAsyncServer.hh"
 
-BabelServer::BabelServer(ITcpAsyncServer& server) :
-  m_server(server)
+BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
+  m_server(server), m_service(service)
 {
   /*
     - on load les users
-    - on s'abonne au serveur
     - on init le timeout (ping)
-    - on appele l'accept
   */
   m_server.addListener(this);
   m_server.accept();
@@ -16,20 +15,22 @@ BabelServer::BabelServer(ITcpAsyncServer& server) :
 
 BabelServer::~BabelServer()
 {
+  m_server.deleteListener(this);
+
   /*
     - on deconnect proprement tous les clients
     - on libere les ressources
-    - on se desabonne du serveur
   */
 }
 
-void	BabelServer::onAccept(ITcpAsyncServer& /*server*/, ITcpAsyncClient* /*client*/)
+void		BabelServer::onAccept(ITcpAsyncServer& server, ITcpAsyncClient* client)
 {
-  /*
-    - on creer un BabelClient
-    - on l'ajoute a la liste de client
-  */
-  std::cout << "ca accept" << std::endl;
+  BabelClient	*new_client;
+
+  new_client = new BabelClient(*client, *this, m_service);
+  m_clients.push_back(new_client);
+  server.accept();
+
 }
 
 void	BabelServer::onTimeout(IAsyncTimer& /*server*/)

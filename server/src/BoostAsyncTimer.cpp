@@ -1,6 +1,7 @@
 #include "BoostAsyncTimer.hh"
+#include "BoostAsyncService.hh"
 
-BoostAsyncTimer::BoostAsyncTimer(BoostAsyncService& service)
+BoostAsyncTimer::BoostAsyncTimer(BoostAsyncService& service) : m_timer(service.getIOService())
 {
 }
 
