@@ -11,28 +11,36 @@ namespace NET
 #define RAW_SIZE	0x1000
 #define JPEG_SIZE	0x40000
 
-enum Type
+enum HeaderType
   {
-    HEADER		= 0,
-    LOGIN		= 1,
-    LOGOUT		= 2,
-    REGISTER		= 3,
-    USERINFO		= 4,
-    SENDMSG		= 5,
-    RECVMSG		= 6,
-    CALL		= 7,
-    HANGOUT		= 8,
-    OK_LOGIN		= 9,
-    KO_LOGIN		= 10,
-    OK_REGISTER		= 11,
-    KO_REGISTER		= 12,
-    OK_CALL		= 13,
-    KO_CALL		= 14,
-    OK_MSG		= 15,
-    KO_MSG		= 16,
-    SAMPLE		= 17,
-    IMG			= 18,
-    PING		= 19
+    T_LOGIN		= 1,
+    T_LOGOUT		= 2,
+    T_REGISTER		= 3,
+    T_USERINFO		= 4,
+    T_SENDMSG		= 5,
+    T_RECVMSG		= 6,
+    T_CALL		= 7,
+    T_HANGOUT		= 8,
+    T_OK_LOGIN		= 9,
+    T_KO_LOGIN		= 10,
+    T_OK_REGISTER	= 11,
+    T_KO_REGISTER	= 12,
+    T_OK_CALL		= 13,
+    T_KO_CALL		= 14,
+    T_OK_MSG		= 15,
+    T_KO_MSG		= 16,
+    T_SAMPLE		= 17,
+    T_IMG		= 18,
+    T_PING		= 19
+  };
+
+enum StructType
+  {
+    S_HEADER		= 1,
+    S_LOGIN		= 2,
+    S_USER		= 3,
+    S_CALL		= 4,
+    S_MSG		= 5
   };
 
 enum Status
@@ -55,7 +63,7 @@ enum DataType
 
 struct Header
 {
-  Type			type;
+  HeaderType			type;
   size_t		size;
 };
 

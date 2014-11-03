@@ -1,10 +1,5 @@
 #include "Functor.hh"
 
-void HeaderFunctor::operator()(BabelCoreClient & core, void *data)
-{
-
-}
-
 void UserInfoFunctor::operator()(BabelCoreClient & core, void *data)
 {
 

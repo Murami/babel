@@ -3,12 +3,6 @@
 
 #include "IFunctor.hh"
 
-class HeaderFunctor : public IFunctor
-{
-public:
-  void operator()(BabelCoreClient & core, void *data);
-};
-
 class UserInfoFunctor : public IFunctor
 {
 public:
