@@ -2,7 +2,7 @@
 
 Babel::Babel(int port) :
   m_server(m_service, port),
-  m_babelServer(m_server)
+  m_babelServer(m_server, m_service)
 {
 }
 

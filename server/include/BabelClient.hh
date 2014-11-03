@@ -3,20 +3,26 @@
 
 #include "ITcpAsyncClientListener.hh"
 #include "IAsyncTimerListener.hh"
+#include "BoostAsyncTimer.hh"
 
+#include <vector>
 #include <cstdlib>
 
 class ITcpAsyncClient;
 class BabelServer;
+class BoostAsyncService;
+class BoostAsyncTimer;
 
 class BabelClient : public ITcpAsyncClientListener, public IAsyncTimerListener
 {
 private:
   ITcpAsyncClient&	m_client;
   BabelServer&		m_server;
+  BoostAsyncTimer	m_timer;
+  std::vector<char>	m_writeBuffer;
 
 public:
-  BabelClient(ITcpAsyncClient& client, BabelServer& server);
+  BabelClient(ITcpAsyncClient& client, BabelServer& server, BoostAsyncService& service);
   ~BabelClient();
 
   void	onRead(ITcpAsyncClient& client, char* buffer, std::size_t size);
@@ -46,7 +52,7 @@ private:
   // void	sendKOMSg();
   // void	sendRecvMsg();
   // void	sendCall();
-  // void	sendPing();
+  void		sendPing();
 };
 
 #endif /* BABELCLIENT_HH */

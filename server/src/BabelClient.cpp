@@ -1,17 +1,22 @@
 #include "BabelClient.hh"
+#include "BoostAsyncTimer.hh"
+#include "BoostAsyncService.hh"
 
-BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server) :
+BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server, BoostAsyncService& service) :
   m_client(client),
-  m_server(server)
+  m_server(server),
+  m_timer(service),
+  m_readBuffer(4096),
+  m_writeBuffer(4096)
 {
-  /*
-    - Initialiser le timeout (ping)
-    - Lancer la boucle de read
-  */
+  m_timer.addListener(this);
+  m_timer.wait(5, 0);
+  m_client.read(m_readBuffer, 4096);
 }
 
 BabelClient::~BabelClient()
 {
+  // m_timer.deleteListener(this);
   /*
     - Deconnexion
     - Liberation des ressources
@@ -41,9 +46,14 @@ void	BabelClient::onWrite(ITcpAsyncClient& /*client*/, char* /*buffer*/, std::si
 
 void	BabelClient::onTimeout(IAsyncTimer& /*timer*/)
 {
+  sendPing();
+  m_timer.wait(5, 0);
   /*
-    - on ping
     - on verifie l'existence du serveur (check du dernier ping server)
-    - on wait async
   */
+}
+
+void	BabelClient::sendPing()
+{
+
 }

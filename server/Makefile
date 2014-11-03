@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Sun Nov  2 20:22:49 2014 guerot
+## Last update Mon Nov  3 15:39:19 2014 audisio romain
 ##
 
 # include .depend
@@ -21,6 +21,7 @@ SRC		=	main			\
 			BoostTcpAsyncServer	\
 			TcpAsyncClient		\
 			BoostTcpAsyncClient	\
+			BoostAsyncTimer		\
 			AsyncTimer		\
 			BabelServer		\
 			BabelClient
