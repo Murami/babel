@@ -6,9 +6,10 @@
 # include	<QPaintEvent>
 # include	<QPushButton>
 
+# include	"ICallListener.hh"
 # include	"ResourceManager.hpp"
 
-class		WidgetButton : public QPushButton
+class		WidgetButton : public QPushButton, public ICallListener
 {
 private:
   QPixmap	*_image;
@@ -18,6 +19,9 @@ private:
 public:
   WidgetButton(const QString& text, QWidget *parent = 0);
   ~WidgetButton();
+
+public:
+  virtual void	onData(NET::CallInfo);
 
 public:
   virtual void	paintEvent(QPaintEvent *);

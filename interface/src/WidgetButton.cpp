@@ -3,6 +3,7 @@
 #include	<QColor>
 #include	<QFont>
 #include	<QPainter>
+#include	"Protocol.hh"
 #include	"WidgetButton.hh"
 
 WidgetButton::WidgetButton(const QString& text, QWidget *parent) : QPushButton(parent)
@@ -21,6 +22,11 @@ void		WidgetButton::paintEvent(QPaintEvent *event)
   this->_drawRect = event->rect();
   painter.drawPixmap(event->rect(), *this->_image);
   painter.drawText(event->rect(), Qt::AlignCenter, this->_text);
+}
+
+void			WidgetButton::onData(NET::CallInfo info)
+{
+  std::cout << info.user << std::endl;
 }
 
 void			WidgetButton::enterEvent(QEvent *)

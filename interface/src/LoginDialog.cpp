@@ -10,8 +10,8 @@ LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent)
 {
   QPalette	palette;
 
-  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./background_login.jpg")));
-  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./background_login.jpg")));
+  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
+  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
   this->setPalette(palette);
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
@@ -41,8 +41,8 @@ void		LoginDialog::createLogInDialog()
   // ##################################################################
   // ### Connecter les boutons sur l'envoi des datas sur le serveur ###
   // ##################################################################
-  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./background_login.jpg")));
-  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./background_login.jpg")));
+  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
+  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
   dialog = new QDialog(this);
   dialog->setWindowTitle("Log in");
   dialog->setPalette(palette);
@@ -81,8 +81,8 @@ void		LoginDialog::createSignInDialog()
   // ##################################################################
   // ### Connecter les boutons sur l'envoi des datas sur le serveur ###
   // ##################################################################
-  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./background_login.jpg")));
-  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./background_login.jpg")));
+  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
+  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
   dialog = new QDialog(this);
   dialog->setWindowTitle("Sign in");
   dialog->setPalette(palette);

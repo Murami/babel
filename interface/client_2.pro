@@ -5,22 +5,26 @@
 TEMPLATE = app
 TARGET = Babel
 DEPENDPATH += .
-INCLUDEPATH += .
+SOURCEPATH += ./src/
+INCLUDEPATH += ./include/
+CXXFLAGS += --std=c++11
 
-# Input
-HEADERS += ContactListView.hh 		\
-           ConversationWindow.hh 	\
-           LoginDialog.hh 		\
-           MainWindow.hh 		\
-           ResourceManager.hpp 		\
-           User.hh 			\
-           WidgetButton.hh 		\
-           WidgetTextView.hh
+HEADERS +=	include/ConversationWindow.hh 	\
+		include/LoginDialog.hh 		\
+		include/MainWindow.hh 		\
+		include/ResourceManager.hpp	\
+		include/User.hh 		\
+		include/WidgetButton.hh		\
+		include/WidgetTextView.hh	\
+		include/WidgetListView.hh	\
+		include/Protocol.hh		\
+		include/AddNewContactDialog.hh	\
 
-SOURCES += ContactListView.cpp 		\
-           ConversationWindow.cpp 	\
-           LoginDialog.cpp 		\
-           main.cpp 			\
-           MainWindow.cpp 		\
-           WidgetButton.cpp 		\
-           WidgetTextView.cpp
+SOURCES += 	src/ConversationWindow.cpp	\
+		src/LoginDialog.cpp 		\
+		src/main.cpp 			\
+		src/MainWindow.cpp		\
+	        src/WidgetButton.cpp 		\
+		src/WidgetTextView.cpp		\
+		src/WidgetListView.cpp		\
+		src/AddNewContactDialog.cpp	\
