@@ -2,6 +2,8 @@
 
 BabelCoreClient::BabelCoreClient()
 {
+  bytesNeeded = sizeof(NET::Header);
+  typeNeeded = NET::HEADER;
   QObject::connect(&m_socket, SIGNAL(notifyRead()), this, SLOT(onRead()));
   QObject::connect(&m_socket, SIGNAL(notifyConnect()), this, SLOT(onConnect()));
   QObject::connect(&m_socket, SIGNAL(notifyDisconnect()), this, SLOT(onDisconnect()));
@@ -36,6 +38,9 @@ void BabelCoreClient::onError(QAbstractSocket::SocketError error)
 void BabelCoreClient::onRead()
 {
   std::cout << "core data read to read" << std::endl;
+
+  if (m_socket.bytesAvailable() < bytesNeeded)
+    return;
 
   /* lire les data */
   /* prev data type init at header */

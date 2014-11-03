@@ -7,6 +7,7 @@
 #include "ICoreListener.hh"
 #include "IWidgetListener.hh"
 #include "QTcpAsyncSocket.hh"
+#include "Protocol.hh"
 
 class BabelCoreClient : private IAsyncSocketListener, public IWidgetListener
 {
@@ -55,14 +56,17 @@ private:
   void notifyError();
 
 private:
-  QTcpAsyncSocket m_socket;
-  std::list<ICoreListener *> UserInfoListenerList;
-  std::list<ICoreListener *> CallListenerList;
-  std::list<ICoreListener *> HangoutListenerList;
-  std::list<ICoreListener *> MsgListenerList;
-  std::list<ICoreListener *> ConnectListenerList;
-  std::list<ICoreListener *> DisconnectListenerList;
-  std::list<ICoreListener *> ErrorListenerList;
+  QTcpAsyncSocket		m_socket;
+  quint64			bytesNeeded;
+  NET::Type			typeNeeded;
+  std::list<ICoreListener *>	UserInfoListenerList;
+  std::list<ICoreListener *>	CallListenerList;
+  std::list<ICoreListener *>	HangoutListenerList;
+  std::list<ICoreListener *>	MsgListenerList;
+  std::list<ICoreListener *>	ConnectListenerList;
+  std::list<ICoreListener *>	DisconnectListenerList;
+  std::list<ICoreListener *>	ErrorListenerList;
+  std::list<ICoreListener *>	LoginListenerList;
 };
 
 #endif
