@@ -20,7 +20,7 @@ public:
   void		deleteListener(ITcpAsyncServerListener* listener);
 
   void		notifyAccept(ITcpAsyncClient* client);
-  void		notifyTimeout();
+  // void		notifyTimeout();
 };
 
 #endif /* TCPASYNCSERVER_HH */

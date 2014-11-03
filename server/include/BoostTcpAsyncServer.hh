@@ -2,11 +2,15 @@
 #define BOOSTTCPASYNCSERVER_HPP
 
 #include <boost/asio.hpp>
-#incldue "TcpAsyncServer.hh"
+#include "TcpAsyncServer.hh"
+
+class BoostAsyncService;
+class BoostTcpAsyncClient;
 
 class BoostTcpAsyncServer : public TcpAsyncServer
 {
 private:
+  BoostAsyncService&			m_io_service;
   boost::asio::ip::tcp::acceptor	m_acceptor;
   boost::asio::deadline_timer		m_timer;
 
@@ -15,8 +19,10 @@ public:
   virtual ~BoostTcpAsyncServer() {};
 
   void		accept();
-  void		wait(unsigned int second, unsigned int millisecond);
-  void		waitUntil(unsigned int second, unsigned int millisecond) = 0;
+  // void		wait(unsigned int second, unsigned int microsecond);
+  // void		waitUntil(unsigned int second, unsigned int microsecond);
+  void		onAccept(BoostTcpAsyncClient* client, const boost::system::error_code& e);
+  // void		onTimeout(const boost::system::error_code& e);
 };
 
 #endif /* BOOSTTCPASYNCSERVER_HPP */

@@ -5,16 +5,25 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Wed Oct 29 15:28:18 2014 anto
+## Last update Sun Nov  2 20:22:49 2014 guerot
 ##
+
+# include .depend
 
 ## FILES
 
 NAME		=	babel_server
 
 SRC		=	main			\
+			Babel			\
 			BoostAsyncService	\
-			TcpAsyncServer
+			TcpAsyncServer		\
+			BoostTcpAsyncServer	\
+			TcpAsyncClient		\
+			BoostTcpAsyncClient	\
+			AsyncTimer		\
+			BabelServer		\
+			BabelClient
 
 SRC_EXT		=	.cpp
 
@@ -44,7 +53,8 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	g++
+CC		=	g++ -fmax-errors=5
+# CC		=	clang++ -ferror-limit=5
 RM		=	rm -rf
 MD		=	mkdir -p
 
@@ -115,6 +125,14 @@ MAKEOBJ		= $(addprefix $(DOBJ), %.o) : $(addprefix $(addprefix $(DSRC), %), $(SR
 all:	$(CNAME)
 
 dbg:	$(CNAME)
+
+# cleandepend:
+# 		rm -rf ./.depend
+
+# redepend:	cleandepend depend
+
+# depend: 	$(CSRC)
+# 		$(CC) $(CFLAGS) -MM $^ > ./.depend
 
 $(CNAME):	$(COBJ)
 		@$(MD) $(DBIN)
