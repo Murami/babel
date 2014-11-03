@@ -28,9 +28,11 @@ enum Type
     KO_REGISTER		= 12,
     OK_CALL		= 13,
     KO_CALL		= 14,
-    SAMPLE		= 15,
-    IMG			= 16,
-    PING		= 17
+    OK_MSG		= 15,
+    KO_MSG		= 16,
+    SAMPLE		= 17,
+    IMG			= 18,
+    PING		= 19
   };
 
 enum Status
