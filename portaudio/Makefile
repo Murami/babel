@@ -9,7 +9,11 @@ NAME=		portaudio
 LIB=		-lrt -lasound -ljack -lpthread -I./includes -L./lib -lportaudio
 
 $(NAME):	$(OBJ)
+<<<<<<< HEAD
 		g++ $(OBJ) -o $(NAME) $(LIB)
+=======
+		g++ -L./lib -lportaudio $(OBJ) -o $(NAME) $(LIB)
+>>>>>>> 591ba75a12295c178a43545fd50ba47b1df46fa0
 
 all:		$(NAME)
 

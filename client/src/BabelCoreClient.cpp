@@ -2,6 +2,8 @@
 
 BabelCoreClient::BabelCoreClient()
 {
+  bytesNeeded = sizeof(NET::Header);
+  typeNeeded = NET::HEADER;
   QObject::connect(&m_socket, SIGNAL(notifyRead()), this, SLOT(onRead()));
   QObject::connect(&m_socket, SIGNAL(notifyConnect()), this, SLOT(onConnect()));
   QObject::connect(&m_socket, SIGNAL(notifyDisconnect()), this, SLOT(onDisconnect()));
@@ -30,12 +32,15 @@ void BabelCoreClient::onDisconnect()
 void BabelCoreClient::onError(QAbstractSocket::SocketError error)
 {
   std::cout << "core error detected" << std::endl;
-  notifyError();
+  notifyError("test");
 }
 
 void BabelCoreClient::onRead()
 {
   std::cout << "core data read to read" << std::endl;
+
+  if (m_socket.bytesAvailable() < bytesNeeded)
+    return;
 
   /* lire les data */
   /* prev data type init at header */
@@ -102,6 +107,18 @@ void BabelCoreClient::onUserDeclineCall()
   /* on send la stucture */
 }
 
+/* core control */
+
+void BabelCoreClient::setTypeNeeded(NET::Type type)
+{
+  typeNeeded = type;
+}
+
+void BabelCoreClient::setBytesNeeded(quint64 bytes)
+{
+  bytesNeeded = bytes;
+}
+
 /* socket control */
 
 void BabelCoreClient::read()
@@ -126,102 +143,108 @@ void BabelCoreClient::disconnect()
 
 /* add listener */
 
-void BabelCoreClient::addUserInfoListener(ICoreListener * listener)
-{
-  UserInfoListenerList.push_front(listener);
-}
-
-void BabelCoreClient::addCallListener(ICoreListener * listener)
+void BabelCoreClient::addCallListener(ICallListener * listener)
 {
   CallListenerList.push_front(listener);
 }
 
-void BabelCoreClient::addHangoutListener(ICoreListener * listener)
-{
-  HangoutListenerList.push_front(listener);
-}
-
-void BabelCoreClient::addMsgListener(ICoreListener * listener)
-{
-  MsgListenerList.push_front(listener);
-}
-
-void BabelCoreClient::addConnectListener(ICoreListener * listener)
+void BabelCoreClient::addConnectListener(IConnectListener * listener)
 {
   ConnectListenerList.push_front(listener);
 }
 
-void BabelCoreClient::addDisconnectListener(ICoreListener * listener)
+void BabelCoreClient::addDisconnectListener(IDisconnectListener * listener)
 {
   DisconnectListenerList.push_front(listener);
 }
 
-void BabelCoreClient::addErrorListener(ICoreListener * listener)
+void BabelCoreClient::addErrorListener(IErrorListener * listener)
 {
   ErrorListenerList.push_front(listener);
 }
 
+void BabelCoreClient::addCallErrorListener(ICallErrorListener * listener)
+{
+  CallErrorListenerList.push_front(listener);
+}
+
+void BabelCoreClient::addLoginListener(ILoginListener * listener)
+{
+  LoginListenerList.push_front(listener);
+}
+
+void BabelCoreClient::addRegisterListener(IRegisterListener * listener)
+{
+  RegisterListenerList.push_front(listener);
+}
+
+void BabelCoreClient::addMsgListener(IMsgListener * listener)
+{
+  MsgListenerList.push_front(listener);
+}
+
+void BabelCoreClient::addMsgErrorListener(IMsgErrorListener * listener)
+{
+  MsgErrorListenerList.push_front(listener);
+}
+
+void BabelCoreClient::addUserInfoListener(IUserInfoListener * listener)
+{
+  UserInfoListenerList.push_front(listener);
+}
+
 /* notify listener */
 
-void  BabelCoreClient::notifyCall()
+void BabelCoreClient::notifyCall(NET::CallInfo info)
 {
-  std::list<ICoreListener* >::iterator it;
+  std::list<ICallListener *>::iterator it;
 
   it = CallListenerList.begin();
-  for( ; it != CallListenerList.end(); it++)
-    (*it)->onData();
+  for (; it != CallListenerList.end(); ++it)
+    (*it)->onData(info);
 }
 
-void BabelCoreClient::notifyMsg()
+void BabelCoreClient::notifyConnect(void)
 {
-  std::list<ICoreListener* >::iterator it;
 
-  it = MsgListenerList.begin();
-  for( ; it != MsgListenerList.end(); it++)
-    (*it)->onData();
 }
 
-void BabelCoreClient::notifyHangout()
+void BabelCoreClient::notifyDisconnect(void)
 {
-  std::list<ICoreListener* >::iterator it;
 
-  it = HangoutListenerList.begin();
-  for( ; it != HangoutListenerList.end(); it++)
-    (*it)->onData();
 }
 
-void BabelCoreClient::notifyUserInfo()
+void BabelCoreClient::notifyError(char * error)
 {
-  std::list<ICoreListener* >::iterator it;
 
-  it = UserInfoListenerList.begin();
-  for( ; it != UserInfoListenerList.end(); it++)
-    (*it)->onData();
 }
 
-void BabelCoreClient::notifyConnect()
+void BabelCoreClient::notifyCallError(bool rep)
 {
-  std::list<ICoreListener* >::iterator it;
 
-  it = ConnectListenerList.begin();
-  for( ; it != ConnectListenerList.end(); it++)
-    (*it)->onData();
 }
 
-void BabelCoreClient::notifyDisconnect()
+void BabelCoreClient::notifyLogin(bool rep)
 {
-  std::list<ICoreListener* >::iterator it;
 
-  it = DisconnectListenerList.begin();
-  for( ; it != DisconnectListenerList.end(); it++)
-    (*it)->onData();
 }
 
-void BabelCoreClient::notifyError()
+void BabelCoreClient::notifyRegister(bool rep)
 {
-  std::list<ICoreListener* >::iterator it;
 
-  it = ErrorListenerList.begin();
-  for( ; it != ErrorListenerList.end(); it++)
-    (*it)->onData();
+}
+
+void BabelCoreClient::notifyMsg(NET::MsgInfo info)
+{
+
+}
+
+void BabelCoreClient::notifyMsgError(bool rep)
+{
+
+}
+
+void BabelCoreClient::notifyUserInfo(NET::UserInfo info)
+{
+
 }

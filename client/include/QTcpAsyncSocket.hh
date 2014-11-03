@@ -24,6 +24,7 @@ public:
   void write(void *data);
   QHostAddress & getAddress();
   quint16 & getPort();
+  quint64 bytesAvailable ();
 
 public slots:
   void onConnect();

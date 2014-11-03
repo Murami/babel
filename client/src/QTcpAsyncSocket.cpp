@@ -53,6 +53,11 @@ quint16 & QTcpAsyncSocket::getPort()
   return (m_port);
 }
 
+quint64 QTcpAsyncSocket::bytesAvailable()
+{
+  return (m_socket.bytesAvailable());
+}
+
 void QTcpAsyncSocket::onConnect()
 {
   std::cout << "connect detected" << std::endl;
