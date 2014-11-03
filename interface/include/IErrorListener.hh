@@ -1,12 +1,12 @@
 #ifndef		__IERRORLISTENER_HH__
 # define	__IERRORLISTENER_HH__
 
-# include	<QAbstractSocket>
+# include	"Protocol.hh"
 
 class		IErrorListener
 {
 public:
-  virtual void	onData(QAbstractSocket::SocketError) = 0;
+  virtual void	onData(char *) = 0;
 };
 
 #endif

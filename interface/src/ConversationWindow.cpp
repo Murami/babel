@@ -15,9 +15,9 @@ ConversationWindow::ConversationWindow(QWidget *parent) : QWidget(parent)
   QMovie		*movie;
 
   palette.setBrush(QPalette::Active,
-  		   QPalette::Window, QBrush(QImage("./background_conversation.jpg")));
+  		   QPalette::Window, QBrush(QImage("./res/background_conversation.jpg")));
   palette.setBrush(QPalette::Inactive,
-  		   QPalette::Window, QBrush(QImage("./background_conversation.jpg")));
+  		   QPalette::Window, QBrush(QImage("./res/background_conversation.jpg")));
   this->setPalette(palette);
   this->setFixedSize(ConversationWindow::WIDTH, ConversationWindow::HEIGHT);
   this->setWindowTitle("Conversation");

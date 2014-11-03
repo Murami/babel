@@ -6,12 +6,9 @@
 # include	<QVBoxLayout>
 # include	<QMainWindow>
 
-class		ContactListModel;
-class		ContactListController;
-class		ContactListView;
+class		WidgetListView;
 class		LoginDialog;
 
-// Faire heriter cette classe de IBabelActionListener
 class		MainWindow : public QWidget
 {
   Q_OBJECT
@@ -22,7 +19,7 @@ private:
   QPushButton		*_callButton;
   QPushButton		*_addContactButton;
   LoginDialog		*_loginDialog;
-  ContactListView	*_contactListView;
+  WidgetListView	*_widgetListView;
 
 public:
   static int	WIDTH;
