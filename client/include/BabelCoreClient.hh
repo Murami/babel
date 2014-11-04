@@ -50,12 +50,9 @@ public:
   void onUserDeclineCall();
 
 public:
-  void read(char * data, qint64 maxSize);
-  void write(void * data);
-  void connect(QString address, quint16 port);
-  void disconnect();
-  void setTypeNeeded(NET::Type type);
-  NET::Type getTypeNeeded();
+  void		run();
+  void		setTypeNeeded(NET::Type type);
+  NET::Type	getTypeNeeded();
 
   void addCallListener(ICallListener * listener);
   void addConnectListener(IConnectListener * listener);

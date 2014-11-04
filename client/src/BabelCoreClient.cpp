@@ -1,3 +1,5 @@
+#include <QSettings>
+
 #include "BabelCoreClient.hh"
 #include "ICallErrorListener.hh"
 #include "IConnectListener.hh"
@@ -125,6 +127,21 @@ void BabelCoreClient::onUserDeclineCall()
 
 /* core control */
 
+void BabelCoreClient::run()
+{
+  QSettings *settings = new QSettings("setting.ini", QSettings::IniFormat);
+  QString address("127.0.0.1");
+  quint16 port(1234);
+
+  if (settings->contains("ip") == true)
+    address = settings->value("ip").toString();
+
+  if (settings->contains("port") == true)
+    port = settings->value("port").toUInt();
+
+  m_socket.connect(address, port);
+}
+
 void BabelCoreClient::setTypeNeeded(NET::Type type)
 {
   typeNeeded = type;
@@ -195,28 +212,6 @@ BabelCoreClient::ErrorMap BabelCoreClient::initializeErrorMap()
   map[QAbstractSocket::UnknownSocketError] = "An unidentified error occurred.";
 
   return (map);
-}
-
-/* socket control */
-
-void BabelCoreClient::read(char * data, qint64 maxSize)
-{
-  m_socket.read(data, maxSize);
-}
-
-void BabelCoreClient::write(void * data)
-{
-  m_socket.write(data);
-}
-
-void BabelCoreClient::connect(QString address, quint16 port)
-{
-  m_socket.connect(address, port);
-}
-
-void BabelCoreClient::disconnect()
-{
-  m_socket.disconnect();
 }
 
 /* add listener */
