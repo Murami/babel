@@ -7,7 +7,7 @@ TARGET = Babel
 DEPENDPATH += .
 SOURCEPATH += ./src/
 INCLUDEPATH += ./include/
-CXXFLAGS += --std=c++11
+QMAKE_CXXFLAGS += -std=c++11
 
 HEADERS +=	include/ConversationWindow.hh 	\
 		include/LoginDialog.hh 		\
@@ -19,6 +19,7 @@ HEADERS +=	include/ConversationWindow.hh 	\
 		include/WidgetListView.hh	\
 		include/Protocol.hh		\
 		include/AddNewContactDialog.hh	\
+		include/User.hh			\
 
 SOURCES += 	src/ConversationWindow.cpp	\
 		src/LoginDialog.cpp 		\
@@ -28,3 +29,4 @@ SOURCES += 	src/ConversationWindow.cpp	\
 		src/WidgetTextView.cpp		\
 		src/WidgetListView.cpp		\
 		src/AddNewContactDialog.cpp	\
+		src/User.cpp			\
