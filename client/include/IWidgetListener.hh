@@ -11,6 +11,7 @@ public:
   virtual void onUserRegister(QString login, QString pass) = 0;
   virtual void onUserAcceptCall(QString login) = 0;
   virtual void onUserDeclineCall(QString login) = 0;
+  virtual void onUserHangout(QString login) = 0;
 };
 
 #endif

@@ -48,6 +48,7 @@ public:
   void onUserRegister(QString login, QString pass);
   void onUserAcceptCall(QString login);
   void onUserDeclineCall(QString login);
+  void onUserHangout(QString login);
 
 public:
   void		run();
