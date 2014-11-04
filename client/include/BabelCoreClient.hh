@@ -41,13 +41,13 @@ public slots:
   void onRead();
 
 public:
-  void onUserMsg();
-  void onUserCall();
-  void onUserLogin();
-  void onUserLogout();
-  void onUserRegister();
-  void onUserAcceptCall();
-  void onUserDeclineCall();
+  void onUserMsg(QString login, QString msg);
+  void onUserCall(QString login);
+  void onUserLogin(QString login, QString pass);
+  void onUserLogout(void);
+  void onUserRegister(QString login, QString pass);
+  void onUserAcceptCall(QString login);
+  void onUserDeclineCall(QString login);
 
 public:
   void		run();

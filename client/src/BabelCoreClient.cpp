@@ -72,7 +72,7 @@ void BabelCoreClient::onRead()
 
 /* listened view event */
 
-void BabelCoreClient::onUserMsg()
+void BabelCoreClient::onUserMsg(QString login, QString msg)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on cree un header msg */
@@ -81,13 +81,13 @@ void BabelCoreClient::onUserMsg()
   /* on send la stucture */
 }
 
-void BabelCoreClient::onUserCall()
+void BabelCoreClient::onUserCall(QString login)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on vera quand quentin fera port audio */
 }
 
-void BabelCoreClient::onUserLogin()
+void BabelCoreClient::onUserLogin(QString login, QString pass)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on cree un header login */
@@ -96,7 +96,7 @@ void BabelCoreClient::onUserLogin()
   /* on send la stucture */
 }
 
-void BabelCoreClient::onUserLogout()
+void BabelCoreClient::onUserLogout(void)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on cree un header logout */
@@ -105,7 +105,7 @@ void BabelCoreClient::onUserLogout()
   /* on send la stucture */
 }
 
-void BabelCoreClient::onUserRegister()
+void BabelCoreClient::onUserRegister(QString login, QString pass)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on cree un header register */
@@ -114,7 +114,7 @@ void BabelCoreClient::onUserRegister()
   /* on send la stucture */
 }
 
-void BabelCoreClient::onUserAcceptCall()
+void BabelCoreClient::onUserAcceptCall(QString login)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on cree un header ok_call */
@@ -123,7 +123,7 @@ void BabelCoreClient::onUserAcceptCall()
   /* on send la stucture */
 }
 
-void BabelCoreClient::onUserDeclineCall()
+void BabelCoreClient::onUserDeclineCall(QString login)
 {
   std::cout << __FUNCTION__ << std::endl;
   /* on cree un header ko_call */
