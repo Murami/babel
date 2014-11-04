@@ -13,11 +13,11 @@
 class AudioBuffer
 {
 private:
-  void*		m_data;
-  unsigned int	m_channels;
-  unsigned int	m_sampleRate;
-  unsigned int	m_maxFrame;
-  unsigned int	m_size;
+  CircularBuffer*	m_buffer;
+  unsigned int		m_channels;
+  unsigned int		m_sampleRate;
+  unsigned int		m_maxFrame;
+  unsigned int		m_size;
 
 public:
   AudioBuffer(unsigned int channels, unsigned int sampleRate, unsigned int frameCount)
@@ -28,7 +28,7 @@ public:
     m_sampleRate = sampleRate;
     m_maxFrame = frameCount;
     m_size = frameCount * channels * sizeof(uint16_t);
-    m_data = new char[size];
+    m_data = new CircularBuffer(m_size);
   }
 
   AudioBuffer(unsigned int channels, unsigned int sampleRate,
@@ -38,7 +38,7 @@ public:
     m_sampleRate = sampleRate;
     m_maxFrame = (sampleRate * millisecond) / 1000 + sampleRate * second;
     m_size = buffer.maxFrame * channels * sizeof(uint16_t);
-    m_data = new char[size];
+    m_data = new CircularBuffer(m_size);
   }
 
   ~AudioBuffer()
@@ -72,17 +72,24 @@ public:
   }
 };
 
+// if framesMax == 0 -> infinite
+
 class AudioStreamListener : public IAudioStreamListener
 {
 protected:
   IAudioStream*		m_stream;
   IAudioService*	m_service;
   AudioBuffer*		m_buffer;
+  unsigned long		m_framesMax;
+  unsigned long		m_currentFrames;
 
 public:
-  AudioStreamListener(AudioBuffer* buffer, IAudioService* service) :
+  AudioStreamListener(AudioBuffer* buffer, IAudioService* service,
+		      unsigned long framesMax) :
     m_service(service),
-    m_buffer(buffer)
+    m_buffer(buffer),
+    m_framesMax(framesMax),
+    m_currentFrames(0)
   {
     m_stream =  new PAAudioStream();
 
@@ -124,7 +131,8 @@ private:
   IAudioService*	service;
 
 public:
-  AudioRecorder(AudioBuffer* buffer, IAudioService* service) : AudioStreamListener(buffer, service)
+  AudioRecorder(AudioBuffer* buffer, IAudioService* service,
+		unsigned long framesMax) : AudioStreamListener(buffer, service, framesMax)
   {
     m_stream->setInputStream(service->getDefaultInputDevice(), 2);
     m_stream->open(buffer->sampleRate(), 0);
@@ -138,7 +146,8 @@ class AudioPlayer : public AudioStreamListener
 private:
 
 public:
-  AudioPlayer(AudioBuffer* buffer, IAudioService* service) : AudioStreamListener(buffer, service)
+  AudioPlayer(AudioBuffer* buffer, IAudioService* service,
+	      unsigned long framesMax) : AudioStreamListener(buffer, service, framesMax)
   {
     m_stream->setOuptutStream(service->getDefaultOutputDevice(), 2);
     m_stream->open(buffer->sampleRate(), 0);
@@ -146,17 +155,6 @@ public:
 
   ~AudioPlayer(){}
 };
-
-
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-///////////////////////////////////////////////////
-// GERER LA POSSIBLITÉ DE CONNECTER UN RECORDER ET UN PLAYER SUR LE MEME BUFFER //
-// -> circular buffer <-							//
-// EMPECHER DEUX RECORDER OU DEUX PLAYER DE TRAVAILLER SUR LE MEME BUFFER	//
 
 int	main()
 {
