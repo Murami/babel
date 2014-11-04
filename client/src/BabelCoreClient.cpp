@@ -1,4 +1,5 @@
 #include <QSettings>
+#include <cstring>
 
 #include "BabelCoreClient.hh"
 #include "ICallErrorListener.hh"
@@ -75,10 +76,43 @@ void BabelCoreClient::onRead()
 void BabelCoreClient::onUserMsg(QString login, QString msg)
 {
   std::cout << __FUNCTION__ << std::endl;
-  /* on cree un header msg */
-  /* on cree une structure msg */
-  /* on send le header */
-  /* on send la stucture */
+
+  NET::Header		header;
+  NET::MsgInfo		info;
+  std::string		s_msg;
+  std::string::iterator it;
+  std::string::iterator start;
+  int			curr;
+
+  s_msg = msg.toStdString();
+  it = s_msg.begin();
+  start = s_msg.begin();
+
+  header.type = NET::T_SENDMSG;
+  header.size = sizeof(info);
+
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+
+  for (; it != s_msg.end(); ++it)
+    {
+      curr = std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *it));
+      if ((curr != 0) && (curr % (MSG_SIZE - 1) == 0))
+      	{
+      	  memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
+      					MSG_SIZE - 1).c_str(), MSG_SIZE);
+      	  start = it + 1;
+      	  m_socket.write(&header);
+      	  m_socket.write(&info);
+      	}
+    }
+  if (curr != 0 && (curr % (MSG_SIZE - 1) != 0))
+    {
+
+      memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
+  				    MSG_SIZE - 1).c_str(), MSG_SIZE);
+      m_socket.write(&header);
+      m_socket.write(&info);
+    }
 }
 
 void BabelCoreClient::onUserCall(QString login)
@@ -90,10 +124,16 @@ void BabelCoreClient::onUserCall(QString login)
 void BabelCoreClient::onUserLogin(QString login, QString pass)
 {
   std::cout << __FUNCTION__ << std::endl;
-  /* on cree un header login */
-  /* on cree une structure login */
-  /* on send le header */
-  /* on send la stucture */
+
+  NET::Header		header;
+  NET::LoginInfo	info;
+
+  header.type = NET::T_CALL;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.md5_pass, pass.toStdString().c_str(), MD5_PASS_SIZE);
+  m_socket.write(&header);
+  m_socket.write(&info);
 }
 
 void BabelCoreClient::onUserLogout(void)
