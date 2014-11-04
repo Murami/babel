@@ -2,6 +2,7 @@
 #define BABEL_CORE_CLIENT_HH
 
 #include <list>
+#include <QString>
 
 #include "IAsyncSocketListener.hh"
 #include "IWidgetListener.hh"
@@ -25,8 +26,9 @@ class BabelCoreClient : private IAsyncSocketListener, public IWidgetListener
 Q_OBJECT
 
 private:
-  typedef std::map<NET::StructType, size_t>	SizeTypeMap;
-  typedef std::map<NET::HeaderType, IFunctor *> FunctorTypeMap;
+  typedef std::map<NET::Type, size_t>				SizeTypeMap;
+  typedef std::map<NET::Type, IFunctor *>			FunctorTypeMap;
+  typedef std::map<QAbstractSocket::SocketError, QString>	ErrorMap;
 
 public:
   BabelCoreClient();
@@ -48,12 +50,12 @@ public:
   void onUserDeclineCall();
 
 public:
-  void read();
+  void read(char * data, qint64 maxSize);
   void write(void * data);
   void connect(QString address, quint16 port);
   void disconnect();
-  void setTypeNeeded(NET::StructType type);
-  void setBytesNeeded(quint64 bytes);
+  void setTypeNeeded(NET::Type type);
+  NET::Type getTypeNeeded();
 
   void addCallListener(ICallListener * listener);
   void addConnectListener(IConnectListener * listener);
@@ -66,14 +68,15 @@ public:
   void addMsgErrorListener(IMsgErrorListener * listener);
   void addUserInfoListener(IUserInfoListener * listener);
 
-  static SizeTypeMap initializeSizeTypeMap();
+  static SizeTypeMap	initializeSizeTypeMap();
   static FunctorTypeMap initializeFunctorTypeMap();
+  static ErrorMap	initializeErrorMap();
 
-private:
+public:
   void notifyCall(NET::CallInfo info);
   void notifyConnect(void);
   void notifyDisconnect(void);
-  void notifyError(char * error);
+  void notifyError(QString error);
   void notifyCallError(bool rep);
   void notifyLogin(bool rep);
   void notifyRegister(bool rep);
@@ -84,9 +87,10 @@ private:
 private:
   static SizeTypeMap				sizeTypeMap;
   static FunctorTypeMap				functorTypeMap;
+  static ErrorMap				errorMap;
   QTcpAsyncSocket				m_socket;
-  quint64					bytesNeeded;
-  NET::StructType				typeNeeded;
+  NET::Type					typeNeeded;
+  char						buffer[4096];
 
   std::list<ICallListener *>			CallListenerList;
   std::list<IConnectListener *>			ConnectListenerList;

@@ -1,6 +1,8 @@
 #ifndef PROTOCOL_HH
 #define PROTOCOL_HH
 
+#include <stdint.h>
+
 namespace NET
 {
 
@@ -11,8 +13,9 @@ namespace NET
 #define RAW_SIZE	0x1000
 #define JPEG_SIZE	0x40000
 
-enum HeaderType
+enum Type
   {
+    T_HEADER		= 0,
     T_LOGIN		= 1,
     T_LOGOUT		= 2,
     T_REGISTER		= 3,
@@ -32,15 +35,6 @@ enum HeaderType
     T_SAMPLE		= 17,
     T_IMG		= 18,
     T_PING		= 19
-  };
-
-enum StructType
-  {
-    S_HEADER		= 1,
-    S_LOGIN		= 2,
-    S_USER		= 3,
-    S_CALL		= 4,
-    S_MSG		= 5
   };
 
 enum Status
@@ -63,48 +57,48 @@ enum DataType
 
 struct Header
 {
-  HeaderType			type;
-  size_t		size;
-};
+  Type		type;
+  uint32_t		size;
+} __attribute__((packed));
 
 struct LoginInfo
 {
   char			user[LOGIN_SIZE];
   char			md5_pass[MD5_PASS_SIZE];
-};
+} __attribute__((packed));
 
 struct UserInfo
 {
   char			user[LOGIN_SIZE];
   Status		status;
-};
+} __attribute__((packed));
 
 struct CallInfo
 {
   char			user[LOGIN_SIZE];
   char			ip[IP_SIZE];
-  size_t		port;
+  uint32_t		port;
   Protocol		prot;
   DataType		type;
-};
+} __attribute__((packed));
 
 struct MsgInfo
 {
   char			user[LOGIN_SIZE];
   char			msg[MSG_SIZE];
-};
+} __attribute__((packed));
 
 struct Sample
 {
-  size_t		size;
+  uint32_t		size;
   char			rawData[RAW_SIZE];
-};
+} __attribute__((packed));
 
 struct Img
 {
-  size_t		size;
+  uint32_t		size;
   char			img[JPEG_SIZE];
-};
+} __attribute__((packed));
 
 }
 

@@ -11,13 +11,13 @@
 #include "IUserInfoListener.hh"
 #include "Functor.hh"
 
-BabelCoreClient::SizeTypeMap BabelCoreClient::sizeTypeMap = BabelCoreClient::initializeSizeTypeMap();
+BabelCoreClient::SizeTypeMap BabelCoreClient::sizeTypeMap	= BabelCoreClient::initializeSizeTypeMap();
 BabelCoreClient::FunctorTypeMap BabelCoreClient::functorTypeMap = BabelCoreClient::initializeFunctorTypeMap();
+BabelCoreClient::ErrorMap BabelCoreClient::errorMap		= BabelCoreClient::initializeErrorMap();
 
 BabelCoreClient::BabelCoreClient()
 {
-  bytesNeeded = sizeof(NET::Header);
-  typeNeeded = NET::S_HEADER;
+  typeNeeded = NET::T_HEADER;
   QObject::connect(&m_socket, SIGNAL(notifyRead()), this, SLOT(onRead()));
   QObject::connect(&m_socket, SIGNAL(notifyConnect()), this, SLOT(onConnect()));
   QObject::connect(&m_socket, SIGNAL(notifyDisconnect()), this, SLOT(onDisconnect()));
@@ -46,24 +46,26 @@ void BabelCoreClient::onDisconnect()
 void BabelCoreClient::onError(QAbstractSocket::SocketError error)
 {
   std::cout << "core error detected" << std::endl;
-  notifyError("test");
+
+  notifyError(errorMap[error]);
 }
 
 void BabelCoreClient::onRead()
 {
   std::cout << "core data read to read" << std::endl;
 
-  if (m_socket.bytesAvailable() < bytesNeeded)
+  if (m_socket.bytesAvailable() < sizeTypeMap[typeNeeded])
     return;
-
-  /* lire les data */
-  /* prev data type init at header */
-  /* if prev data type == header on att un header*/
-  /* if header on update prev data type */
-  /* else error */
-  /* if prev data type == data on att des data */
-  /* if data on update prev data type at header on notify les data*/
-  /* else error */
+  m_socket.read(buffer,sizeTypeMap[typeNeeded]);
+  if (typeNeeded == NET::T_HEADER)
+    {
+      NET::Header* tmp = reinterpret_cast<NET::Header*>(buffer);
+      (*functorTypeMap[tmp->type])(*this, buffer);
+    }
+  else
+    {
+      (*functorTypeMap[typeNeeded])(*this, buffer);
+    }
 }
 
 /* listened view event */
@@ -123,25 +125,24 @@ void BabelCoreClient::onUserDeclineCall()
 
 /* core control */
 
-void BabelCoreClient::setTypeNeeded(NET::StructType type)
+void BabelCoreClient::setTypeNeeded(NET::Type type)
 {
   typeNeeded = type;
 }
 
-void BabelCoreClient::setBytesNeeded(quint64 bytes)
+NET::Type BabelCoreClient::getTypeNeeded()
 {
-  bytesNeeded = bytes;
+  return (typeNeeded);
 }
 
 BabelCoreClient::SizeTypeMap BabelCoreClient::initializeSizeTypeMap()
 {
   SizeTypeMap map;
 
-  map[NET::S_HEADER]	= sizeof(NET::Header);
-  map[NET::S_LOGIN]	= sizeof(NET::LoginInfo);
-  map[NET::S_USER]	= sizeof(NET::UserInfo);
-  map[NET::S_CALL]	= sizeof(NET::CallInfo);
-  map[NET::S_MSG]	= sizeof(NET::MsgInfo);
+  map[NET::T_HEADER]	= sizeof(NET::Header);
+  map[NET::T_USERINFO]	= sizeof(NET::UserInfo);
+  map[NET::T_CALL]	= sizeof(NET::CallInfo);
+  map[NET::T_RECVMSG]	= sizeof(NET::MsgInfo);
 
   return (map);
 }
@@ -168,11 +169,39 @@ BabelCoreClient::FunctorTypeMap BabelCoreClient::initializeFunctorTypeMap()
   return (map);
 }
 
+BabelCoreClient::ErrorMap BabelCoreClient::initializeErrorMap()
+{
+  ErrorMap map;
+
+  map[QAbstractSocket::ConnectionRefusedError] =  "The connection was refused by the peer (or timed out).";
+  map[QAbstractSocket::RemoteHostClosedError] =  "Error The remote host closed the connection. Note that the client socket (i.e., this socket) will be closed after the remote close notification has been sent.";
+  map[QAbstractSocket::HostNotFoundError] = "The host address was not found.";
+  map[QAbstractSocket::SocketAccessError] = "The socket operation failed because the application lacked the required privileges.";
+  map[QAbstractSocket::SocketResourceError] = "The local system ran out of resources (e.g., too many sockets).";
+  map[QAbstractSocket::SocketTimeoutError] = "The socket operation timed out.";
+  map[QAbstractSocket::DatagramTooLargeError] = "The datagram was larger than the operating system's limit (which can be as low as 8192 bytes).";
+  map[QAbstractSocket::NetworkError] = "An error occurred with the network (e.g., the network cable was accidentally plugged out).";
+  map[QAbstractSocket::AddressInUseError] = "The address specified to QUdpSocket::bind() is already in use and was set to be exclusive.";
+  map[QAbstractSocket::SocketAddressNotAvailableError] = "The address specified to QUdpSocket::bind() does not belong to the host.";
+  map[QAbstractSocket::UnsupportedSocketOperationError] = "The requested socket operation is not supported by the local operating system (e.g., lack of IPv6 support).";
+  map[QAbstractSocket::ProxyAuthenticationRequiredError] = "The socket is using a proxy, and the proxy requires authentication.";
+  map[QAbstractSocket::SslHandshakeFailedError] = "The SSL/TLS handshake failed, so the connection was closed (only used in QSslSocket) (This value was introduced in 4.4.)";
+  map[QAbstractSocket::UnfinishedSocketOperationError] = "Used by QAbstractSocketEngine only, The last operation attempted has not finished yet (still in progress in the background). (This value was introduced in 4.4.)";
+  map[QAbstractSocket::ProxyConnectionRefusedError] = "Could not contact the proxy server because the connection to that server was denied (This value was introduced in 4.5.)";
+  map[QAbstractSocket::ProxyConnectionClosedError] = "The connection to the proxy server was closed unexpectedly (before the connection to the final peer was established) (This value was introduced in 4.5.)";
+  map[QAbstractSocket::ProxyConnectionTimeoutError] = "The connection to the proxy server timed out or the proxy server stopped responding in the authentication phase. (This value was introduced in 4.5.)";
+  map[QAbstractSocket::ProxyNotFoundError] = "The proxy address set with setProxy() (or the application proxy) was not found. (This value was introduced in 4.5.)";
+  map[QAbstractSocket::ProxyProtocolError] = "The connection negotiation with the proxy server because the response from the proxy server could not be understood. (This value was introduced in 4.5.)";
+  map[QAbstractSocket::UnknownSocketError] = "An unidentified error occurred.";
+
+  return (map);
+}
+
 /* socket control */
 
-void BabelCoreClient::read()
+void BabelCoreClient::read(char * data, qint64 maxSize)
 {
-  m_socket.read();
+  m_socket.read(data, maxSize);
 }
 
 void BabelCoreClient::write(void * data)
@@ -271,7 +300,7 @@ void BabelCoreClient::notifyDisconnect(void)
     (*it)->onData();
 }
 
-void BabelCoreClient::notifyError(char * error)
+void BabelCoreClient::notifyError(QString error)
 {
   std::list<IErrorListener *>::iterator it;
 
