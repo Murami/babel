@@ -6,13 +6,11 @@ class IAudioStreamListener;
 class IAudioStream
 {
 public:
-  virtual void	addListener(IAudioStreamListener& listener) = 0;
-  virtual void	deleteListener(IAudioStreamListener& listener) = 0;
-
+  virtual void	setListener(IAudioStreamListener* listener);
   virtual void	setInputStream(int inputDevice, int channelCount);
   virtual void	setOutputStream(int outputDevice , int channelCount);
   virtual bool	isActive() = 0;
-  virtual void	open(double sampleRate, unsigned long framesPerBuffer
+  virtual void	open(double sampleRate, unsigned long framesPerBuffer);
   virtual void	close() = 0;
   virtual void	start() = 0;
   virtual void	stop() = 0;

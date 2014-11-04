@@ -8,11 +8,10 @@ class PAAudioService : public IAudioService
 private:
   bool				m_initialized;
 
-private:
+public:
   PAAudioService();
   ~PAAudioService();
 
-public:
   static PAAudioService*	getInstance();
   static void			deleteInstance();
 

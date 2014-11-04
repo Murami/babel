@@ -1,6 +1,7 @@
 #ifndef PAAUDIOSTREAM_HH
 #define PAAUDIOSTREAM_HH
 
+#include "IAudioStream.hh"
 #include "PAAudioStream.hh"
 
 #include <list>
@@ -12,7 +13,7 @@ int	launch_listener_events(const void* input, void* output, unsigned long frameC
 			       const PaStreamCallbackTimeInfo* timeInfo,
 			       PaStreamCallbackFlags statusFlags, void* userData);
 
-class PAAudioStream
+class PAAudioStream : public IAudioStream
 {
 private:
   PaStreamParameters	m_inputParameters;
