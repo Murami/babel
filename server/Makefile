@@ -1,14 +1,12 @@
 ##
-## Makefile for  in /home/otoshigami/Workspace/Epitech/git/cpp_bomberman
+## Makefile for  in /home/guerot/Workspace/epitech/git/babel/portaudio
 ## 
-## Made by otoshigami
-## Login   <otoshigami@epitech.net>
+## Made by guerot
+## Login   <guerot@epitech.net>
 ## 
-## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Mon Nov  3 15:39:19 2014 audisio romain
+## Started on  Tue Nov  4 14:52:16 2014 guerot
+## Last update Tue Nov  4 14:52:17 2014 guerot
 ##
-
-# include .depend
 
 ## FILES
 
@@ -126,14 +124,6 @@ MAKEOBJ		= $(addprefix $(DOBJ), %.o) : $(addprefix $(addprefix $(DSRC), %), $(SR
 all:	$(CNAME)
 
 dbg:	$(CNAME)
-
-# cleandepend:
-# 		rm -rf ./.depend
-
-# redepend:	cleandepend depend
-
-# depend: 	$(CSRC)
-# 		$(CC) $(CFLAGS) -MM $^ > ./.depend
 
 $(CNAME):	$(COBJ)
 		@$(MD) $(DBIN)
