@@ -21,7 +21,7 @@ int		main()
 
   NET::Header header;
 
-  header.type = NET::T_OK_LOGIN;
+  header.type = NET::T_KO_REGISTER;
   header.size = 0;
   if (socket.send(&header, sizeof(header)) != sf::Socket::Done)
     {

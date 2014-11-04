@@ -5,6 +5,9 @@
 # include	<QPushButton>
 # include	<QDialog>
 
+class		MainWindow;
+class		LoginEntryDialog;
+class		RegisterEntryDialog;
 class		BabelCoreClient;
 
 class		LoginDialog : public QDialog
@@ -20,6 +23,9 @@ private:
   QPushButton		*_signInButton;
   QPushButton		*_logInButton;
   BabelCoreClient&	_core;
+  LoginEntryDialog	*_loginDialog;
+  RegisterEntryDialog	*_registerDialog;
+  MainWindow		*_mainWindow;
 
 private slots:
   void		createSignInDialog();

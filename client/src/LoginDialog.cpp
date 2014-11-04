@@ -5,12 +5,16 @@
 #include	"LoginEntryDialog.hh"
 #include	"RegisterEntryDialog.hh"
 #include	"BabelCoreClient.hh"
+#include	"MainWindow.hh"
 
 int		LoginDialog::WIDTH = 300;
 int		LoginDialog::HEIGHT = 200;
 
 LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
+  this->_mainWindow = new MainWindow(core, this);
+  this->_loginDialog = new LoginEntryDialog(this->_core, this);
+  this->_registerDialog = new RegisterEntryDialog(this->_core, this);
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
   this->_layout = new QVBoxLayout();
@@ -27,18 +31,12 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
 
 void		LoginDialog::createLogInDialog()
 {
-  LoginEntryDialog *dialog;
-
-  dialog = new LoginEntryDialog(this->_core, this);
-  dialog->show();
+  this->_loginDialog->show();
 }
 
 void		LoginDialog::createSignInDialog()
 {
-  RegisterEntryDialog *dialog;
-
-  dialog = new RegisterEntryDialog(this->_core, this);
-  dialog->show();
+  this->_registerDialog->show();
 }
 
 LoginDialog::~LoginDialog() {}

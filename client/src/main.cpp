@@ -11,6 +11,7 @@
 #include "MainWindow.hh"
 #include "LoginDialog.hh"
 #include "LoginEntryDialog.hh"
+#include "RegisterEntryDialog.hh"
 
 std::string	ResourcePath::BUTTON_NORMAL = "./res/button_normal.jpg";
 std::string	ResourcePath::BUTTON_HOVERED = "./res/button_hovered.jpg";
@@ -24,6 +25,8 @@ int main(int argc, char *argv[])
   QApplication app(argc, argv);
   BabelCoreClient core;
   LoginDialog w(core);
+  //LoginEntryDialog w(core);
+  //RegisterEntryDialog w(core);
 
   core.run();
   w.show();
