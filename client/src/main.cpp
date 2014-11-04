@@ -7,15 +7,24 @@
 
 #include "BabelCoreClient.hh"
 #include "QTcpAsyncSocket.hh"
+#include "ResourceManager.hpp"
+#include "MainWindow.hh"
+#include "LoginDialog.hh"
+
+std::string	ResourcePath::BUTTON_NORMAL = "./res/button_normal.jpg";
+std::string	ResourcePath::BUTTON_HOVERED = "./res/button_hovered.jpg";
+std::string	ResourcePath::BUTTON_PRESSED = "./res/button_pressed.jpg";
+std::string	ResourcePath::BLUE_PELLET = "./res/blue_pellet.png";
+std::string	ResourcePath::RED_PELLET = "./res/red_pellet.png";
+ResourceManager	*ResourceManager::_instance = NULL;
 
 int main(int argc, char *argv[])
 {
-QApplication app(argc, argv);
-QPushButton bouton("Salut les Zéros, la forme ?");
-BabelCoreClient core;
+  QApplication app(argc, argv);
+  BabelCoreClient core;
+  MainWindow w;
 
-core.run();
-
-  bouton.show();
+  core.run();
+  w.show();
   return app.exec();
 }

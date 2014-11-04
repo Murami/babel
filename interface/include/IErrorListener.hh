@@ -6,7 +6,7 @@
 class		IErrorListener
 {
 public:
-  virtual void	onData(char *) = 0;
+  virtual void	onData(QString) = 0;
 };
 
 #endif
