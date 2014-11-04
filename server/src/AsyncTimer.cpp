@@ -6,6 +6,7 @@
 
 AsyncTimer::AsyncTimer()
 {
+
 }
 
 AsyncTimer::~AsyncTimer()

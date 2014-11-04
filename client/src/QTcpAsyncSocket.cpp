@@ -29,9 +29,9 @@ void QTcpAsyncSocket::disconnect()
     m_socket.abort();
 }
 
-void QTcpAsyncSocket::read()
+void QTcpAsyncSocket::read(char * data, qint64 maxSize)
 {
-
+  m_socket.read(data, maxSize);
 }
 
 void QTcpAsyncSocket::write(void *data)
@@ -51,6 +51,11 @@ QHostAddress & QTcpAsyncSocket::getAddress()
 quint16 & QTcpAsyncSocket::getPort()
 {
   return (m_port);
+}
+
+quint64 QTcpAsyncSocket::bytesAvailable()
+{
+  return (m_socket.bytesAvailable());
 }
 
 void QTcpAsyncSocket::onConnect()

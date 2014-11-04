@@ -20,10 +20,11 @@ public:
 
   void connect(QString address, quint16 port);
   void disconnect();
-  void read();
+  void read(char * data, qint64 maxSize);
   void write(void *data);
   QHostAddress & getAddress();
   quint16 & getPort();
+  quint64 bytesAvailable ();
 
 public slots:
   void onConnect();
