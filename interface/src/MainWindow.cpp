@@ -5,6 +5,7 @@
 #include	"LoginDialog.hh"
 #include	"MainWindow.hh"
 
+#include	"ConversationWindow.hh"
 #include	"AddNewContactDialog.hh"
 #include	"WidgetButton.hh"
 
@@ -13,35 +14,65 @@ int		MainWindow::HEIGHT = 600;
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
-  QPalette	palette;
-
-  palette.setBrush(QPalette::Active,
-		   QPalette::Window, QBrush(QImage("./res/background_main.jpg")));
-  palette.setBrush(QPalette::Inactive,
-		   QPalette::Window, QBrush(QImage("./res/background_main.jpg")));
-  this->setPalette(palette);
   this->_widgetListView = new WidgetListView(this);
   this->_callButton = new WidgetButton("Call", this);
+  this->_mainLayout = new QHBoxLayout(this);
+  this->_buttonLayout = new QVBoxLayout();
+  this->_addContactButton = new WidgetButton("Add", this);
+  this->_vLayout = new QVBoxLayout();
+  this->_loggedUserLabel = new QLabel("Disconnected", this);
+  this->_userLayout = new QHBoxLayout();
+  this->_userStatus = new QLabel(this);
+  this->_connectButton = new WidgetButton("Connect", this);
+
+  this->_userLayout->setAlignment(Qt::AlignLeft);
+  this->_userStatus->setPixmap(ResourceManager::getInstance()->getPellet(NET::DISCONNECTED).pixmap(20, 20));
+  this->_userLayout->addWidget(this->_userStatus);
+  this->_userLayout->addWidget(this->_loggedUserLabel);
+  this->_vLayout->addLayout(this->_userLayout);
+  this->_vLayout->addWidget(this->_widgetListView);
+  this->_callButton->setFixedSize(200, 50);
   this->setFixedSize(MainWindow::WIDTH, MainWindow::HEIGHT);
   this->setWindowTitle("Babel");
-  this->_mainLayout = new QHBoxLayout(this);
-  this->_layout = new QVBoxLayout();
-  this->_addContactButton = new WidgetButton("Add contact", this);
-  this->_layout->addWidget(this->_callButton);
-  this->_layout->setAlignment(this->_callButton, Qt::AlignHCenter);
-  this->_layout->addWidget(this->_addContactButton);
-  this->_layout->setAlignment(this->_addContactButton, Qt::AlignHCenter);
-  this->_mainLayout->addWidget(this->_widgetListView);
-  this->_mainLayout->addLayout(this->_layout);
-  this->_connectButtons();
-  this->_loginDialog = new LoginDialog(this);
-  this->_loginDialog->show();
+  this->_addContactButton->setFixedSize(200, 50);
+  this->_connectButton->setFixedSize(200, 50);
+  this->_buttonLayout->addWidget(this->_connectButton);
+  this->_buttonLayout->addWidget(this->_callButton);
+  this->_buttonLayout->setAlignment(this->_callButton, Qt::AlignHCenter);
+  this->_buttonLayout->addWidget(this->_addContactButton);
+  this->_buttonLayout->setAlignment(this->_addContactButton, Qt::AlignHCenter);
+  this->_mainLayout->addLayout(this->_vLayout);
+  this->_mainLayout->addLayout(this->_buttonLayout);
+  this->_connectWidgets();
 }
 
-void		MainWindow::_connectButtons()
+void		MainWindow::_connectWidgets()
 {
-  connect(this->_callButton, SIGNAL(clicked()), this, SLOT(close()));
-  connect(this->_addContactButton, SIGNAL(clicked()), this, SLOT(createNewContactDialog()));
+  connect(this->_callButton, SIGNAL(clicked()),
+	  this, SLOT(createConversationWindow()));
+  connect(this->_addContactButton, SIGNAL(clicked()),
+	  this, SLOT(createNewContactDialog()));
+  connect(this->_connectButton, SIGNAL(clicked()),
+	  this, SLOT(createLoginDialog()));
+}
+
+void		MainWindow::createLoginDialog()
+{
+  LoginDialog	*dialog;
+
+  dialog = new LoginDialog(this);
+  dialog->show();
+}
+
+void		MainWindow::createConversationWindow()
+{
+  ConversationWindow	*w;
+
+  if (this->_widgetListView->getSelectedContactIndex() != -1)
+    {
+      w = new ConversationWindow();
+      w->show();
+    }
 }
 
 void		MainWindow::createNewContactDialog()

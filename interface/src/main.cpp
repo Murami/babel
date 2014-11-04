@@ -9,15 +9,15 @@
 std::string	ResourcePath::BUTTON_NORMAL = "./res/button_normal.jpg";
 std::string	ResourcePath::BUTTON_HOVERED = "./res/button_hovered.jpg";
 std::string	ResourcePath::BUTTON_PRESSED = "./res/button_pressed.jpg";
+std::string	ResourcePath::BLUE_PELLET = "./res/blue_pellet.png";
+std::string	ResourcePath::RED_PELLET = "./res/red_pellet.png";
 ResourceManager	*ResourceManager::_instance = NULL;
 
 int		main(int argc, char *argv[])
 {
   QApplication	app(argc, argv);
-  ConversationWindow w2;
   MainWindow	w;
 
   w.show();
-  w2.show();
   return (app.exec());
 }

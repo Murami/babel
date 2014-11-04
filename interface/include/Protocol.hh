@@ -1,15 +1,15 @@
 #ifndef PROTOCOL_HH
-#define PROTOCOL_HH
+# define PROTOCOL_HH
 
 namespace NET
 {
 
-#define IP_SIZE		0x40
-#define LOGIN_SIZE	0x80
-#define MD5_PASS_SIZE	0x80
-#define MSG_SIZE	0x400
-#define RAW_SIZE	0x1000
-#define JPEG_SIZE	0x40000
+# define IP_SIZE	0x40
+# define LOGIN_SIZE	0x80
+# define MD5_PASS_SIZE	0x80
+# define MSG_SIZE	0x400
+# define RAW_SIZE	0x1000
+# define JPEG_SIZE	0x40000
 
 enum Type
   {
