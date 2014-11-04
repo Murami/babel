@@ -23,7 +23,13 @@ LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDi
   this->_vLayout->addLayout(this->_hLayout);
   this->setLayout(this->_vLayout);
   connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
+  connect(this->_logInButton, SIGNAL(clicked()), this, SLOT(sendData()));
   core.addLoginListener(this);
+}
+
+void		LoginEntryDialog::sendData()
+{
+  this->_core.onUserLogin();
 }
 
 void		LoginEntryDialog::onData(bool ok)

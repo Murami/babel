@@ -74,6 +74,7 @@ void BabelCoreClient::onRead()
 
 void BabelCoreClient::onUserMsg()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on cree un header msg */
   /* on cree une structure msg */
   /* on send le header */
@@ -82,11 +83,13 @@ void BabelCoreClient::onUserMsg()
 
 void BabelCoreClient::onUserCall()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on vera quand quentin fera port audio */
 }
 
 void BabelCoreClient::onUserLogin()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on cree un header login */
   /* on cree une structure login */
   /* on send le header */
@@ -95,6 +98,7 @@ void BabelCoreClient::onUserLogin()
 
 void BabelCoreClient::onUserLogout()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on cree un header logout */
   /* on cree une structure logout */
   /* on send le header */
@@ -103,6 +107,7 @@ void BabelCoreClient::onUserLogout()
 
 void BabelCoreClient::onUserRegister()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on cree un header register */
   /* on cree une structure register */
   /* on send le header */
@@ -111,6 +116,7 @@ void BabelCoreClient::onUserRegister()
 
 void BabelCoreClient::onUserAcceptCall()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on cree un header ok_call */
   /* on cree une structure ok_call */
   /* on send le header */
@@ -119,6 +125,7 @@ void BabelCoreClient::onUserAcceptCall()
 
 void BabelCoreClient::onUserDeclineCall()
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on cree un header ko_call */
   /* on cree une structure ko_call */
   /* on send le header */

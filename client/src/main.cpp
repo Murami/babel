@@ -10,6 +10,7 @@
 #include "ResourceManager.hpp"
 #include "MainWindow.hh"
 #include "LoginDialog.hh"
+#include "LoginEntryDialog.hh"
 
 std::string	ResourcePath::BUTTON_NORMAL = "./res/button_normal.jpg";
 std::string	ResourcePath::BUTTON_HOVERED = "./res/button_hovered.jpg";

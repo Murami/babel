@@ -27,6 +27,9 @@ private:
 public:
   void		onData(bool);
 
+private slots:
+  void		sendData();
+
 public:
   LoginEntryDialog(BabelCoreClient&, QWidget *parent = 0);
   ~LoginEntryDialog();
