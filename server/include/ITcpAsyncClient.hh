@@ -13,6 +13,8 @@ public:
 
   virtual void			read(char* buffer, size_t size) = 0;
   virtual void			write(char* buffer, size_t size) = 0;
+  virtual void			readSome(char* buffer, size_t size) = 0;
+  virtual void			writeSome(char* buffer, size_t size) = 0;
   // virtual void			wait(unsigned int second, unsigned int millisecond) = 0;
   // virtual void			waitUntil(unsigned int second, unsigned int millisecond) = 0;
 
