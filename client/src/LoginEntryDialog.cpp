@@ -29,7 +29,7 @@ LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDi
 
 void		LoginEntryDialog::sendData()
 {
-  this->_core.onUserLogin();
+  this->_core.onUserLogin(this->_pseudoEdit->text(), this->_passwordEdit->text());
 }
 
 void		LoginEntryDialog::onData(bool ok)
