@@ -1,11 +1,14 @@
 #ifndef		__MAINWINDOW_HH__
 # define	__MAINWINDOW_HH__
 
+# include	<QLabel>
+# include	<QModelIndex>
 # include	<QPushButton>
 # include	<QHBoxLayout>
 # include	<QVBoxLayout>
 # include	<QMainWindow>
 
+class		WidgetButton;
 class		WidgetListView;
 class		LoginDialog;
 
@@ -15,9 +18,14 @@ class		MainWindow : public QWidget
 
 private:
   QHBoxLayout		*_mainLayout;
-  QVBoxLayout		*_layout;
-  QPushButton		*_callButton;
-  QPushButton		*_addContactButton;
+  QVBoxLayout		*_buttonLayout;
+  QVBoxLayout		*_vLayout;
+  QHBoxLayout		*_userLayout;
+  QLabel		*_loggedUserLabel;
+  QLabel		*_userStatus;
+  WidgetButton		*_callButton;
+  WidgetButton		*_addContactButton;
+  WidgetButton		*_connectButton;
   LoginDialog		*_loginDialog;
   WidgetListView	*_widgetListView;
 
@@ -27,9 +35,11 @@ public:
 
 private slots:
   void			createNewContactDialog();
+  void			createConversationWindow();
+  void			createLoginDialog();
 
 private:
-  void			_connectButtons();
+  void			_connectWidgets();
 
 public:
   MainWindow(QWidget *parent = 0);

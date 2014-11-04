@@ -9,25 +9,18 @@ int		ConversationWindow::HEIGHT = 960;
 
 ConversationWindow::ConversationWindow(QWidget *parent) : QWidget(parent)
 {
-  QPalette		palette;
   QHBoxLayout		*layout;
   QHBoxLayout		*secondLayout;
   QMovie		*movie;
 
-  palette.setBrush(QPalette::Active,
-  		   QPalette::Window, QBrush(QImage("./res/background_conversation.jpg")));
-  palette.setBrush(QPalette::Inactive,
-  		   QPalette::Window, QBrush(QImage("./res/background_conversation.jpg")));
-  this->setPalette(palette);
   this->setFixedSize(ConversationWindow::WIDTH, ConversationWindow::HEIGHT);
   this->setWindowTitle("Conversation");
-  //this->_hangoutButton = new WidgetButton("Hangout", this);
 
   this->_video = new QLabel(this);
 
-  movie = new QMovie("example_video.jpg");
-  this->_video->setMovie(movie);
-  movie->start();
+  // movie = new QMovie("example_video.jpg");
+  // this->_video->setMovie(movie);
+  // movie->start();
 
   this->_sendMessageButton = new WidgetButton("Send", this);
   this->_quitButton = new WidgetButton("Close", this);
@@ -46,7 +39,6 @@ ConversationWindow::ConversationWindow(QWidget *parent) : QWidget(parent)
   layout->addWidget(this->_sendMessageButton);
   layout->addWidget(this->_quitButton);
   this->_mainLayout->addLayout(layout);
-  //mainLayout->addWidget(hangoutButton);
   this->setLayout(this->_mainLayout);
   connect(this->_quitButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(this->_messageEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));

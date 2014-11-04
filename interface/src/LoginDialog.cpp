@@ -3,16 +3,11 @@
 #include	"WidgetButton.hh"
 #include	"LoginDialog.hh"
 
-int		LoginDialog::WIDTH = 640;
-int		LoginDialog::HEIGHT = 480;
+int		LoginDialog::WIDTH = 300;
+int		LoginDialog::HEIGHT = 200;
 
 LoginDialog::LoginDialog(QWidget *parent) : QDialog(parent)
 {
-  QPalette	palette;
-
-  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
-  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
-  this->setPalette(palette);
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
   this->_layout = new QVBoxLayout();
@@ -36,16 +31,12 @@ void		LoginDialog::createLogInDialog()
   QLineEdit	*pseudoEdit;
   QLineEdit	*passwordEdit;
   QDialog	*dialog;
-  QPalette	palette;
 
   // ##################################################################
   // ### Connecter les boutons sur l'envoi des datas sur le serveur ###
   // ##################################################################
-  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
-  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
   dialog = new QDialog(this);
   dialog->setWindowTitle("Log in");
-  dialog->setPalette(palette);
   vLayout = new QVBoxLayout();
   hLayout = new QHBoxLayout();
   logInButton = new WidgetButton("Log in", this);
@@ -76,16 +67,12 @@ void		LoginDialog::createSignInDialog()
   QLineEdit	*passwordEdit1;
   QLineEdit	*passwordEdit2;
   QDialog	*dialog;
-  QPalette	palette;
 
   // ##################################################################
   // ### Connecter les boutons sur l'envoi des datas sur le serveur ###
   // ##################################################################
-  palette.setBrush(QPalette::Active, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
-  palette.setBrush(QPalette::Inactive, QPalette::Window, QBrush(QImage("./res/background_login.jpg")));
   dialog = new QDialog(this);
   dialog->setWindowTitle("Sign in");
-  dialog->setPalette(palette);
   vLayout = new QVBoxLayout();
   hLayout = new QHBoxLayout();
   signInButton = new WidgetButton("Sign in", this);

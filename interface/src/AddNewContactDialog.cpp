@@ -1,12 +1,9 @@
 #include	<iostream>
 #include	"AddNewContactDialog.hh"
+#include	"IWidgetListener.hh"
 
 AddNewContactDialog::AddNewContactDialog(QWidget *parent) : QDialog(parent)
 {
-  this->_palette.setBrush(QPalette::Active,
-			  QPalette::Window, QBrush(QImage("./res/background_main.jpg")));
-  this->_palette.setBrush(QPalette::Inactive,
-			  QPalette::Window, QBrush(QImage("./res/background_main.jpg")));
   this->_tagEdit = new QLineEdit(this);
   this->_tagEdit->setBackgroundRole(QPalette::Background);
   this->setWindowTitle("Add new contact");
@@ -21,13 +18,16 @@ AddNewContactDialog::AddNewContactDialog(QWidget *parent) : QDialog(parent)
   this->_hlayout->addWidget(this->_addButton);
   this->_hlayout->addWidget(this->_cancelButton);
   this->_vlayout->addLayout(this->_hlayout);
+  this->_addButton->setFocus();
   this->setLayout(this->_vlayout);
   connect(this->_addButton, SIGNAL(clicked()), this, SLOT(sendRequest()));
+  connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 void		AddNewContactDialog::sendRequest()
 {
   std::cout << this->_tagEdit->text().toStdString() << std::endl;
+  // Appeler onUserRegiser du IWidgetListener
 }
 
 AddNewContactDialog::~AddNewContactDialog() {}

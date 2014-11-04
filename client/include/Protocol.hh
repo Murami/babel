@@ -1,6 +1,8 @@
 #ifndef PROTOCOL_HH
 #define PROTOCOL_HH
 
+#include <stdint.h>
+
 namespace NET
 {
 
@@ -13,26 +15,26 @@ namespace NET
 
 enum Type
   {
-    HEADER		= 0,
-    LOGIN		= 1,
-    LOGOUT		= 2,
-    REGISTER		= 3,
-    USERINFO		= 4,
-    SENDMSG		= 5,
-    RECVMSG		= 6,
-    CALL		= 7,
-    HANGOUT		= 8,
-    OK_LOGIN		= 9,
-    KO_LOGIN		= 10,
-    OK_REGISTER		= 11,
-    KO_REGISTER		= 12,
-    OK_CALL		= 13,
-    KO_CALL		= 14,
-    OK_MSG		= 15,
-    KO_MSG		= 16,
-    SAMPLE		= 17,
-    IMG			= 18,
-    PING		= 19
+    T_HEADER		= 0,
+    T_LOGIN		= 1,
+    T_LOGOUT		= 2,
+    T_REGISTER		= 3,
+    T_USERINFO		= 4,
+    T_SENDMSG		= 5,
+    T_RECVMSG		= 6,
+    T_CALL		= 7,
+    T_HANGOUT		= 8,
+    T_OK_LOGIN		= 9,
+    T_KO_LOGIN		= 10,
+    T_OK_REGISTER	= 11,
+    T_KO_REGISTER	= 12,
+    T_OK_CALL		= 13,
+    T_KO_CALL		= 14,
+    T_OK_MSG		= 15,
+    T_KO_MSG		= 16,
+    T_SAMPLE		= 17,
+    T_IMG		= 18,
+    T_PING		= 19
   };
 
 enum Status
@@ -55,48 +57,48 @@ enum DataType
 
 struct Header
 {
-  Type			type;
-  size_t		size;
-};
+  Type		type;
+  uint32_t		size;
+} __attribute__((packed));
 
 struct LoginInfo
 {
   char			user[LOGIN_SIZE];
   char			md5_pass[MD5_PASS_SIZE];
-};
+} __attribute__((packed));
 
 struct UserInfo
 {
   char			user[LOGIN_SIZE];
   Status		status;
-};
+} __attribute__((packed));
 
 struct CallInfo
 {
   char			user[LOGIN_SIZE];
   char			ip[IP_SIZE];
-  size_t		port;
+  uint32_t		port;
   Protocol		prot;
   DataType		type;
-};
+} __attribute__((packed));
 
 struct MsgInfo
 {
   char			user[LOGIN_SIZE];
   char			msg[MSG_SIZE];
-};
+} __attribute__((packed));
 
 struct Sample
 {
-  size_t		size;
+  uint32_t		size;
   char			rawData[RAW_SIZE];
-};
+} __attribute__((packed));
 
 struct Img
 {
-  size_t		size;
+  uint32_t		size;
   char			img[JPEG_SIZE];
-};
+} __attribute__((packed));
 
 }
 

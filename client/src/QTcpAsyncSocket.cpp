@@ -29,9 +29,9 @@ void QTcpAsyncSocket::disconnect()
     m_socket.abort();
 }
 
-void QTcpAsyncSocket::read()
+void QTcpAsyncSocket::read(char * data, qint64 maxSize)
 {
-
+  m_socket.read(data, maxSize);
 }
 
 void QTcpAsyncSocket::write(void *data)

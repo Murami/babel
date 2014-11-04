@@ -10,7 +10,8 @@ WidgetButton::WidgetButton(const QString& text, QWidget *parent) : QPushButton(p
 {
   this->_text = text;
   this->_image = ResourceManager::getInstance()->getNormalButtonPixmap();
-  this->setFixedSize(text.length() * 15, 50);
+  this->setFixedSize(100, 50);
+  //this->setFixedSize(text.length() * 15, 50);
 }
 
 void		WidgetButton::paintEvent(QPaintEvent *event)
