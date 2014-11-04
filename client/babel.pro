@@ -28,6 +28,8 @@ HEADERS += 	include/QTcpAsyncSocket.hh 	\
 		include/WidgetListView.hh	\
 		include/WidgetTextView.hh	\
 		include/ResourceManager.hpp	\
+		include/LoginEntryDialog.hh	\
+		include/RegisterEntryDialog.hh	\
 
 SOURCES += 	src/main.cpp 			\
 		src/QTcpAsyncSocket.cpp 	\
@@ -41,5 +43,7 @@ SOURCES += 	src/main.cpp 			\
 		src/WidgetButton.cpp		\
 		src/WidgetListView.cpp		\
 		src/WidgetTextView.cpp		\
+		src/LoginEntryDialog.cpp	\
+		src/RegisterEntryDialog.cpp	\
 
 OBJECTS_DIR	=	src/

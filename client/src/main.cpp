@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
   BabelCoreClient core;
-  MainWindow w;
+  LoginDialog w(core);
 
   core.run();
   w.show();

@@ -8,6 +8,7 @@
 # include	<QVBoxLayout>
 # include	<QMainWindow>
 
+class		BabelCoreClient;
 class		WidgetButton;
 class		WidgetListView;
 class		LoginDialog;
@@ -28,6 +29,7 @@ private:
   WidgetButton		*_connectButton;
   LoginDialog		*_loginDialog;
   WidgetListView	*_widgetListView;
+  BabelCoreClient&	_core;
 
 public:
   static int	WIDTH;
@@ -42,7 +44,7 @@ private:
   void			_connectWidgets();
 
 public:
-  MainWindow(QWidget *parent = 0);
+  MainWindow(BabelCoreClient&, QWidget *parent = 0);
   ~MainWindow();
 };
 
