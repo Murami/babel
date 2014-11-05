@@ -87,6 +87,7 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
   s_msg = msg.toStdString();
   it = s_msg.begin();
   start = s_msg.begin();
+  curr = 0;
 
   header.type = NET::T_SENDMSG;
   header.size = sizeof(info);
