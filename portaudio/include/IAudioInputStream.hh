@@ -10,8 +10,10 @@ class IAudioInputStreamListener;
 class IAudioInputStream : public IAudioStream
 {
 public:
-  virtual void	setInputStream(IAudioDevice* inputDevice);
-  virtual void	setListener(IAudioInputStreamListener* listener);
+  virtual ~IAudioInputStream() {};
+
+  virtual	void	setInputDevice(IAudioDevice* inputDevice) = 0;
+  virtual	void	setListener(IAudioInputStreamListener* listener) = 0;
 };
 
 #endif /* IAUDIOINPUTSTREAM_HH */
