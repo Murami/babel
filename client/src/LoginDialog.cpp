@@ -12,9 +12,9 @@ int		LoginDialog::HEIGHT = 200;
 
 LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
-  this->_mainWindow = new MainWindow(core, this);
-  this->_loginDialog = new LoginEntryDialog(this->_core, this);
-  this->_registerDialog = new RegisterEntryDialog(this->_core, this);
+  this->_mainWindow = new MainWindow(core);
+  this->_loginDialog = new LoginEntryDialog(core, this);
+  this->_registerDialog = new RegisterEntryDialog(core, this);
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
   this->_layout = new QVBoxLayout();

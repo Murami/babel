@@ -50,6 +50,8 @@ void		LoginEntryDialog::onData(bool success)
 {
   if (success)
     {
+      // Ici il faut remonter l'event jusqu'a la classe mere
+      std::cout << "[" << this->_pseudoEdit->text().toStdString() << "] : Connected" << std::endl;
     }
   else
     this->_createErrorBox("Unable to log in",

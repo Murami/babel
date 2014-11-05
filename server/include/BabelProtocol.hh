@@ -1,6 +1,8 @@
 #ifndef _BABEL_PROTOCOL_HH_
 # define _BABEL_PROTOCOL_HH_
 
+# include <stdint.h>
+
 # define IP_SIZE       	0x40//64
 # define LOGIN_SIZE	0x80//128
 # define MD5_PASS_SIZE	0x80//128
@@ -10,12 +12,25 @@
 
 enum Type
   {
-    HEADER = 0, LOGIN = 1, LOGOUT = 2, REGISTER = 3,
-    USERINFO = 4, SENDMSG = 5, RECVMSG = 6,
-    CALL = 7, HANGOUT = 8, OK_LOGIN = 9,
-    KO_LOGIN = 10, OK_REGISTER = 11, KO_REGISTER = 12,
-    OK_CALL = 13, KO_CALL = 14, OK_MSG = 15,
-    KO_MSG = 16, SAMPLE = 17, IMG = 18,
+    HEADER = 0,
+    LOGIN = 1,
+    LOGOUT = 2,
+    REGISTER = 3,
+    USERINFO = 4,
+    SENDMSG = 5,
+    RECVMSG = 6,
+    CALL = 7,
+    HANGOUT = 8,
+    OK_LOGIN = 9,
+    KO_LOGIN = 10,
+    OK_REGISTER = 11,
+    KO_REGISTER = 12,
+    OK_CALL = 13,
+    KO_CALL = 14,
+    OK_MSG = 15,
+    KO_MSG = 16,
+    SAMPLE = 17,
+    IMG = 18,
     PING = 19
   };
 
@@ -26,7 +41,7 @@ enum DataType {AUDIO = 1, VIDEO = 2};
 struct		Header
 {
   Type		type;
-  size_t	size;
+  uint32_t	size;
 }__attribute__((packed));
 
 struct		LoginInfo

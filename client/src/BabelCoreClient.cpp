@@ -42,7 +42,7 @@ void BabelCoreClient::onConnect()
 
 void BabelCoreClient::onDisconnect()
 {
-  std::cout << "core fisconnect detected" << std::endl;
+  std::cout << "core disconnect detected" << std::endl;
   notifyDisconnect();
 }
 
@@ -101,8 +101,8 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
       	  memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
       					MSG_SIZE - 1).c_str(), MSG_SIZE);
       	  start = it + 1;
-      	  m_socket.write(&header);
-      	  m_socket.write(&info);
+      	  m_socket.write(&header, sizeof(NET::Header));
+      	  m_socket.write(&info, sizeof(info));
       	}
     }
   if (curr != 0 && (curr % (MSG_SIZE - 1) != 0))
@@ -110,8 +110,8 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
 
       memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
   				    MSG_SIZE - 1).c_str(), MSG_SIZE);
-      m_socket.write(&header);
-      m_socket.write(&info);
+      m_socket.write(&header, sizeof(NET::Header));
+      m_socket.write(&info, sizeof(info));
     }
 }
 
@@ -123,7 +123,7 @@ void BabelCoreClient::onUserCall(QString login)
 
 void BabelCoreClient::onUserLogin(QString login, QString pass)
 {
-  std::cout << __FUNCTION__ << std::endl;
+  // std::cout << __FUNCTION__ << std::endl;
 
   NET::Header		header;
   NET::LoginInfo	info;
@@ -134,8 +134,8 @@ void BabelCoreClient::onUserLogin(QString login, QString pass)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
-  m_socket.write(&header);
-  m_socket.write(&info);
+  m_socket.write(&header, sizeof(NET::Header));
+  m_socket.write(&info, sizeof(info));
 }
 
 void BabelCoreClient::onUserLogout(void)
@@ -150,7 +150,8 @@ void BabelCoreClient::onUserLogout(void)
 
 void BabelCoreClient::onUserRegister(QString login, QString pass)
 {
-  std::cout << __FUNCTION__ << std::endl;
+  std::cout << "\033[33m[ client ]\tSending register data\033[0m" << std::endl;
+  std::cout << "\033[33m[ client ]\tSize is " << sizeof(NET::Header) << "\033[0m" << std::endl;
 
   NET::Header		header;
   NET::LoginInfo	info;
@@ -159,8 +160,8 @@ void BabelCoreClient::onUserRegister(QString login, QString pass)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memcpy(info.md5_pass, pass.toStdString().c_str(), MD5_PASS_SIZE);
-  m_socket.write(&header);
-  m_socket.write(&info);
+  m_socket.write(&header, sizeof(header));
+  m_socket.write(&info, sizeof(info));
 }
 
 void BabelCoreClient::onUserAcceptCall(QString login)
@@ -174,8 +175,8 @@ void BabelCoreClient::onUserAcceptCall(QString login)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   info.status = NET::CONNECTED;
-  m_socket.write(&header);
-  m_socket.write(&info);
+  m_socket.write(&header, sizeof(NET::Header));
+  m_socket.write(&info, sizeof(info));
 }
 
 void BabelCoreClient::onUserDeclineCall(QString login)
@@ -189,8 +190,8 @@ void BabelCoreClient::onUserDeclineCall(QString login)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   info.status = NET::CONNECTED;
-  m_socket.write(&header);
-  m_socket.write(&info);
+  m_socket.write(&header, sizeof(NET::Header));
+  m_socket.write(&info, sizeof(info));
 }
 
 void BabelCoreClient::onUserHangout(QString login)
@@ -204,8 +205,8 @@ void BabelCoreClient::onUserHangout(QString login)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   info.status = NET::CONNECTED;
-  m_socket.write(&header);
-  m_socket.write(&info);
+  m_socket.write(&header, sizeof(NET::Header));
+  m_socket.write(&info, sizeof(info));
 }
 
 /* core control */
@@ -401,6 +402,7 @@ void BabelCoreClient::notifyLogin(bool rep)
 {
   std::list<ILoginListener *>::iterator it;
 
+  std::cout << __FUNCTION__ << std::endl;
   it = LoginListenerList.begin();
   for (; it != LoginListenerList.end(); ++it)
     (*it)->onData(rep);
