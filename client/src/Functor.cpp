@@ -40,48 +40,56 @@ void CallFunctor::operator()(BabelCoreClient & core, void *data)
 
 void OkLoginFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyLogin(true);
 }
 
 void KoLoginFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyLogin(false);
 }
 
 void OkRegisterFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyRegister(true);
 }
 
 void KoRegisterFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyRegister(false);
 }
 
 void OkCallFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyCallError(true);
 }
 
 void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyCallError(false);
 }
 
 void OkMsgFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyMsgError(true);
 }
 
 void KoMsgFunctor::operator()(BabelCoreClient & core, void *data)
 {
+  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyMsgError(false);
 }

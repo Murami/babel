@@ -1,14 +1,14 @@
 #ifndef BABEL_CORE_CLIENT_HH
-#define BABEL_CORE_CLIENT_HH
+# define BABEL_CORE_CLIENT_HH
 
-#include <list>
-#include <QString>
+# include <list>
+# include <QString>
 
-#include "IAsyncSocketListener.hh"
-#include "IWidgetListener.hh"
-#include "QTcpAsyncSocket.hh"
-#include "IFunctor.hh"
-#include "Protocol.hh"
+# include "IAsyncSocketListener.hh"
+# include "IWidgetListener.hh"
+# include "QTcpAsyncSocket.hh"
+# include "IFunctor.hh"
+# include "Protocol.hh"
 
 class ICallListener;
 class IConnectListener;
@@ -41,21 +41,19 @@ public slots:
   void onRead();
 
 public:
-  void onUserMsg();
-  void onUserCall();
-  void onUserLogin();
-  void onUserLogout();
-  void onUserRegister();
-  void onUserAcceptCall();
-  void onUserDeclineCall();
+  void onUserMsg(QString login, QString msg);
+  void onUserCall(QString login);
+  void onUserLogin(QString login, QString pass);
+  void onUserLogout(void);
+  void onUserRegister(QString login, QString pass);
+  void onUserAcceptCall(QString login);
+  void onUserDeclineCall(QString login);
+  void onUserHangout(QString login);
 
 public:
-  void read(char * data, qint64 maxSize);
-  void write(void * data);
-  void connect(QString address, quint16 port);
-  void disconnect();
-  void setTypeNeeded(NET::Type type);
-  NET::Type getTypeNeeded();
+  void		run();
+  void		setTypeNeeded(NET::Type type);
+  NET::Type	getTypeNeeded();
 
   void addCallListener(ICallListener * listener);
   void addConnectListener(IConnectListener * listener);

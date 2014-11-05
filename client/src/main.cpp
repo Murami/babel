@@ -3,19 +3,32 @@
 #include <QPushButton>
 #include <QtNetwork>
 
+#include <QSettings>
+
 #include "BabelCoreClient.hh"
 #include "QTcpAsyncSocket.hh"
+#include "ResourceManager.hpp"
+#include "MainWindow.hh"
+#include "LoginDialog.hh"
+#include "LoginEntryDialog.hh"
+#include "RegisterEntryDialog.hh"
+
+std::string	ResourcePath::BUTTON_NORMAL = "./res/button_normal.jpg";
+std::string	ResourcePath::BUTTON_HOVERED = "./res/button_hovered.jpg";
+std::string	ResourcePath::BUTTON_PRESSED = "./res/button_pressed.jpg";
+std::string	ResourcePath::BLUE_PELLET = "./res/blue_pellet.png";
+std::string	ResourcePath::RED_PELLET = "./res/red_pellet.png";
+ResourceManager	*ResourceManager::_instance = NULL;
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    QPushButton bouton("Salut les Zéros, la forme ?");
-    BabelCoreClient core;
+  QApplication app(argc, argv);
+  BabelCoreClient core;
+  LoginDialog w(core);
+  //LoginEntryDialog w(core);
+  //RegisterEntryDialog w(core);
 
-    core.connect("127.0.0.1", 4242);
-    char *str = strdup("toto");
-    core.write(str);
-
-    bouton.show();
-    return app.exec();
+  core.run();
+  w.show();
+  return app.exec();
 }

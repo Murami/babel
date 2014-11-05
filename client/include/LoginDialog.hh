@@ -5,6 +5,11 @@
 # include	<QPushButton>
 # include	<QDialog>
 
+class		MainWindow;
+class		LoginEntryDialog;
+class		RegisterEntryDialog;
+class		BabelCoreClient;
+
 class		LoginDialog : public QDialog
 {
   Q_OBJECT
@@ -14,16 +19,20 @@ public:
   static int	HEIGHT;
 
 private:
-  QVBoxLayout	*_layout;
-  QPushButton	*_signInButton;
-  QPushButton	*_logInButton;
+  QVBoxLayout		*_layout;
+  QPushButton		*_signInButton;
+  QPushButton		*_logInButton;
+  BabelCoreClient&	_core;
+  LoginEntryDialog	*_loginDialog;
+  RegisterEntryDialog	*_registerDialog;
+  MainWindow		*_mainWindow;
 
 private slots:
   void		createSignInDialog();
   void		createLogInDialog();
 
 public:
-  LoginDialog(QWidget *parent);
+  LoginDialog(BabelCoreClient&, QWidget *parent = 0);
   ~LoginDialog();
 };
 

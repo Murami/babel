@@ -1,12 +1,3 @@
-##
-## Makefile for  in /home/guerot/Workspace/epitech/git/babel/portaudio
-## 
-## Made by guerot
-## Login   <guerot@epitech.net>
-## 
-## Started on  Tue Nov  4 14:52:16 2014 guerot
-## Last update Tue Nov  4 14:52:17 2014 guerot
-##
 
 ## FILES
 
@@ -22,6 +13,7 @@ SRC		=	main			\
 			BoostAsyncTimer		\
 			AsyncTimer		\
 			BabelServer		\
+			BabelCall		\
 			BabelClient
 
 SRC_EXT		=	.cpp

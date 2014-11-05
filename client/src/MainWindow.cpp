@@ -9,10 +9,12 @@
 #include	"AddNewContactDialog.hh"
 #include	"WidgetButton.hh"
 
+#include	"BabelCoreClient.hh"
+
 int		MainWindow::WIDTH = 800;
 int		MainWindow::HEIGHT = 600;
 
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
+MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent), _core(core)
 {
   this->_widgetListView = new WidgetListView(this);
   this->_callButton = new WidgetButton("Call", this);
@@ -60,7 +62,7 @@ void		MainWindow::createLoginDialog()
 {
   LoginDialog	*dialog;
 
-  dialog = new LoginDialog(this);
+  dialog = new LoginDialog(this->_core, this);
   dialog->show();
 }
 

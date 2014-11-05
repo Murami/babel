@@ -52,7 +52,6 @@ unsigned int	CircularBuffer::peek(void* dest, size_t size)
     cpySize = size;
   memcpy(destBytes, m_buffer + m_start, cpySize);
   memcpy(destBytes + cpySize, m_buffer, size - cpySize);
-
   return (size);
 }
 

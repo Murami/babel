@@ -1,3 +1,4 @@
+#include "Protocol.hh"
 #include "QTcpAsyncSocket.hh"
 
 QTcpAsyncSocket::QTcpAsyncSocket()
@@ -31,16 +32,18 @@ void QTcpAsyncSocket::disconnect()
 
 void QTcpAsyncSocket::read(char * data, qint64 maxSize)
 {
+  std::cout << "\033[34m[ client ]\tReading data from server\033[0m" << std::endl;
   m_socket.read(data, maxSize);
 }
 
 void QTcpAsyncSocket::write(void *data)
 {
-  QByteArray paquet;
-  QDataStream out(&paquet, QIODevice::WriteOnly);
-  out << data;
+  m_socket.write(reinterpret_cast<const char*>(const_cast<void*>(data)));
+}
 
-  m_socket.write(paquet);
+void QTcpAsyncSocket::write(void *data, qint64 size)
+{
+  m_socket.write(reinterpret_cast<const char*>(const_cast<void*>(data)), size);
 }
 
 QHostAddress & QTcpAsyncSocket::getAddress()
