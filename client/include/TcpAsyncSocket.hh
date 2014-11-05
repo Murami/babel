@@ -3,9 +3,6 @@
 
 #include <QtNetwork>
 #include <QObject>
-#include <QHostAddress>
-#include <QtGlobal>
-
 #include <stdint.h>
 #include <iostream>
 
@@ -23,17 +20,17 @@ public:
 
   void			connect(std::string address, uint16_t port);
   void			disconnect();
-  void			read(char * data, qint64 maxSize);
+  void			read(char * data, int64_t maxSize);
   void			write(void *data);
-  void			write(void *data, qint64 size);
-  QHostAddress &	getAddress();
-  quint16 &		getPort();
-  quint64		bytesAvailable ();
+  void			write(void *data, int64_t size);
+  std::string &		getAddress();
+  uint16_t &		getPort();
+  uint64_t		bytesAvailable();
 
 public slots:
   void			onConnect();
   void			onDisconnect();
-  void			onError(QAbstractSocket::SocketError error);
+  void			onError(int error);
   void			onRead();
 
 public:
@@ -42,15 +39,15 @@ public:
 private:
   void			notifyConnect();
   void			notifyDisconnect();
-  void			notifyError(QAbstractSocket::SocketError error);
+  void			notifyError(int error);
   void			notifyRead();
 
 
 private:
   std::list<ITcpAsyncSocketListener *>	m_listenerList;
   QTcpSocket				m_socket;
-  QHostAddress				m_address;
-  quint16				m_port;
+  std::string				m_address;
+  uint16_t				m_port;
 };
 
 #endif

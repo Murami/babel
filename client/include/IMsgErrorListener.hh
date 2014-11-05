@@ -4,7 +4,7 @@
 class		IMsgErrorListener
 {
 public:
-  virtual void	onData(bool) = 0;
+  virtual void	onMsgError(bool) = 0;
 };
 
 #endif

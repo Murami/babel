@@ -62,7 +62,7 @@ void BabelCoreClient::onDisconnect()
   notifyDisconnect();
 }
 
-void BabelCoreClient::onError(QAbstractSocket::SocketError error)
+void BabelCoreClient::onError(int error)
 {
   std::cout << "core error detected" << std::endl;
   notifyError(errorMap[error]);
@@ -73,17 +73,18 @@ void BabelCoreClient::onRead()
   std::cout << "core data read to read" << std::endl;
 
   m_timer.setInterval(30000);
-  if (m_socket.bytesAvailable() < sizeTypeMap[typeNeeded])
-    return;
-  m_socket.read(buffer,sizeTypeMap[typeNeeded]);
-  if (typeNeeded == NET::T_HEADER)
+  while (m_socket.bytesAvailable() >= sizeTypeMap[typeNeeded])
     {
-      NET::Header* tmp = reinterpret_cast<NET::Header*>(buffer);
-      (*functorTypeMap[tmp->type])(*this, buffer);
-    }
-  else
-    {
-      (*functorTypeMap[typeNeeded])(*this, buffer);
+      m_socket.read(buffer, sizeTypeMap[typeNeeded]);
+      if (typeNeeded == NET::T_HEADER)
+	{
+	  NET::Header* tmp = reinterpret_cast<NET::Header*>(buffer);
+	  (*functorTypeMap[tmp->type])(*this, buffer);
+	}
+      else
+	{
+	  (*functorTypeMap[typeNeeded])(*this, buffer);
+	}
     }
 }
 
@@ -140,14 +141,14 @@ void BabelCoreClient::onUserCall(QString login)
 
 void BabelCoreClient::onUserLogin(QString login, QString pass)
 {
-  // std::cout << __FUNCTION__ << std::endl;
+  std::cout << __FUNCTION__ << std::endl;
 
   NET::Header		header;
   NET::LoginInfo	info;
 
-  QString md5_pass = QString(QCryptographicHash::hash(pass.toLatin1(),QCryptographicHash::Md5).toHex());
+  QString md5_pass = QString(QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5).toHex());
 
-  header.type = NET::T_CALL;
+  header.type = NET::T_LOGIN;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
@@ -174,10 +175,12 @@ void BabelCoreClient::onUserRegister(QString login, QString pass)
   NET::Header		header;
   NET::LoginInfo	info;
 
+  QString md5_pass = QString(QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5).toHex());
+
   header.type = NET::T_REGISTER;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
-  memcpy(info.md5_pass, pass.toStdString().c_str(), MD5_PASS_SIZE);
+  memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
   m_socket.write(&header, sizeof(header));
   m_socket.write(&info, sizeof(info));
 }
@@ -377,7 +380,7 @@ void BabelCoreClient::notifyCall(NET::CallInfo info)
 
   it = CallListenerList.begin();
   for (; it != CallListenerList.end(); ++it)
-    (*it)->onData(info);
+    (*it)->onCall(info);
 }
 
 void BabelCoreClient::notifyConnect(void)
@@ -386,7 +389,7 @@ void BabelCoreClient::notifyConnect(void)
 
   it = ConnectListenerList.begin();
   for (; it != ConnectListenerList.end(); ++it)
-    (*it)->onData();
+    (*it)->onConnect();
 }
 
 void BabelCoreClient::notifyDisconnect(void)
@@ -395,7 +398,7 @@ void BabelCoreClient::notifyDisconnect(void)
 
   it = DisconnectListenerList.begin();
   for (; it != DisconnectListenerList.end(); ++it)
-    (*it)->onData();
+    (*it)->onDisconnect();
 }
 
 void BabelCoreClient::notifyError(QString error)
@@ -404,7 +407,7 @@ void BabelCoreClient::notifyError(QString error)
 
   it = ErrorListenerList.begin();
   for (; it != ErrorListenerList.end(); ++it)
-    (*it)->onData(error);
+    (*it)->onError(error);
 }
 
 void BabelCoreClient::notifyCallError(bool rep)
@@ -413,7 +416,7 @@ void BabelCoreClient::notifyCallError(bool rep)
 
   it = CallErrorListenerList.begin();
   for (; it != CallErrorListenerList.end(); ++it)
-    (*it)->onData(rep);
+    (*it)->onCallError(rep);
 }
 
 void BabelCoreClient::notifyLogin(bool rep)
@@ -423,7 +426,7 @@ void BabelCoreClient::notifyLogin(bool rep)
   std::cout << __FUNCTION__ << std::endl;
   it = LoginListenerList.begin();
   for (; it != LoginListenerList.end(); ++it)
-    (*it)->onData(rep);
+    (*it)->onLogin(rep);
 }
 
 void BabelCoreClient::notifyRegister(bool rep)
@@ -432,7 +435,7 @@ void BabelCoreClient::notifyRegister(bool rep)
 
   it = RegisterListenerList.begin();
   for (; it != RegisterListenerList.end(); ++it)
-    (*it)->onData(rep);
+    (*it)->onRegister(rep);
 }
 
 void BabelCoreClient::notifyMsg(NET::MsgInfo info)
@@ -441,7 +444,7 @@ void BabelCoreClient::notifyMsg(NET::MsgInfo info)
 
   it = MsgListenerList.begin();
   for (; it != MsgListenerList.end(); ++it)
-    (*it)->onData(info);
+    (*it)->onMsg(info);
 }
 
 void BabelCoreClient::notifyMsgError(bool rep)
@@ -450,7 +453,7 @@ void BabelCoreClient::notifyMsgError(bool rep)
 
   it = MsgErrorListenerList.begin();
   for (; it != MsgErrorListenerList.end(); ++it)
-    (*it)->onData(rep);
+    (*it)->onMsgError(rep);
 }
 
 void BabelCoreClient::notifyUserInfo(NET::UserInfo info)
@@ -459,5 +462,5 @@ void BabelCoreClient::notifyUserInfo(NET::UserInfo info)
 
   it = UserInfoListenerList.begin();
   for (; it != UserInfoListenerList.end(); ++it)
-    (*it)->onData(info);
+    (*it)->onUserInfo(info);
 }
