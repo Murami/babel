@@ -26,7 +26,7 @@ WidgetListView::WidgetListView(QWidget *parent) : QListView(parent)
 
 void		WidgetListView::setSelectedContact(const QModelIndex& index)
 {
-  if (index.row() < this->_contactList.size())
+  if (index.row() < static_cast<int>(this->_contactList.size()))
     this->_selectedContactIndex = index.row();
   std::cout << this->getSelectedContactName() << std::endl << std::boolalpha << this->isSelectedContactConnected() << std::endl << std::endl;
 }

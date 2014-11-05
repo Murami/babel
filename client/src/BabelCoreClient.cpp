@@ -1,3 +1,6 @@
+#include <QSettings>
+#include <cstring>
+
 #include "BabelCoreClient.hh"
 #include "ICallErrorListener.hh"
 #include "IConnectListener.hh"
@@ -70,60 +73,158 @@ void BabelCoreClient::onRead()
 
 /* listened view event */
 
-void BabelCoreClient::onUserMsg()
+void BabelCoreClient::onUserMsg(QString login, QString msg)
 {
-  /* on cree un header msg */
-  /* on cree une structure msg */
-  /* on send le header */
-  /* on send la stucture */
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header		header;
+  NET::MsgInfo		info;
+  std::string		s_msg;
+  std::string::iterator it;
+  std::string::iterator start;
+  int			curr;
+
+  s_msg = msg.toStdString();
+  it = s_msg.begin();
+  start = s_msg.begin();
+
+  header.type = NET::T_SENDMSG;
+  header.size = sizeof(info);
+
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+
+  for (; it != s_msg.end(); ++it)
+    {
+      curr = std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *it));
+      if ((curr != 0) && (curr % (MSG_SIZE - 1) == 0))
+      	{
+      	  memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
+      					MSG_SIZE - 1).c_str(), MSG_SIZE);
+      	  start = it + 1;
+      	  m_socket.write(&header);
+      	  m_socket.write(&info);
+      	}
+    }
+  if (curr != 0 && (curr % (MSG_SIZE - 1) != 0))
+    {
+
+      memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
+  				    MSG_SIZE - 1).c_str(), MSG_SIZE);
+      m_socket.write(&header);
+      m_socket.write(&info);
+    }
 }
 
-void BabelCoreClient::onUserCall()
+void BabelCoreClient::onUserCall(QString login)
 {
+  std::cout << __FUNCTION__ << std::endl;
   /* on vera quand quentin fera port audio */
 }
 
-void BabelCoreClient::onUserLogin()
+void BabelCoreClient::onUserLogin(QString login, QString pass)
 {
-  /* on cree un header login */
-  /* on cree une structure login */
-  /* on send le header */
-  /* on send la stucture */
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header		header;
+  NET::LoginInfo	info;
+
+  QString md5_pass = QString(QCryptographicHash::hash(pass.toLatin1(),QCryptographicHash::Md5));
+
+  header.type = NET::T_CALL;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
+  m_socket.write(&header);
+  m_socket.write(&info);
 }
 
-void BabelCoreClient::onUserLogout()
+void BabelCoreClient::onUserLogout(void)
 {
-  /* on cree un header logout */
-  /* on cree une structure logout */
-  /* on send le header */
-  /* on send la stucture */
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header header;
+
+  header.type = NET::T_LOGOUT;
+  header.size = 0;
 }
 
-void BabelCoreClient::onUserRegister()
+void BabelCoreClient::onUserRegister(QString login, QString pass)
 {
-  /* on cree un header register */
-  /* on cree une structure register */
-  /* on send le header */
-  /* on send la stucture */
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header		header;
+  NET::LoginInfo	info;
+
+  header.type = NET::T_REGISTER;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.md5_pass, pass.toStdString().c_str(), MD5_PASS_SIZE);
+  m_socket.write(&header);
+  m_socket.write(&info);
 }
 
-void BabelCoreClient::onUserAcceptCall()
+void BabelCoreClient::onUserAcceptCall(QString login)
 {
-  /* on cree un header ok_call */
-  /* on cree une structure ok_call */
-  /* on send le header */
-  /* on send la stucture */
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header	header;
+  NET::UserInfo info;
+
+  header.type = NET::T_OK_CALL;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  info.status = NET::CONNECTED;
+  m_socket.write(&header);
+  m_socket.write(&info);
 }
 
-void BabelCoreClient::onUserDeclineCall()
+void BabelCoreClient::onUserDeclineCall(QString login)
 {
-  /* on cree un header ko_call */
-  /* on cree une structure ko_call */
-  /* on send le header */
-  /* on send la stucture */
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header	header;
+  NET::UserInfo info;
+
+  header.type = NET::T_KO_CALL;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  info.status = NET::CONNECTED;
+  m_socket.write(&header);
+  m_socket.write(&info);
+}
+
+void BabelCoreClient::onUserHangout(QString login)
+{
+  std::cout << __FUNCTION__ << std::endl;
+
+  NET::Header	header;
+  NET::UserInfo info;
+
+  header.type = NET::T_HANGOUT;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  info.status = NET::CONNECTED;
+  m_socket.write(&header);
+  m_socket.write(&info);
 }
 
 /* core control */
+
+void BabelCoreClient::run()
+{
+  /* a faire dans le onUserLogin */
+  QSettings *settings = new QSettings("setting.ini", QSettings::IniFormat);
+  QString address("127.0.0.1");
+  quint16 port(1234);
+
+  if (settings->contains("ip") == true)
+    address = settings->value("ip").toString();
+
+  if (settings->contains("port") == true)
+    port = settings->value("port").toUInt();
+
+  m_socket.connect(address, port);
+}
 
 void BabelCoreClient::setTypeNeeded(NET::Type type)
 {
@@ -195,28 +296,6 @@ BabelCoreClient::ErrorMap BabelCoreClient::initializeErrorMap()
   map[QAbstractSocket::UnknownSocketError] = "An unidentified error occurred.";
 
   return (map);
-}
-
-/* socket control */
-
-void BabelCoreClient::read(char * data, qint64 maxSize)
-{
-  m_socket.read(data, maxSize);
-}
-
-void BabelCoreClient::write(void * data)
-{
-  m_socket.write(data);
-}
-
-void BabelCoreClient::connect(QString address, quint16 port)
-{
-  m_socket.connect(address, port);
-}
-
-void BabelCoreClient::disconnect()
-{
-  m_socket.disconnect();
 }
 
 /* add listener */

@@ -36,11 +36,7 @@ void QTcpAsyncSocket::read(char * data, qint64 maxSize)
 
 void QTcpAsyncSocket::write(void *data)
 {
-  QByteArray paquet;
-  QDataStream out(&paquet, QIODevice::WriteOnly);
-  out << data;
-
-  m_socket.write(paquet);
+  // m_socket.write(reinterpret_cast<const char*>(const_cast<void*>(data)));
 }
 
 QHostAddress & QTcpAsyncSocket::getAddress()
