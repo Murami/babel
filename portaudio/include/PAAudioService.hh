@@ -3,10 +3,13 @@
 
 #include "IAudioService.hh"
 
+class AudioDevice;
+
 class PAAudioService : public IAudioService
 {
 private:
   bool				m_initialized;
+  static PAAudioService*	m_instance;
 
 private:
   PAAudioService();
@@ -20,8 +23,9 @@ public:
   void				release();
   bool				isInitialized() const;
   unsigned int			getDeviceCount() const;
-  unsigned int			getDefaultInputDevice() const;
-  unsigned int			getDefaultOutputDevice() const;
+  IAudioDevice*			getDefaultInputDevice() const;
+  IAudioDevice*			getDefaultOutputDevice() const;
+  IAudioDevice*			getDevice(unsigned int index) const;
 };
 
 #endif /* PAAUDIOSERVICE_HH */

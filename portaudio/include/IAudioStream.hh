@@ -1,21 +1,31 @@
 #ifndef IAUDIOSTREAM_HH
 #define IAUDIOSTREAM_HH
 
+enum SampleFormat
+  {
+    Float32,
+    Int32,
+    Int24,
+    Int16,
+    Int8,
+    UInt8
+  };
+
 class IAudioStreamListener;
 
 class IAudioStream
 {
 public:
-  virtual void	addListener(IAudioStreamListener& listener) = 0;
-  virtual void	deleteListener(IAudioStreamListener& listener) = 0;
-
-  virtual void	setInputStream(int inputDevice, int channelCount);
-  virtual void	setOutputStream(int outputDevice , int channelCount);
-  virtual bool	isActive() = 0;
-  virtual void	open(double sampleRate, unsigned long framesPerBuffer
+  virtual void	setSampleFormat(SampleFormat format);
+  virtual void	setChannels(unsigned int channels) = 0;
+  virtual void	setSampleRate(unsigned int sampleRate) = 0;
+  virtual void	setFramesPerBuffer(unsigned int framesPerBuffer) = 0;
+  virtual bool	active() = 0;
   virtual void	close() = 0;
   virtual void	start() = 0;
   virtual void	stop() = 0;
+
+  virtual void	open() = 0;
 };
 
 #endif /* IAUDIOSTREAM_HH */
