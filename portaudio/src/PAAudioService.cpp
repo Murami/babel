@@ -1,7 +1,10 @@
 #include "PAAudioService.hh"
+#include "PAAudioDevice.hh"
 
 #include <cstdlib>
 #include <portaudio.h>
+
+PAAudioService*	PAAudioService::m_instance = NULL;
 
 PAAudioService::PAAudioService()
 {
@@ -14,34 +17,55 @@ PAAudioService::~PAAudioService()
     this->release();
 }
 
-void		PAAudioService::initialize()
+PAAudioService*		PAAudioService::getInstance()
+{
+  if (m_instance == NULL)
+    m_instance = new PAAudioService;
+  return (m_instance);
+}
+
+void			PAAudioService::deleteInstance()
+{
+  if (m_instance != NULL)
+    delete m_instance;
+  m_instance = NULL;
+}
+
+void			PAAudioService::initialize()
 {
   Pa_Initialize();
   m_initialized = true;
 }
 
-void		PAAudioService::release()
+void			PAAudioService::release()
 {
   Pa_Terminate();
   m_initialized = false;
 }
 
-unsigned int	PAAudioService::getDeviceCount() const
+unsigned int		PAAudioService::getDeviceCount() const
 {
   return (Pa_GetDeviceCount());
 }
 
-bool		PAAudioService::isInitialized() const
+bool			PAAudioService::isInitialized() const
 {
   return (m_initialized);
 }
 
-unsigned int	PAAudioService::getDefaultInputDevice() const
+IAudioDevice*		PAAudioService::getDefaultInputDevice() const
 {
-  return (Pa_GetDefaultInputDevice());
+  return (getDevice(Pa_GetDefaultInputDevice()));
 }
 
-unsigned int	PAAudioService::getDefaultOutputDevice() const
+IAudioDevice*		PAAudioService::getDefaultOutputDevice() const
 {
-  return (Pa_GetDefaultOutputDevice());
+  return (getDevice(Pa_GetDefaultOutputDevice()));
+}
+
+IAudioDevice*		PAAudioService::getDevice(unsigned int index) const
+{
+  if (index >= getDeviceCount())
+    return (NULL);
+  return (new PAAudioDevice(index));
 }

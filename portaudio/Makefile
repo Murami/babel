@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Tue Nov  4 14:50:29 2014 guerot
+## Last update Wed Nov  5 11:42:32 2014 guerot
 ##
 
 ## FILES
@@ -14,7 +14,12 @@ NAME		=	babel_server
 
 SRC		=	main			\
 			PAAudioService		\
-			PAAudioStream
+			APAAudioStream		\
+			PAAudioInputStream	\
+			PAAudioOutputStream	\
+			AudioOperator		\
+			AudioRecorder		\
+			AudioPlayer
 
 SRC_EXT		=	.cpp
 
@@ -48,7 +53,7 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	g++ -fmax-errors=5
+CC		=	g++ -fmax-errors=10
 # CC		=	clang++ -ferror-limit=5
 RM		=	rm -rf
 MD		=	mkdir -p
