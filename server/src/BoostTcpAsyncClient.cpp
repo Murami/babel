@@ -26,6 +26,7 @@ void	BoostTcpAsyncClient::writeSome(char* buffer, size_t size)
 
 void	BoostTcpAsyncClient::read(char* buffer, size_t size)
 {
+  std::cout << "BEGIN READ of size " << size << std::endl;
   boost::asio::async_read(m_socket, boost::asio::buffer(buffer, size),
 			  boost::bind(&BoostTcpAsyncClient::onRead, this, buffer,
 				      boost::asio::placeholders::bytes_transferred,
@@ -45,6 +46,8 @@ boost::asio::ip::tcp::socket&	BoostTcpAsyncClient::getSocket()
 {
   return (m_socket);
 }
+
+#include "BabelProtocol.hh"
 
 void	BoostTcpAsyncClient::onRead(char* buffer, std::size_t transferred, const boost::system::error_code& /*e*/)
 {

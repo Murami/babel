@@ -22,6 +22,7 @@ public:
   void disconnect();
   void read(char * data, qint64 maxSize);
   void write(void *data);
+  void write(void *data, qint64 size);
   QHostAddress & getAddress();
   quint16 & getPort();
   quint64 bytesAvailable ();

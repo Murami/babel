@@ -1,14 +1,14 @@
 #ifndef BABEL_CORE_CLIENT_HH
-#define BABEL_CORE_CLIENT_HH
+# define BABEL_CORE_CLIENT_HH
 
-#include <list>
-#include <QString>
+# include <list>
+# include <QString>
 
-#include "IAsyncSocketListener.hh"
-#include "IWidgetListener.hh"
-#include "QTcpAsyncSocket.hh"
-#include "IFunctor.hh"
-#include "Protocol.hh"
+# include "IAsyncSocketListener.hh"
+# include "IWidgetListener.hh"
+# include "QTcpAsyncSocket.hh"
+# include "IFunctor.hh"
+# include "Protocol.hh"
 
 class ICallListener;
 class IConnectListener;

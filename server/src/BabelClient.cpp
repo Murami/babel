@@ -9,12 +9,14 @@ BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server, BoostAsyn
   m_server(server),
   m_timer(service)
 {
+  initMap();
   memset(m_writeBuffer, 0, 4096);
   memset(m_readBuffer, 0, 4096);
   m_isConnect = false;
   m_type = HEADER;
   m_timer.addListener(this);
   m_timer.wait(5, 0);
+  m_client.addListener(this);
   m_client.read(m_readBuffer, sizeof(Header));
   m_isWriting = false;
 }
@@ -55,7 +57,8 @@ void	BabelClient::initMap()
 void		BabelClient::onRead(ITcpAsyncClient& /*client*/, char* buffer,
 			    std::size_t /* size */ )
 {
-  (this->*m_map[m_type])(static_cast<void*>(buffer));
+  std::cout << "\033[35m[ server ]\tReading data from client\033[0m" << std::endl;
+  (this->*m_map[m_type])(buffer);
 }
 
 void		BabelClient::onWrite(ITcpAsyncClient& /*client*/,
@@ -125,7 +128,7 @@ void		BabelClient::onHeader(void *param)
       if (header->type != HEADER)
 	(this->*m_map[m_type])(param);
       m_type = HEADER;
-      m_client.read(m_readBuffer, sizeof(HEADER));
+      m_client.read(m_readBuffer, sizeof(Header));
     }
 }
 
