@@ -1,15 +1,17 @@
 #ifndef	_BABEL_CALL_
 # define _BABEL_CALL_
 
+class BabelClient;
 
 class BabelCall
 {
+
 public:
   BabelCall(BabelClient*, BabelClient*);
   ~BabelCall();
 
   BabelClient*		getDestination();
-  BabelClient*		getInterluctor();
+  BabelClient*		getInterluctor(BabelClient*);
   BabelClient*		getSource();
   unsigned int		getTimestart() const;
   bool			isValid() const;

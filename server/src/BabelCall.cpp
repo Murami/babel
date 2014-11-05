@@ -8,7 +8,7 @@ BabelCall::BabelCall(BabelClient* dest, BabelClient* src)
   m_timer = 0;
 }
 
-~BabelCall::BabelCall()
+BabelCall::~BabelCall()
 {
 
 }

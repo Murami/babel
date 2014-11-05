@@ -1,17 +1,3 @@
-##
-## Makefile for  in /home/guerot/Workspace/epitech/git/babel/portaudio
-## 
-## Made by guerot
-## Login   <guerot@epitech.net>
-## 
-<<<<<<< HEAD
-## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Wed Nov  5 01:38:18 2014 audisio romain
-=======
-## Started on  Tue Nov  4 14:52:16 2014 guerot
-## Last update Tue Nov  4 14:52:17 2014 guerot
->>>>>>> a65594bed802bdeae76582655cb766c0eba701b5
-##
 
 ## FILES
 
