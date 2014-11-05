@@ -126,7 +126,7 @@ void				BabelServer::addAccount(BabelAccountEntry account)
 
   if (file)
     {
-      file << account.login << ";" << account.md5pass;
+      file << account.login << ";" << account.md5pass << "\n";
     }
 }
 

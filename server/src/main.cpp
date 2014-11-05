@@ -2,7 +2,7 @@
 
 int	main()
 {
-  Babel babel(4242);
+  Babel babel(1234);
 
   babel.run();
   return (0);

@@ -18,7 +18,6 @@ BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server,
   m_timer.addListener(this);
   m_client.addListener(this);
   m_timer.wait(5, 0);
-  m_client.addListener(this);
   m_client.read(m_readBuffer, sizeof(Header));
   m_isWriting = false;
 }
@@ -119,6 +118,7 @@ void		BabelClient::onHeader(void *param)
 {
   Header	*header = static_cast<Header*>(param);
 
+  std::cout << "Callback Header" << std::endl;
   if (std::find(m_headerType.begin(),
 		m_headerType.end(), header->type) == m_headerType.end())
     {
@@ -138,8 +138,9 @@ void		BabelClient::onLogin(void *param)
 {
   LoginInfo	*loginInfo = static_cast<LoginInfo*>(param);
 
-  if (m_isConnect == false && m_server.authClient(std::string(loginInfo->user),
-						  std::string(loginInfo->md5_pass)))
+  std::cout << "Callback Login" << std::endl;
+  if (m_isConnect == false && m_server.getClient(std::string(loginInfo->user)) == NULL &&
+      m_server.authClient(std::string(loginInfo->user), std::string(loginInfo->md5_pass)))
     {
       // notify other clients -> sendLogin
       // for () // comment je cible chaque client
@@ -156,13 +157,15 @@ void		BabelClient::onLogin(void *param)
       m_isConnect = false;
       sendKOLogin();
     }
-  m_client.read(m_readBuffer, sizeof(Header));
+  m_type = HEADER;
+ m_client.read(m_readBuffer, sizeof(Header));
 }
 
 void		BabelClient::onLogout(void * /*param*/)
 {
   // notify server
   // fonction deconnect sur le servuer (pop de la list et le ( guerot ) fermeture de la socket)
+  std::cout << "onLogout" << std::endl;
   m_server.popClient(this);
   m_client.deleteListener(this);
   m_timer.deleteListener(this);
@@ -171,22 +174,29 @@ void		BabelClient::onLogout(void * /*param*/)
 
 void		BabelClient::onRegister(void *param)
 {
-  LoginInfo	*loginInfo = static_cast<LoginInfo*>(param);
+  LoginInfo		*loginInfo = static_cast<LoginInfo*>(param);
+  BabelAccountEntry	account;
 
-  if (m_isConnect == false && m_server.registerClient(std::string(loginInfo->user),
-						      std::string(loginInfo->md5_pass)))
+  std::cout << "Callback Register" << std::endl;
+  if (m_isConnect == false && m_server.getClient(std::string(loginInfo->user)) == NULL &&
+      m_server.registerClient(std::string(loginInfo->user),
+			      std::string(loginInfo->md5_pass)))
     {
       m_name = std::string(loginInfo->user);
       m_mdp = std::string(loginInfo->md5_pass);
       m_isConnect = true;
       sendOKRegister();
       sendOKLogin();
+      account.login = m_name;
+      account.md5pass = m_mdp;
+      m_server.addAccount(account);
     }
   else
     {
       m_isConnect = false;
       sendKORegister();
     }
+  m_type = HEADER;
 }
 
 void		BabelClient::onCall(void *param)
