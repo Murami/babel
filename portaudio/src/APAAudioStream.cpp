@@ -1,5 +1,4 @@
 #include "APAAudioStream.hh"
-#include "IAudioStreamListener.hh"
 
 #include <cstdlib>
 #include <algorithm>
@@ -62,14 +61,17 @@ void		setSampleFormat(SampleFormat format)
 
 void		setChannels(unsigned int channels)
 {
+  m_channels = channels;
 }
 
 void		setSampleRate(unsigned int sampleRate)
 {
+  m_sampleRate = sampleRate;
 }
 
 void		setFramesPerBuffer(unsigned int framesPerBuffer)
 {
+  m_framesPerBuffer = framesPerBuffer;
 }
 
 SampleFormat	getSampleFormat()
