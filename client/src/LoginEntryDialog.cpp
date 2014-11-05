@@ -5,6 +5,7 @@
 #include	"BabelCoreClient.hh"
 #include	"MainWindow.hh"
 #include	"Protocol.hh"
+#include	"LoginDialog.hh"
 
 LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
@@ -28,7 +29,6 @@ LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDi
   connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(this->_logInButton, SIGNAL(clicked()), this, SLOT(sendData()));
   connect(this->_passwordEdit, SIGNAL(returnPressed()), this, SLOT(sendData()));
-  core.addLoginListener(this);
 }
 
 void		LoginEntryDialog::sendData()
@@ -43,15 +43,18 @@ void		LoginEntryDialog::sendData()
     this->_createErrorBox("Login too short",
 			  "Login is too short");
   else
-    this->_core.onUserLogin(user, pass);
+    {
+      std::cout << "SENDING LOGIN" << std::endl;
+      this->_core.onUserLogin(user, pass);
+    }
 }
 
 void		LoginEntryDialog::onData(bool success)
 {
   if (success)
     {
-      // Ici il faut remonter l'event jusqu'a la classe mere
-      std::cout << "[" << this->_pseudoEdit->text().toStdString() << "] : Connected" << std::endl;
+      this->_parent->onLogin(this->_pseudoEdit->text());
+      this->close();
     }
   else
     this->_createErrorBox("Unable to log in",

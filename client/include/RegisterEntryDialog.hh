@@ -8,6 +8,7 @@
 # include	"WidgetButton.hh"
 # include	"IRegisterListener.hh"
 
+class		LoginDialog;
 class		BabelCoreClient;
 
 class		RegisterEntryDialog : public QDialog, public IRegisterListener
@@ -23,6 +24,7 @@ private:
   QLineEdit		*_pseudoEdit;
   QLineEdit		*_passwordEdit1;
   QLineEdit		*_passwordEdit2;
+  LoginDialog		*_parent;
 
 private:
   void		_createErrorBox(const QString&, const QString&);

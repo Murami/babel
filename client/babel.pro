@@ -2,6 +2,8 @@ CONFIG += qt
 QT += core gui widgets network
 INCLUDEPATH += include/
 
+QMAKE_CXXFLAGS += -g3
+
 HEADERS += 	include/QTcpAsyncSocket.hh 	\
 		include/BabelCoreClient.hh 	\
 		include/IAsyncSocketListener.hh \

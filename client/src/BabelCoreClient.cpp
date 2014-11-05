@@ -131,11 +131,11 @@ void BabelCoreClient::onUserLogin(QString login, QString pass)
 
   QString md5_pass = QString(QCryptographicHash::hash(pass.toLatin1(),QCryptographicHash::Md5));
 
-  header.type = NET::T_CALL;
+  header.type = NET::T_LOGIN;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
-  m_socket.write(&header, sizeof(NET::Header));
+  m_socket.write(&header, sizeof(header));
   m_socket.write(&info, sizeof(info));
 }
 

@@ -26,6 +26,11 @@ private:
   LoginEntryDialog	*_loginDialog;
   RegisterEntryDialog	*_registerDialog;
   MainWindow		*_mainWindow;
+  bool			_register;
+
+public:
+  void		onRegister(const QString&);
+  void		onLogin(const QString&);
 
 private slots:
   void		createSignInDialog();

@@ -12,9 +12,13 @@ int		LoginDialog::HEIGHT = 200;
 
 LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
+  this->_register = false;
   this->_mainWindow = new MainWindow(core);
+
   this->_loginDialog = new LoginEntryDialog(core, this);
+
   this->_registerDialog = new RegisterEntryDialog(core, this);
+
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
   this->_layout = new QVBoxLayout();
@@ -29,13 +33,32 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
   connect(this->_logInButton, SIGNAL(clicked()), this, SLOT(createLogInDialog()));
 }
 
+void		LoginDialog::onLogin(const QString& username)
+{
+  std::cout << "YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << username.toStdString() << std::endl;
+  this->_mainWindow->setConnectedUserName(username);
+  this->_mainWindow->show();
+  this->hide();
+}
+
+void		LoginDialog::onRegister(const QString& username)
+{
+  std::cout << "YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << username.toStdString() << std::endl;
+  this->_register = true;
+  this->_mainWindow->setConnectedUserName(username);
+  this->_mainWindow->show();
+  this->hide();
+}
+
 void		LoginDialog::createLogInDialog()
 {
+  this->_core.addLoginListener(this->_loginDialog);
   this->_loginDialog->show();
 }
 
 void		LoginDialog::createSignInDialog()
 {
+  this->_core.addRegisterListener(this->_registerDialog);
   this->_registerDialog->show();
 }
 
