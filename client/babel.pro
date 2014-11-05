@@ -30,6 +30,8 @@ HEADERS += 	include/QTcpAsyncSocket.hh 	\
 		include/ResourceManager.hpp	\
 		include/LoginEntryDialog.hh	\
 		include/RegisterEntryDialog.hh	\
+                include/ITimerListener.hh       \
+                include/Timer.hh
 
 SOURCES += 	src/main.cpp 			\
 		src/QTcpAsyncSocket.cpp 	\
@@ -45,5 +47,6 @@ SOURCES += 	src/main.cpp 			\
 		src/WidgetTextView.cpp		\
 		src/LoginEntryDialog.cpp	\
 		src/RegisterEntryDialog.cpp	\
+                src/Timer.cpp
 
 OBJECTS_DIR	=	src/
