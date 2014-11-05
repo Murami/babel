@@ -27,6 +27,7 @@ public:
 
 
   bool				createCall(BabelClient* dest, BabelClient* src);
+  void				popClient(BabelClient* client);
 
   BabelClient*			getClient(const std::string & name);
   std::list<BabelClient*>	getAllClients();

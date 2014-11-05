@@ -109,3 +109,8 @@ bool				BabelServer::createCall(BabelClient* dest, BabelClient *src)
   m_calls.push_back(new BabelCall(dest, src));
   return true;
 }
+
+void				BabelServer::popClient(BabelClient * client)
+{
+  m_clients.remove(client);
+}

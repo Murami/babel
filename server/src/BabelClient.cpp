@@ -137,7 +137,7 @@ void		BabelClient::onLogin(void *param)
 						  std::string(loginInfo->md5_pass)))
     {
       // notify other clients -> sendLogin
-      // for ()
+      // for () // comment je cible chaque client
       // 	{
       // 	  sendLogin(loginInfo);
       // 	}
@@ -158,8 +158,9 @@ void		BabelClient::onLogout(void * /*param*/)
 {
   // notify server
   // fonction deconnect sur le servuer (pop de la list et le ( guerot ) fermeture de la socket)
-  // m_client.deleteListener(this);
-  // m_timer.deleteListener(this);
+  m_server.popClient(this);
+  m_client.deleteListener(this);
+  m_timer.deleteListener(this);
   m_isConnect = false;
 }
 
@@ -262,24 +263,43 @@ void		BabelClient::sendOKCall()
 
 void		BabelClient::sendKOCall()
 {
+  Header	header;
 
+  header.type = KO_CALL;
+  header.size = sizeof(Header);
+  write(&header, sizeof(Header));
 }
 
 void		BabelClient::sendOKMsg()
 {
+  Header	header;
 
+  header.type = OK_MSG;
+  header.size = sizeof(Header);
+  write(&header, sizeof(Header));
 }
 
 void		BabelClient::sendKOMSg()
 {
+  Header	header;
 
+  header.type = KO_MSG;
+  header.size = sizeof(Header);
+  write(&header, sizeof(Header));
 }
 
 void		BabelClient::sendUserinfo()
 {
-  // UserInfo	userInfo;
+  // recevoir user info en paramétre + header
+  UserInfo	info;
 
-  // init UserInfo ||
+
+  memcpy(info.user, &m_name[0], m_name.length());
+  if (m_isConnect)
+    info.status = CONNECTED;
+  else
+    info.status = DISCONNECTED;
+  write(&info, sizeof(UserInfo));
 }
 
 void		BabelClient::sendMsg(Msg *msg)
