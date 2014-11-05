@@ -24,6 +24,12 @@ private:
   QLineEdit		*_passwordEdit1;
   QLineEdit		*_passwordEdit2;
 
+private:
+  void		_createErrorBox(const QString&, const QString&);
+
+private slots:
+  void		sendData();
+
 public:
   void		onData(bool);
 

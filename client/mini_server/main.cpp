@@ -7,9 +7,9 @@ int		main()
   sf::TcpSocket	socket;
   sf::TcpListener listener;
 
-  if (listener.listen(1234) != sf::Socket::Done)
+  if (listener.listen(1235) != sf::Socket::Done)
     {
-      std::cerr << "Listening error on port 1234" << std::endl;
+      std::cerr << "Listening error on port 1235" << std::endl;
       return (-1);
     }
 
@@ -21,7 +21,7 @@ int		main()
 
   NET::Header header;
 
-  header.type = NET::T_OK_LOGIN;
+  header.type = NET::T_KO_REGISTER;
   header.size = 0;
   if (socket.send(&header, sizeof(header)) != sf::Socket::Done)
     {

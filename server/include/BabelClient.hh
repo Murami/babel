@@ -6,7 +6,7 @@
 #include "BoostAsyncTimer.hh"
 #include "BabelProtocol.hh"
 
-#include <vector>
+#include <queue>
 #include <cstdlib>
 
 class ITcpAsyncClient;
@@ -18,14 +18,25 @@ class BabelClient : public ITcpAsyncClientListener, public IAsyncTimerListener
 {
   typedef void (BabelClient::*ptr)(void*);
 
+  struct		Buffer
+  {
+    void*		data[4096];
+    unsigned int	size;
+  };
+
 private:
   Type			m_type;
   ITcpAsyncClient&	m_client;
   BabelServer&		m_server;
   BoostAsyncTimer	m_timer;
+
   char			m_readBuffer[4096];
-  std::vector<char>	m_writeBuffer;
+  char			m_writeBuffer[4096];
+  std::queue<Buffer>	m_queueWrite;
+  bool			m_isWriting;
+
   std::map<Type, ptr>	m_map;
+  std::vector<Type>	m_headerType;
 
   bool			m_isConnect;
   std::string		m_name;
@@ -46,6 +57,7 @@ public:
   void			onRead(ITcpAsyncClient& client, char* buffer, std::size_t size);
   void			onWrite(ITcpAsyncClient& client, char* buffer, std::size_t size);
   void			onTimeout(IAsyncTimer& timer);
+  void			write(void *data, std::size_t size);
 
 private:
   // these are the callbacks called by the parsing in onRead
@@ -56,7 +68,7 @@ private:
   void	onCall(void *param);
   void	onKOCall(void *param);
   void	onOKCall(void *param);
-  void	onSendMsg(void *param);
+  void	onRecvMsg(void *param);
 
   // these are answers to client
   void	sendOKLogin();
@@ -68,7 +80,7 @@ private:
   void	sendUserinfo();
   void	sendOKMsg();
   void	sendKOMSg();
-  void	sendRecvMsg();
+  void	sendMsg(Msg *msg);
   void	sendCall();
   void	sendPing();
 };
