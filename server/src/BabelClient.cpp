@@ -4,7 +4,8 @@
 #include "ITcpAsyncClient.hh"
 #include "BabelServer.hh"
 
-BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server, BoostAsyncService& service) :
+BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server,
+			 BoostAsyncService& service) :
   m_client(client),
   m_server(server),
   m_timer(service)
@@ -14,6 +15,7 @@ BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server, BoostAsyn
   m_isConnect = false;
   m_type = HEADER;
   m_timer.addListener(this);
+  m_client.addListener(this);
   m_timer.wait(5, 0);
   m_client.read(m_readBuffer, sizeof(Header));
   m_isWriting = false;

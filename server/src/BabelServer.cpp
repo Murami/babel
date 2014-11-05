@@ -1,3 +1,6 @@
+#include <iostream>
+#include <fstream>
+#include <string.h>
 #include "BabelClient.hh"
 #include "BabelServer.hh"
 #include "BoostTcpAsyncServer.hh"
@@ -12,6 +15,7 @@ BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
   */
   m_server.addListener(this);
   m_server.accept();
+  loadAccounts();
 }
 
 BabelServer::~BabelServer()
@@ -22,6 +26,36 @@ BabelServer::~BabelServer()
     - on deconnect proprement tous les clients
     - on libere les ressources
   */
+}
+
+void				BabelServer::loadAccounts()
+{
+  char*				name;
+  char*				mdp;
+  std::string			line;
+  std::ifstream 		file(PATH_ACCOUNTS.c_str(), std::ios::in);
+
+  if (file)
+    {
+      while (getline(file, line))
+        {
+	  BabelAccountEntry	account;
+	  char			buffer[4096];
+
+	  strcpy(buffer, line.c_str());
+	  name = strtok(buffer, ";");
+	  mdp = strtok(NULL, ";");
+	  std::cout << "[name] = " << name << " [mdp] = " << mdp << std::endl;
+	  account.login = std::string(name);
+	  account.md5pass = std::string(mdp);
+	  m_accountList.push_back(account);
+        }
+      file.close();
+    }
+  else
+    {
+
+    }
 }
 
 void				BabelServer::onAccept(ITcpAsyncServer& server,
@@ -80,9 +114,20 @@ bool				BabelServer::registerClient(const std::string & name,
       entry.login = name;
       entry.md5pass = mdp;
       m_accountList.push_back(entry);
+      // écrire dans la BDD
       return (true);
     }
   return (false);
+}
+
+void				BabelServer::addAccount(BabelAccountEntry account)
+{
+  std::ofstream file(PATH_ACCOUNTS.c_str(), std::ios::out | std::ios::app);
+
+  if (file)
+    {
+      file << account.login << ";" << account.md5pass;
+    }
 }
 
 bool				BabelServer::authClient(const std::string & name,
