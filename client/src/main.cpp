@@ -6,7 +6,6 @@
 #include <QSettings>
 
 #include "BabelCoreClient.hh"
-#include "QTcpAsyncSocket.hh"
 #include "ResourceManager.hpp"
 #include "MainWindow.hh"
 #include "LoginDialog.hh"

@@ -21,10 +21,15 @@ BabelCoreClient::ErrorMap BabelCoreClient::errorMap		= BabelCoreClient::initiali
 BabelCoreClient::BabelCoreClient()
 {
   typeNeeded = NET::T_HEADER;
-  QObject::connect(&m_socket, SIGNAL(notifyRead()), this, SLOT(onRead()));
-  QObject::connect(&m_socket, SIGNAL(notifyConnect()), this, SLOT(onConnect()));
-  QObject::connect(&m_socket, SIGNAL(notifyDisconnect()), this, SLOT(onDisconnect()));
-  QObject::connect(&m_socket, SIGNAL(notifyError(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+  m_timer.setInterval(30000);
+
+  m_timer.addListener(this);
+  m_socket.addListener(this);
+
+  // QObject::connect(&m_socket, SIGNAL(notifyRead()), this, SLOT(onRead()));
+  // QObject::connect(&m_socket, SIGNAL(notifyConnect()), this, SLOT(onConnect()));
+  // QObject::connect(&m_socket, SIGNAL(notifyDisconnect()), this, SLOT(onDisconnect()));
+  // QObject::connect(&m_socket, SIGNAL(notifyError(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 }
 
 BabelCoreClient::~BabelCoreClient()
@@ -32,24 +37,34 @@ BabelCoreClient::~BabelCoreClient()
 
 }
 
+/* listened timer event */
+
+void BabelCoreClient::onTimeout(int id)
+{
+  std::cout << "timeout server detected (30sec)" << std::endl;
+  (void)id;
+  // emit event close
+}
+
 /* listened socket event*/
 
 void BabelCoreClient::onConnect()
 {
   std::cout << "core connect detected" << std::endl;
+  m_timer.start();
   notifyConnect();
 }
 
 void BabelCoreClient::onDisconnect()
 {
   std::cout << "core disconnect detected" << std::endl;
+  m_timer.stop();
   notifyDisconnect();
 }
 
 void BabelCoreClient::onError(QAbstractSocket::SocketError error)
 {
   std::cout << "core error detected" << std::endl;
-
   notifyError(errorMap[error]);
 }
 
@@ -57,6 +72,7 @@ void BabelCoreClient::onRead()
 {
   std::cout << "core data read to read" << std::endl;
 
+  m_timer.setInterval(30000);
   if (m_socket.bytesAvailable() < sizeTypeMap[typeNeeded])
     return;
   m_socket.read(buffer,sizeTypeMap[typeNeeded]);
@@ -129,7 +145,7 @@ void BabelCoreClient::onUserLogin(QString login, QString pass)
   NET::Header		header;
   NET::LoginInfo	info;
 
-  QString md5_pass = QString(QCryptographicHash::hash(pass.toLatin1(),QCryptographicHash::Md5));
+  QString md5_pass = QString(QCryptographicHash::hash(pass.toLatin1(),QCryptographicHash::Md5).toHex());
 
   header.type = NET::T_CALL;
   header.size = sizeof(info);
@@ -147,6 +163,7 @@ void BabelCoreClient::onUserLogout(void)
 
   header.type = NET::T_LOGOUT;
   header.size = 0;
+  m_socket.write(&header, sizeof(header));
 }
 
 void BabelCoreClient::onUserRegister(QString login, QString pass)
