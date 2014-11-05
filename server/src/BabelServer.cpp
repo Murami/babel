@@ -1,6 +1,7 @@
 #include "BabelClient.hh"
 #include "BabelServer.hh"
 #include "BoostTcpAsyncServer.hh"
+#include "BabelCall.hh"
 
 BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
   m_server(server), m_service(service)
@@ -94,4 +95,17 @@ bool				BabelServer::authClient(const std::string & name,
 	return true;
     }
   return false;
+}
+
+bool				BabelServer::createCall(BabelClient* dest, BabelClient *src)
+{
+  for (std::list<BabelCall*>::iterator it = m_calls.begin();
+       it != m_calls.end(); it++)
+    {
+      // if (dest == (*it)->getDestination() || dest == (*it)->getSource() ||
+      // 	  src == (*it)->getDestination() || src == (*it)->getSource())
+	return false;
+    }
+  m_calls.push_back(new BabelCall(dest, src));
+  return true;
 }

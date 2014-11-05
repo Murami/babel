@@ -1,21 +1,26 @@
 #ifndef	_BABEL_CALL_
 # define _BABEL_CALL_
 
+
 class BabelCall
 {
 public:
-  BabelCall(TcpAsyncSession*, TcpAsyncSession*);
+  BabelCall(BabelClient*, BabelClient*);
   ~BabelCall();
 
-  TcpAsyncSession*	getDestination();
-  TcpAsyncSession*	getInterluctor();
-  TcpAsyncSession*	getSource();
+  BabelClient*		getDestination();
+  BabelClient*		getInterluctor();
+  BabelClient*		getSource();
   unsigned int		getTimestart() const;
+  bool			isValid() const;
+  void			setValid(bool b);
+
 
 private:
-  TcpAsyncSession*	m_destination;
-  TcpAsyncSession*	m_source;
+  BabelClient*		m_destination;
+  BabelClient*		m_source;
   unsigned int		m_timer;
-}
+  bool			m_isValid;
+};
 
 #endif /* _BABEL_CALL_ */

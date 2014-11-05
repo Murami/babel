@@ -1,24 +1,24 @@
 #include "BabelCall.hh"
-#include "TcpAsyncSession.hh"
+#include "BabelClient.hh"
 
-BabelCall(TcpAsyncSession* dest, TcpAsyncSession* src)
+BabelCall::BabelCall(BabelClient* dest, BabelClient* src)
 {
   m_destination = dest;
   m_source = src;
   m_timer = 0;
 }
 
-~BabelCall()
+~BabelCall::BabelCall()
 {
 
 }
 
-TcpAsyncSession*	getDestination()
+BabelClient*		BabelCall::getDestination()
 {
   return (m_destination);
 }
 
-TcpAsyncSession*	getInterluctor(TcpAsyncSession* session)
+BabelClient*		BabelCall::getInterluctor(BabelClient* session)
 {
   if (session == m_destination)
     return (m_source);
@@ -28,12 +28,22 @@ TcpAsyncSession*	getInterluctor(TcpAsyncSession* session)
     return (NULL);
 }
 
-TcpAsyncSession*	getSource()
+BabelClient*		BabelCall::getSource()
 {
   return (m_source);
 }
 
-unsigned int		getTimestart() const
+unsigned int		BabelCall::getTimestart() const
 {
   return (m_timer);
+}
+
+bool			BabelCall::isValid() const
+{
+  return (m_isValid);
+}
+
+void			BabelCall::setValid(bool b)
+{
+  m_isValid = b;
 }

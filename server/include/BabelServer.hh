@@ -8,6 +8,7 @@
 #include <list>
 
 class BabelClient;
+class BabelCall;
 class BoostAsyncService;
 
 class BabelServer : public ITcpAsyncServerListener, public IAsyncTimerListener
@@ -17,12 +18,15 @@ private:
   BoostAsyncService&		m_service;
   std::list<BabelAccountEntry>	m_accountList;
   std::list<BabelClient*>	m_clients;
+  std::list<BabelCall*>		m_calls;
 
 public:
   BabelServer(ITcpAsyncServer& server, BoostAsyncService& service);
   ~BabelServer();
 
 
+
+  bool				createCall(BabelClient* dest, BabelClient* src);
 
   BabelClient*			getClient(const std::string & name);
   std::list<BabelClient*>	getAllClients();

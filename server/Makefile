@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Mon Nov  3 15:39:19 2014 audisio romain
+## Last update Wed Nov  5 01:38:18 2014 audisio romain
 ##
 
 # include .depend
@@ -24,6 +24,7 @@ SRC		=	main			\
 			BoostAsyncTimer		\
 			AsyncTimer		\
 			BabelServer		\
+			BabelCall		\
 			BabelClient
 
 SRC_EXT		=	.cpp
