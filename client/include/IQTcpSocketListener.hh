@@ -2,7 +2,6 @@
 #define I_QTCP_SOCKET_LISTENER_HH
 
 #include <QObject>
-#include <QAbstractSocket>
 
 class IQTcpSocketListener : public QObject
 {

@@ -28,7 +28,7 @@ private:
   void		_createErrorBox(const QString&, const QString&);
 
 public:
-  void		onData(bool);
+  void		onLogin(bool);
 
 private slots:
   void		sendData();

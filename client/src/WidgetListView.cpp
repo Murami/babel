@@ -14,13 +14,13 @@ WidgetListView::WidgetListView(QWidget *parent) : QListView(parent)
   NET::UserInfo i;
   strcpy(i.user, "ABC");
   i.status = NET::CONNECTED;
-  onData(i);
+  onUserInfo(i);
   strcpy(i.user, "DEF");
   i.status = NET::CONNECTED;
-  onData(i);
+  onUserInfo(i);
   strcpy(i.user, "GHI");
   i.status = NET::DISCONNECTED;
-  onData(i);
+  onUserInfo(i);
 
 }
 
@@ -56,7 +56,7 @@ bool		WidgetListView::isSelectedContactConnected()
   return ((*it)->isConnected());
 }
 
-void		WidgetListView::onData(NET::UserInfo info)
+void		WidgetListView::onUserInfo(NET::UserInfo info)
 {
   bool		found = false;
   QList<QStandardItem*> list;

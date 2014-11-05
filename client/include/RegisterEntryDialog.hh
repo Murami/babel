@@ -31,7 +31,7 @@ private slots:
   void		sendData();
 
 public:
-  void		onData(bool);
+  void		onRegister(bool);
 
 public:
   RegisterEntryDialog(BabelCoreClient&, QWidget *parent = 0);

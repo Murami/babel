@@ -2,14 +2,17 @@ CONFIG += qt
 QT += core gui widgets network
 INCLUDEPATH += include/
 
-HEADERS += 	include/TcpAsyncSocket.hh              \
+HEADERS += 	include/TcpAsyncSocket.hh               \
+                include/UdpAsyncSocket.hh               \
 		include/BabelCoreClient.hh              \
 		include/ITcpAsyncSocketListener.hh      \
+                include/IUdpAsyncSocketListener.hh      \
                 include/IWidgetListener.hh              \
                 include/IFunctor.hh                     \
                 include/Functor.hh                      \
                 include/Protocol.hh                     \
                 include/IQTcpSocketListener.hh          \
+                include/IQUdpSocketListener.hh          \
                 include/ICallErrorListener.hh           \
                 include/IConnectListener.hh             \
                 include/IDisconnectListener.hh          \
@@ -35,7 +38,8 @@ HEADERS += 	include/TcpAsyncSocket.hh              \
                 include/Timer.hh
 
 SOURCES += 	src/main.cpp                            \
-		src/TcpAsyncSocket.cpp                 \
+                src/UdpAsyncSocket.cpp                  \
+		src/TcpAsyncSocket.cpp                  \
 		src/BabelCoreClient.cpp                 \
                 src/Functor.cpp                         \
 		src/AddNewContactDialog.cpp             \

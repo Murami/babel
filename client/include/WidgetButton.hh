@@ -21,7 +21,7 @@ public:
   ~WidgetButton();
 
 public:
-  virtual void	onData(NET::CallInfo);
+  virtual void	onCall(NET::CallInfo);
 
 public:
   virtual void	paintEvent(QPaintEvent *);

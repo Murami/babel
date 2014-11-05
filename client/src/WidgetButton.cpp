@@ -25,7 +25,7 @@ void		WidgetButton::paintEvent(QPaintEvent *event)
   painter.drawText(event->rect(), Qt::AlignCenter, this->_text);
 }
 
-void			WidgetButton::onData(NET::CallInfo info)
+void			WidgetButton::onCall(NET::CallInfo info)
 {
   std::cout << info.user << std::endl;
 }
