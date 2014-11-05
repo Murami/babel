@@ -77,7 +77,7 @@ private:
   void	sendKORegister();
   void	sendOKCall();
   void	sendKOCall();
-  void	sendUserinfo();
+  void	sendUserinfo(UserInfo *info);
   void	sendOKMsg();
   void	sendKOMSg();
   void	sendMsg(Msg *msg);

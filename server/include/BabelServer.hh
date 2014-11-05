@@ -35,6 +35,7 @@ public:
 
   BabelClient*			getClient(const std::string & name);
   std::list<BabelClient*>	getAllClients();
+  std::list<BabelAccountEntry>	getAllAccounts();
 
   bool				isAccount(const std::string & name);
   bool				registerClient(const std::string & name,

@@ -24,7 +24,6 @@ BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server,
 
 BabelClient::~BabelClient()
 {
-  // m_timer.deleteListener(this);
   /*
     - Deconnexion
     - Liberation des ressources
@@ -56,9 +55,14 @@ void	BabelClient::initMap()
 }
 
 void		BabelClient::onRead(ITcpAsyncClient& /*client*/, char* buffer,
-			    std::size_t /* size */ )
+			    std::size_t size)
 {
   std::cout << "\033[35m[ server ]\tReading data from client\033[0m" << std::endl;
+  if (size == 0)
+    {
+      m_server.popClient(this);
+      return;
+    }
   (this->*m_map[m_type])(buffer);
 }
 
@@ -136,21 +140,43 @@ void		BabelClient::onHeader(void *param)
 
 void		BabelClient::onLogin(void *param)
 {
-  LoginInfo	*loginInfo = static_cast<LoginInfo*>(param);
+  LoginInfo*			loginInfo = static_cast<LoginInfo*>(param);
+  std::list<BabelAccountEntry>	accounts = m_server.getAllAccounts();
+  std::list<BabelClient*>	clients = m_server.getAllClients();
+  UserInfo			my_info;
 
   std::cout << "Callback Login" << std::endl;
   if (m_isConnect == false && m_server.getClient(std::string(loginInfo->user)) == NULL &&
       m_server.authClient(std::string(loginInfo->user), std::string(loginInfo->md5_pass)))
     {
-      // notify other clients -> sendLogin
-      // for () // comment je cible chaque client
-      // 	{
-      // 	  sendLogin(loginInfo);
-      // 	}
       m_name = std::string(loginInfo->user);
       m_mdp = std::string(loginInfo->md5_pass);
+      memcpy(my_info.user, m_name.c_str(), m_name.length());
+      my_info.status = CONNECTED;
       m_isConnect = true;
       sendOKLogin();
+      for (std::list<BabelAccountEntry>::iterator it = accounts.begin();
+	   it != accounts.end(); it++)
+	{
+	  UserInfo	info;
+
+	  memcpy(info.user, (*it).login.c_str(), (*it).login.length());
+	  if (m_server.getClient((*it).login) != NULL && (*it).login != loginInfo->user)
+	    {
+	      info.status = CONNECTED;
+	      sendUserinfo(&info);
+	    }
+	  else if ((*it).login != loginInfo->user)
+	    {
+	      info.status = DISCONNECTED;
+	      sendUserinfo(&info);
+	    }
+	}
+      for (std::list<BabelClient*>::iterator it = clients.begin();
+	   it != clients.end(); it++)
+	{
+	  (*it)->sendUserinfo(&my_info);
+	}
     }
   else
     {
@@ -170,6 +196,7 @@ void		BabelClient::onLogout(void * /*param*/)
   m_client.deleteListener(this);
   m_timer.deleteListener(this);
   m_isConnect = false;
+  m_type = HEADER;
 }
 
 void		BabelClient::onRegister(void *param)
@@ -207,6 +234,7 @@ void		BabelClient::onCall(void *param)
     sendOKCall();
   else
     sendKOCall();
+  m_type = HEADER;
 }
 
 void		BabelClient::onKOCall(void * /*param*/)
@@ -227,6 +255,7 @@ void		BabelClient::onRecvMsg(void *param)
   memcpy(msg->user, m_name.c_str(), m_name.length());
   msg->user[m_name.length() + 1] = 0;
   m_server.getClient(msg->user)->sendMsg(msg);
+  m_type = HEADER;
 }
 
 // ANSWSER TO CLIENT
@@ -303,17 +332,8 @@ void		BabelClient::sendKOMSg()
   write(&header, sizeof(Header));
 }
 
-void		BabelClient::sendUserinfo()
+void		BabelClient::sendUserinfo(UserInfo *info)
 {
-  // recevoir user info en paramétre + header
-  UserInfo	info;
-
-
-  memcpy(info.user, &m_name[0], m_name.length());
-  if (m_isConnect)
-    info.status = CONNECTED;
-  else
-    info.status = DISCONNECTED;
   write(&info, sizeof(UserInfo));
 }
 
