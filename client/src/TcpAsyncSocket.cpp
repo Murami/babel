@@ -17,9 +17,9 @@ TcpAsyncSocket::~TcpAsyncSocket()
 
 /* socket control */
 
-void TcpAsyncSocket::connect(QString address, quint16 port)
+void TcpAsyncSocket::connect(std::string address, uint16_t port)
 {
-  m_address.setAddress(address);
+  m_address.setAddress(QString::fromUtf8(address.c_str()));
   m_port = port;
   m_socket.abort();
   m_socket.connectToHost(m_address, m_port);

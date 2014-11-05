@@ -6,6 +6,7 @@
 #include <QHostAddress>
 #include <QtGlobal>
 
+#include <stdint.h>
 #include <iostream>
 
 #include "IQTcpSocketListener.hh"
@@ -20,7 +21,7 @@ public:
   TcpAsyncSocket();
   ~TcpAsyncSocket();
 
-  void			connect(QString address, quint16 port);
+  void			connect(std::string address, uint16_t port);
   void			disconnect();
   void			read(char * data, qint64 maxSize);
   void			write(void *data);

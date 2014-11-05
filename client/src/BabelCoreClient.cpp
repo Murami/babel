@@ -234,7 +234,7 @@ void BabelCoreClient::run()
   /* a faire dans le onUserLogin */
   QSettings *settings = new QSettings("setting.ini", QSettings::IniFormat);
   QString address("127.0.0.1");
-  quint16 port(1234);
+  uint16_t port(1234);
 
   if (settings->contains("ip") == true)
     address = settings->value("ip").toString();
@@ -242,7 +242,7 @@ void BabelCoreClient::run()
   if (settings->contains("port") == true)
     port = settings->value("port").toUInt();
 
-  m_socket.connect(address, port);
+  m_socket.connect(address.toStdString(), port);
 }
 
 void BabelCoreClient::setTypeNeeded(NET::Type type)
