@@ -35,7 +35,9 @@ HEADERS += 	include/TcpAsyncSocket.hh               \
 		include/LoginEntryDialog.hh             \
 		include/RegisterEntryDialog.hh          \
                 include/ITimerListener.hh               \
-                include/Timer.hh
+                include/Timer.hh                        \
+                include/IMutex.hh                       \
+                include/Mutex.hh
 
 SOURCES += 	src/main.cpp                            \
                 src/UdpAsyncSocket.cpp                  \
@@ -52,6 +54,7 @@ SOURCES += 	src/main.cpp                            \
 		src/WidgetTextView.cpp                  \
 		src/LoginEntryDialog.cpp                \
 		src/RegisterEntryDialog.cpp             \
-                src/Timer.cpp
+                src/Timer.cpp                           \
+                src/Mutex.cpp
 
 OBJECTS_DIR	=	src/
