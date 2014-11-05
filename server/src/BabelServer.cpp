@@ -104,6 +104,11 @@ std::list<BabelClient*>		BabelServer::getAllClients()
   return (m_clients);
 }
 
+std::list<BabelAccountEntry>   	BabelServer::getAllAccounts()
+{
+  return (m_accountList);
+}
+
 bool				BabelServer::registerClient(const std::string & name,
 							    const std::string & mdp)
 {
@@ -126,7 +131,7 @@ void				BabelServer::addAccount(BabelAccountEntry account)
 
   if (file)
     {
-      file << account.login << ";" << account.md5pass;
+      file << account.login << ";" << account.md5pass << "\n";
     }
 }
 
@@ -158,4 +163,5 @@ bool				BabelServer::createCall(BabelClient* dest, BabelClient *src)
 void				BabelServer::popClient(BabelClient * client)
 {
   m_clients.remove(client);
+  delete client;
 }
