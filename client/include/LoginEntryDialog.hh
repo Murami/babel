@@ -8,11 +8,14 @@
 # include	<QHBoxLayout>
 # include	"WidgetButton.hh"
 # include	"ILoginListener.hh"
+# include	"IErrorListener.hh"
 
 class		LoginDialog;
 class		BabelCoreClient;
 
-class		LoginEntryDialog : public QDialog, public ILoginListener
+class		LoginEntryDialog : public QDialog,
+				   public ILoginListener,
+				   public IErrorListener
 {
   Q_OBJECT
 
@@ -33,6 +36,7 @@ private:
 
 public:
   void		onLogin(bool);
+  virtual	void	onError(QString);
 
 private slots:
   void		sendData();

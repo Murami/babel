@@ -1,3 +1,4 @@
+#include	<QDesktopWidget>
 #include	<iostream>
 #include	<QLineEdit>
 
@@ -10,6 +11,7 @@
 #include	"WidgetButton.hh"
 
 #include	"BabelCoreClient.hh"
+
 
 int		MainWindow::WIDTH = 640;
 int		MainWindow::HEIGHT = 480;
@@ -26,6 +28,11 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
   this->_loggedUserLabel = new QLabel("Disconnected", this);
   this->_userLayout = new QHBoxLayout();
   this->_userStatus = new QLabel(this);
+
+  QDesktopWidget screen;
+
+  this->move(screen.screenGeometry(0).width() / 2 - MainWindow::WIDTH / 2,
+	     screen.screenGeometry(0).height() / 2 - MainWindow::HEIGHT / 2);
 
   this->_loginDialog = static_cast<LoginDialog*>(parent);
   this->_userLayout->setAlignment(Qt::AlignLeft);
@@ -52,8 +59,8 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
   this->_mainLayout->addLayout(this->_vLayout);
   this->_mainLayout->addLayout(this->_buttonLayout);
   this->_connectWidgets();
-  this->_audioConversation = false;
   this->_core.addUserInfoListener(this->_widgetListView);
+  this->_core.addMsgListener(this);
 }
 
 void		MainWindow::setConnectedUserName(const QString& username)
@@ -63,6 +70,30 @@ void		MainWindow::setConnectedUserName(const QString& username)
   this->_userStatus->setPixmap(ResourceManager::getInstance()->getPellet(NET::CONNECTED).pixmap(20, 20));
   this->setWindowTitle(QString("Babel - ") + username);
 }
+
+void		MainWindow::onMsg(NET::MsgInfo info)
+{
+  // Si la fenetre de conversation pour cet user n'est pas faite il faut la faire sinon  notifier le message a la-dite fenetre
+  ConversationWindow	*w;
+  QString		*mate;
+
+  if (this->_widgetListView->getSelectedContactIndex() != -1)
+    {
+      mate = new QString(info.user);
+      if (this->_conversationWindowMap.find(mate) == this->_conversationWindowMap.end())
+	{
+	  std::cout << "Did not find the window" << std::endl;
+	  w = new ConversationWindow(this->_core, mate->toStdString());
+	  w->setUsername(*mate);
+	  w->show();
+	  this->_conversationWindowMap[mate] = w;
+	}
+    }
+}
+
+// ###########################################################################
+// ####### FAUT FAIRE LES TEST AVEC LES COUT CI DESSUS #######################
+// ###########################################################################
 
 void		MainWindow::_connectWidgets()
 {
@@ -82,24 +113,40 @@ void		MainWindow::disconnect()
 void		MainWindow::createAudioConversationWindow()
 {
   AudioConversationWindow	*w;
+  QString			*mate;
 
-  if (!this->_audioConversation)
+  if (this->_widgetListView->getSelectedContactIndex() != -1)
     {
-      this->_audioConversation = true;
-      w = new AudioConversationWindow(this->_widgetListView->getSelectedContactName());
-      w->show();
+      mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
+      if (this->_audioConversationWindowMap.find(mate) == this->_audioConversationWindowMap.end())
+	{
+	  w = new AudioConversationWindow(this->_core, mate->toStdString());
+	  w->setUsername(*mate);
+	  w->show();
+	  this->_audioConversationWindowMap[mate] = w;
+	}
     }
 }
 
 void		MainWindow::createChatConversationWindow()
 {
   ConversationWindow	*w;
+  QString		*mate;
 
   if (this->_widgetListView->getSelectedContactIndex() != -1)
     {
-      w = new ConversationWindow(this->_widgetListView->getSelectedContactName());
-      w->show();
+      mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
+      if (this->_conversationWindowMap.find(mate) == this->_conversationWindowMap.end())
+	{
+	  w = new ConversationWindow(this->_core, mate->toStdString());
+	  w->setUsername(*mate);
+	  w->show();
+	  this->_conversationWindowMap[mate] = w;
+	}
     }
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow()
+{
+  this->_core.onDisconnect();
+}

@@ -32,6 +32,11 @@ LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDi
   connect(this->_passwordEdit, SIGNAL(returnPressed()), this, SLOT(sendData()));
 }
 
+void		LoginEntryDialog::onError(QString error)
+{
+  this->_createErrorBox(QString(""), error);
+}
+
 void		LoginEntryDialog::sendData()
 {
   QString	pass = this->_passwordEdit->text();
