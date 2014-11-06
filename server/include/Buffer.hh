@@ -3,7 +3,7 @@
 
 struct		Buffer
 {
-  char*		data[4096];
+  char		data[4096];
   unsigned int	size;
 };
 

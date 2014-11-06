@@ -10,25 +10,13 @@ WidgetListView::WidgetListView(QWidget *parent) : QListView(parent)
   this->setModel(this->_model);
   connect(this, SIGNAL(clicked(const QModelIndex&)), this, SLOT(setSelectedContact(const QModelIndex&)));
   this->_selectedContactIndex = -1;
-
-  NET::UserInfo i;
-  strcpy(i.user, "ABC");
-  i.status = NET::CONNECTED;
-  onData(i);
-  strcpy(i.user, "DEF");
-  i.status = NET::CONNECTED;
-  onData(i);
-  strcpy(i.user, "GHI");
-  i.status = NET::DISCONNECTED;
-  onData(i);
-
 }
 
 void		WidgetListView::setSelectedContact(const QModelIndex& index)
 {
   if (index.row() < static_cast<int>(this->_contactList.size()))
     this->_selectedContactIndex = index.row();
-  std::cout << this->getSelectedContactName() << std::endl << std::boolalpha << this->isSelectedContactConnected() << std::endl << std::endl;
+  //  std::cout << this->getSelectedContactName() << std::endl << std::boolalpha << this->isSelectedContactConnected() << std::endl << std::endl;
 }
 
 int		WidgetListView::getSelectedContactIndex()
@@ -56,7 +44,7 @@ bool		WidgetListView::isSelectedContactConnected()
   return ((*it)->isConnected());
 }
 
-void		WidgetListView::onData(NET::UserInfo info)
+void		WidgetListView::onUserInfo(NET::UserInfo info)
 {
   bool		found = false;
   QList<QStandardItem*> list;
@@ -75,7 +63,18 @@ void		WidgetListView::onData(NET::UserInfo info)
     this->_contactList.push_back(new User(info.user,
 					  info.status == NET::CONNECTED ?
 					  true : false));
+
+  std::cout << "[ BEFORE SORT ]" << std::endl;
+  for (std::list<User*>::iterator it = this->_contactList.begin(); it != this->_contactList.end(); it++)
+    std::cout << (*it)->getName() << std::endl;
+
   this->_sortList();
+
+  std::cout << "[ AFTER SORT ]" << std::endl;
+  for (std::list<User*>::iterator it = this->_contactList.begin(); it != this->_contactList.end(); it++)
+    std::cout << (*it)->getName() << std::endl;
+  std::cout << std::endl;
+
   this->_model->clear();
   for (std::list<User*>::iterator it = this->_contactList.begin();
        it != this->_contactList.end(); it++)

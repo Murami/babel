@@ -4,13 +4,14 @@
 # include	<QVBoxLayout>
 # include	<QPushButton>
 # include	<QDialog>
+# include	"IErrorListener.hh"
 
 class		MainWindow;
 class		LoginEntryDialog;
 class		RegisterEntryDialog;
 class		BabelCoreClient;
 
-class		LoginDialog : public QDialog
+class		LoginDialog : public QDialog, public IErrorListener
 {
   Q_OBJECT
 
@@ -27,9 +28,16 @@ private:
   RegisterEntryDialog	*_registerDialog;
   MainWindow		*_mainWindow;
 
+public:
+  void		onRegister(const QString&);
+  void		onLogin(const QString&);
+
 private slots:
   void		createSignInDialog();
   void		createLogInDialog();
+
+public:
+  void		onError(QString);
 
 public:
   LoginDialog(BabelCoreClient&, QWidget *parent = 0);

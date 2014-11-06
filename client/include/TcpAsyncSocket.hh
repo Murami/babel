@@ -30,7 +30,7 @@ public:
 public slots:
   void			onConnect();
   void			onDisconnect();
-  void			onError(int error);
+  void			onError(QAbstractSocket::SocketError error);
   void			onRead();
 
 public:
