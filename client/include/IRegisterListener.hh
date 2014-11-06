@@ -4,7 +4,7 @@
 class		IRegisterListener
 {
 public:
-  virtual void	onData(bool) = 0;
+  virtual void	onRegister(bool) = 0;
 };
 
 #endif

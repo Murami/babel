@@ -17,12 +17,15 @@ TcpAsyncSocket::~TcpAsyncSocket()
 
 /* socket control */
 
-void TcpAsyncSocket::connect(QString address, quint16 port)
+void TcpAsyncSocket::connect(std::string address, uint16_t port)
 {
-  m_address.setAddress(address);
+  QHostAddress                          addr;
+
+  addr.setAddress(QString::fromUtf8(address.c_str()));
+  m_address = address;
   m_port = port;
   m_socket.abort();
-  m_socket.connectToHost(m_address, m_port);
+  m_socket.connectToHost(addr, m_port);
 }
 
 void TcpAsyncSocket::disconnect()
@@ -33,7 +36,7 @@ void TcpAsyncSocket::disconnect()
     m_socket.abort();
 }
 
-void TcpAsyncSocket::read(char * data, qint64 maxSize)
+void TcpAsyncSocket::read(char * data, int64_t maxSize)
 {
   std::cout << "\033[34m[ client ]\tReading data from server\033[0m" << std::endl;
   m_socket.read(data, maxSize);
@@ -44,22 +47,22 @@ void TcpAsyncSocket::write(void *data)
   m_socket.write(reinterpret_cast<const char*>(const_cast<void*>(data)));
 }
 
-void TcpAsyncSocket::write(void *data, qint64 size)
+void TcpAsyncSocket::write(void *data, int64_t size)
 {
   m_socket.write(reinterpret_cast<const char*>(const_cast<void*>(data)), size);
 }
 
-QHostAddress & TcpAsyncSocket::getAddress()
+std::string & TcpAsyncSocket::getAddress()
 {
   return (m_address);
 }
 
-quint16 & TcpAsyncSocket::getPort()
+uint16_t & TcpAsyncSocket::getPort()
 {
   return (m_port);
 }
 
-quint64 TcpAsyncSocket::bytesAvailable()
+uint64_t TcpAsyncSocket::bytesAvailable()
 {
   return (m_socket.bytesAvailable());
 }
@@ -78,7 +81,7 @@ void TcpAsyncSocket::onDisconnect()
   notifyDisconnect();
 }
 
-void TcpAsyncSocket::onError(QAbstractSocket::SocketError error)
+void TcpAsyncSocket::onError(int error)
 {
   std::cout << "error detected" << std::endl;
   notifyError(error);
@@ -110,7 +113,7 @@ void TcpAsyncSocket::notifyDisconnect()
     (*it)->onDisconnect();
 }
 
-void TcpAsyncSocket::notifyError(QAbstractSocket::SocketError error)
+void TcpAsyncSocket::notifyError(int error)
 {
   std::list<ITcpAsyncSocketListener *>::iterator it;
 

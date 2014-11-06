@@ -64,7 +64,7 @@ void		RegisterEntryDialog::sendData()
     this->_core.onUserRegister(user, pass);
 }
 
-void		RegisterEntryDialog::onData(bool success)
+void		RegisterEntryDialog::onRegister(bool success)
 {
   if (success)
     {

@@ -46,7 +46,7 @@ void		LoginEntryDialog::sendData()
     this->_core.onUserLogin(user, pass);
 }
 
-void		LoginEntryDialog::onData(bool success)
+void		LoginEntryDialog::onLogin(bool success)
 {
   if (success)
     {

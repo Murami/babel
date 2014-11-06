@@ -28,7 +28,7 @@ class BabelCoreClient : public ITcpAsyncSocketListener, public IWidgetListener, 
 private:
   typedef std::map<NET::Type, size_t>				SizeTypeMap;
   typedef std::map<NET::Type, IFunctor *>			FunctorTypeMap;
-  typedef std::map<QAbstractSocket::SocketError, QString>	ErrorMap;
+  typedef std::map<int, QString>				ErrorMap;
 
 public:
   BabelCoreClient();
@@ -37,7 +37,7 @@ public:
 public:
   void onConnect();
   void onDisconnect();
-  void onError(QAbstractSocket::SocketError error);
+  void onError(int error);
   void onRead();
 
 public:

@@ -14,7 +14,18 @@ WidgetListView::WidgetListView(QWidget *parent) : QListView(parent)
   NET::UserInfo i;
   strcpy(i.user, "Manu");
   i.status = NET::CONNECTED;
+<<<<<<< HEAD
   onData(i);
+=======
+  onUserInfo(i);
+  strcpy(i.user, "DEF");
+  i.status = NET::CONNECTED;
+  onUserInfo(i);
+  strcpy(i.user, "GHI");
+  i.status = NET::DISCONNECTED;
+  onUserInfo(i);
+
+>>>>>>> 5d2c252cf65e35a1c07f2bd5b611dafe53773aa7
 }
 
 void		WidgetListView::setSelectedContact(const QModelIndex& index)
@@ -49,7 +60,7 @@ bool		WidgetListView::isSelectedContactConnected()
   return ((*it)->isConnected());
 }
 
-void		WidgetListView::onData(NET::UserInfo info)
+void		WidgetListView::onUserInfo(NET::UserInfo info)
 {
   bool		found = false;
   QList<QStandardItem*> list;

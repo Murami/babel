@@ -6,7 +6,7 @@
 class		IDisconnectListener
 {
 public:
-  virtual void	onData(void) = 0;
+  virtual void	onDisconnect(void) = 0;
 };
 
 #endif
