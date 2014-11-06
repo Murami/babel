@@ -57,7 +57,7 @@ void BabelCoreClient::onConnect()
 
 void BabelCoreClient::onDisconnect()
 {
-  std::cout << "core disconnect detected" << std::endl;
+  std::cout << __FUNCTION__ << "core disconnect detected" << std::endl;
   m_timer.stop();
   notifyDisconnect();
 }
@@ -152,7 +152,7 @@ void BabelCoreClient::onUserLogin(QString login, QString pass)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
-  m_socket.write(&header, sizeof(NET::Header));
+  m_socket.write(&header, sizeof(header));
   m_socket.write(&info, sizeof(info));
 }
 
@@ -169,9 +169,6 @@ void BabelCoreClient::onUserLogout(void)
 
 void BabelCoreClient::onUserRegister(QString login, QString pass)
 {
-  std::cout << "\033[33m[ client ]\tSending register data\033[0m" << std::endl;
-  std::cout << "\033[33m[ client ]\tSize is " << sizeof(NET::Header) << "\033[0m" << std::endl;
-
   NET::Header		header;
   NET::LoginInfo	info;
 

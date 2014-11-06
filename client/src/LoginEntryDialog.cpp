@@ -5,9 +5,11 @@
 #include	"BabelCoreClient.hh"
 #include	"MainWindow.hh"
 #include	"Protocol.hh"
+#include	"LoginDialog.hh"
 
 LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
+  this->_parent = static_cast<LoginDialog*>(parent);
   this->setWindowTitle("Log in");
   this->_vLayout = new QVBoxLayout();
   this->_hLayout = new QHBoxLayout();
@@ -28,30 +30,29 @@ LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDi
   connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(this->_logInButton, SIGNAL(clicked()), this, SLOT(sendData()));
   connect(this->_passwordEdit, SIGNAL(returnPressed()), this, SLOT(sendData()));
-  core.addLoginListener(this);
 }
 
 void		LoginEntryDialog::sendData()
 {
-  QString	user = this->_pseudoEdit->text();
   QString	pass = this->_passwordEdit->text();
 
-  if (user.length() >= LOGIN_SIZE)
+  this->_user = this->_pseudoEdit->text();
+  if (this->_user.length() >= LOGIN_SIZE)
     this->_createErrorBox("Login too long",
 			  "Login is too long");
-  else if (user.length() < 3)
+  else if (this->_user.length() < 3)
     this->_createErrorBox("Login too short",
 			  "Login is too short");
   else
-    this->_core.onUserLogin(user, pass);
+    this->_core.onUserLogin(this->_user, pass);
 }
 
 void		LoginEntryDialog::onLogin(bool success)
 {
   if (success)
     {
-      // Ici il faut remonter l'event jusqu'a la classe mere
-      std::cout << "[" << this->_pseudoEdit->text().toStdString() << "] : Connected" << std::endl;
+      this->_parent->onLogin(this->_user);
+      this->close();
     }
   else
     this->_createErrorBox("Unable to log in",

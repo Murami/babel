@@ -3,10 +3,12 @@
 #include	"RegisterEntryDialog.hh"
 #include	"BabelCoreClient.hh"
 #include	"Protocol.hh"
+#include	"LoginDialog.hh"
 
 RegisterEntryDialog::RegisterEntryDialog(BabelCoreClient& core, QWidget *parent)
   : QDialog(parent), _core(core)
 {
+  this->_parent = static_cast<LoginDialog*>(parent);
   this->setWindowTitle("Sign in");
   this->_vLayout = new QVBoxLayout();
   this->_hLayout = new QHBoxLayout();
@@ -37,7 +39,6 @@ RegisterEntryDialog::RegisterEntryDialog(BabelCoreClient& core, QWidget *parent)
   //connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 
   connect(this->_signInButton, SIGNAL(clicked()), this, SLOT(sendData()));
-  core.addRegisterListener(this);
 }
 
 void		RegisterEntryDialog::sendData()
@@ -67,6 +68,8 @@ void		RegisterEntryDialog::onRegister(bool success)
 {
   if (success)
     {
+      this->_parent->onRegister(this->_pseudoEdit->text());
+      this->close();
     }
   else
     this->_createErrorBox("Unable to register",
