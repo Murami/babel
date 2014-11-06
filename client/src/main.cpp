@@ -6,7 +6,6 @@
 #include <QSettings>
 
 #include "BabelCoreClient.hh"
-#include "QTcpAsyncSocket.hh"
 #include "ResourceManager.hpp"
 #include "MainWindow.hh"
 #include "LoginDialog.hh"
@@ -24,9 +23,8 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
   BabelCoreClient core;
-  LoginDialog w(core);
-  //LoginEntryDialog w(core);
-  //RegisterEntryDialog w(core);
+  MainWindow mainWindow(core);
+  LoginDialog w(core, &mainWindow);
 
   core.run();
   w.show();

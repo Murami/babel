@@ -43,10 +43,7 @@ void		LoginEntryDialog::sendData()
     this->_createErrorBox("Login too short",
 			  "Login is too short");
   else
-    {
-      std::cout << "SENDING LOGIN" << std::endl;
-      this->_core.onUserLogin(user, pass);
-    }
+    this->_core.onUserLogin(user, pass);
 }
 
 void		LoginEntryDialog::onData(bool success)

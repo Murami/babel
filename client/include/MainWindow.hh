@@ -30,20 +30,20 @@ private:
   QLabel		*_loggedUserLabel;
   QLabel		*_userStatus;
   WidgetButton		*_callButton;
-  WidgetButton		*_addContactButton;
-  WidgetButton		*_connectButton;
+  WidgetButton		*_logoutButton;
+  WidgetButton		*_chatButton;
   LoginDialog		*_loginDialog;
   WidgetListView	*_widgetListView;
   BabelCoreClient&	_core;
   QString		_connectedUser;
+  bool			_audioConversation;
 
 public:
   void			setConnectedUserName(const QString&);
 
 private slots:
-  void			createNewContactDialog();
-  void			createConversationWindow();
-  void			createLoginDialog();
+  void			createAudioConversationWindow();
+  void			createChatConversationWindow();
 
 private:
   void			_connectWidgets();

@@ -39,7 +39,6 @@ RegisterEntryDialog::RegisterEntryDialog(BabelCoreClient& core, QWidget *parent)
   //connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
 
   connect(this->_signInButton, SIGNAL(clicked()), this, SLOT(sendData()));
-  // core.addRegisterListener(this);
 }
 
 void		RegisterEntryDialog::sendData()

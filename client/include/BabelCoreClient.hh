@@ -4,11 +4,13 @@
 # include <list>
 # include <QString>
 
-# include "IAsyncSocketListener.hh"
+# include "ITcpAsyncSocketListener.hh"
 # include "IWidgetListener.hh"
-# include "QTcpAsyncSocket.hh"
+# include "ITimerListener.hh"
+# include "TcpAsyncSocket.hh"
 # include "IFunctor.hh"
 # include "Protocol.hh"
+# include "Timer.hh"
 
 class ICallListener;
 class IConnectListener;
@@ -21,10 +23,8 @@ class IMsgListener;
 class IMsgErrorListener;
 class IUserInfoListener;
 
-class BabelCoreClient : private IAsyncSocketListener, public IWidgetListener
+class BabelCoreClient : public ITcpAsyncSocketListener, public IWidgetListener, public ITimerListener
 {
-Q_OBJECT
-
 private:
   typedef std::map<NET::Type, size_t>				SizeTypeMap;
   typedef std::map<NET::Type, IFunctor *>			FunctorTypeMap;
@@ -34,11 +34,14 @@ public:
   BabelCoreClient();
   ~BabelCoreClient();
 
-public slots:
+public:
   void onConnect();
   void onDisconnect();
   void onError(QAbstractSocket::SocketError error);
   void onRead();
+
+public:
+  void onTimeout(int id);
 
 public:
   void onUserMsg(QString login, QString msg);
@@ -86,8 +89,9 @@ private:
   static SizeTypeMap				sizeTypeMap;
   static FunctorTypeMap				functorTypeMap;
   static ErrorMap				errorMap;
-  QTcpAsyncSocket				m_socket;
+  TcpAsyncSocket				m_socket;
   NET::Type					typeNeeded;
+  Timer						m_timer;
   char						buffer[4096];
 
   std::list<ICallListener *>			CallListenerList;

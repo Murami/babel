@@ -10,6 +10,11 @@ WidgetListView::WidgetListView(QWidget *parent) : QListView(parent)
   this->setModel(this->_model);
   connect(this, SIGNAL(clicked(const QModelIndex&)), this, SLOT(setSelectedContact(const QModelIndex&)));
   this->_selectedContactIndex = -1;
+
+  NET::UserInfo i;
+  strcpy(i.user, "Manu");
+  i.status = NET::CONNECTED;
+  onData(i);
 }
 
 void		WidgetListView::setSelectedContact(const QModelIndex& index)

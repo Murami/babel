@@ -4,37 +4,38 @@
 #include	"WidgetButton.hh"
 #include	"WidgetTextView.hh"
 
-int		ConversationWindow::WIDTH = 1280;
-int		ConversationWindow::HEIGHT = 960;
+int		ConversationWindow::WIDTH = 640;
+int		ConversationWindow::HEIGHT = 480;
 
-ConversationWindow::ConversationWindow(QWidget *parent) : QWidget(parent)
+ConversationWindow::ConversationWindow(QWidget *parent) : QMainWindow(parent)
 {
   QHBoxLayout		*layout;
   QHBoxLayout		*secondLayout;
-  QMovie		*movie;
 
   this->setFixedSize(ConversationWindow::WIDTH, ConversationWindow::HEIGHT);
   this->setWindowTitle("Conversation");
 
   this->_video = new QLabel(this);
 
+  // QMovie		*movie;
   // movie = new QMovie("example_video.jpg");
   // this->_video->setMovie(movie);
   // movie->start();
 
-  this->_sendMessageButton = new WidgetButton("Send", this);
-  this->_quitButton = new WidgetButton("Close", this);
+  this->_sendMessageButton = new WidgetButton("Send");
+  this->_quitButton = new WidgetButton("Close");
   this->_mainLayout = new QVBoxLayout();
   layout = new QHBoxLayout();
   secondLayout = new QHBoxLayout();
-  this->_messageTextView = new WidgetTextView(this);
+  this->_messageTextView = new WidgetTextView();
   this->_messageTextView->setEnabled(false);
-  this->_messageEdit = new QLineEdit(this);
+  this->_messageEdit = new QLineEdit();
   this->_messageEdit->setFocus();
+
   secondLayout->addWidget(this->_messageTextView);
   secondLayout->addWidget(this->_video);
   this->_mainLayout->addLayout(secondLayout);
-  //this->_mainLayout->addWidget(this->_messageTextView);
+  this->_mainLayout->addWidget(this->_messageTextView);
   this->_mainLayout->addWidget(this->_messageEdit);
   layout->addWidget(this->_sendMessageButton);
   layout->addWidget(this->_quitButton);

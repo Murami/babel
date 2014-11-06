@@ -13,7 +13,7 @@
 class		WidgetButton;
 class		WidgetTextView;
 
-class		ConversationWindow : public QWidget
+class		ConversationWindow : public QMainWindow
 {
   Q_OBJECT
 
