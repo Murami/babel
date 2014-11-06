@@ -26,7 +26,7 @@ public:
   int64_t	writeDatagram(const char * data, int64_t size, std::string & address, uint16_t port);
 
 public slots:
-  void		onError(int error);
+  void		onError(QAbstractSocket::SocketError error);
   void		onRead();
 
 public:

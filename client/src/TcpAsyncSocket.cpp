@@ -81,7 +81,7 @@ void TcpAsyncSocket::onDisconnect()
   notifyDisconnect();
 }
 
-void TcpAsyncSocket::onError(int error)
+void TcpAsyncSocket::onError(QAbstractSocket::SocketError error)
 {
   std::cout << "error detected" << std::endl;
   notifyError(error);

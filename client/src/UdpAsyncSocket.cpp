@@ -60,7 +60,7 @@ int64_t	UdpAsyncSocket::writeDatagram(const char * data, int64_t size, std::stri
   return (m_socket.writeDatagram(data, size, addr, port));
 }
 
-void	UdpAsyncSocket::onError(int error)
+void	UdpAsyncSocket::onError(QAbstractSocket::SocketError error)
 {
   notifyError(error);
 }
