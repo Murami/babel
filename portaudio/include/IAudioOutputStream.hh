@@ -3,11 +3,16 @@
 
 #include "APAAudioStream.hh"
 
+class IAudioDevice;
+class IAudioOutputStreamListener;
+
 class IAudioOutputStream : public IAudioStream
 {
 public:
-  virtual void	setOutputStream(IAudioDevice* inputDevice);
-  virtual void	setListener(IAudioInputStreamListener* listener);
+  virtual ~IAudioOutputStream() {};
+
+  virtual void	setOutputDevice(IAudioDevice* inputDevice) = 0;
+  virtual void	setListener(IAudioOutputStreamListener* listener) = 0;
 };
 
 #endif /* IAUDIOOUTPUTSTREAM_HH */

@@ -1,27 +1,33 @@
 #ifndef AUDIOBUFFER_HH
 #define AUDIOBUFFER_HH
 
-class CircularBuffer;
+#include "SampleFormat.hh"
+
+// class CircularBuffer;
+class BasicBuffer;
 
 class AudioBuffer
 {
 private:
-  CircularBuffer*	m_buffer;
+  char*			m_buffer;
   unsigned int		m_channels;
   unsigned int		m_sampleRate;
   unsigned int		m_maxFrame;
-  unsigned int		m_size;
+  SampleFormat		m_sampleFormat;
 
 public:
-  AudioBuffer(unsigned int channels, unsigned int sampleRate, unsigned int frameCount);
   AudioBuffer(unsigned int channels, unsigned int sampleRate,
-	      unsigned int second, unsigned int millisecond);
+	      unsigned int frameCount, SampleFormat sampleFormat);
+  AudioBuffer(unsigned int channels, unsigned int sampleRate,
+	      unsigned int second, unsigned int millisecond,
+	      SampleFormat sampleFormat);
   ~AudioBuffer();
 
   unsigned int	channels() const;
   unsigned int	sampleRate() const;
   unsigned int	maxFrame() const;
-  unsigned int	size() const;
+  SampleFormat	sampleFormat() const;
+
   void*		data() const;
 };
 

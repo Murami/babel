@@ -1,29 +1,42 @@
 #include "AudioBuffer.hh"
+#include "CircularBuffer.hh"
 
-AudioBuffer::AudioBuffer(unsigned int channels, unsigned int sampleRate, unsigned int frameCount)
+#include <cstdlib>
+#include <iostream>
+
+AudioBuffer::AudioBuffer(unsigned int channels,
+			 unsigned int sampleRate,
+			 unsigned int frameCount,
+			 SampleFormat sampleFormat) :
+  m_channels(channels),
+  m_sampleRate(sampleRate),
+  m_maxFrame(frameCount),
+  m_sampleFormat(sampleFormat)
 {
-  AudioBuffer	buffer;
+  size_t	size = frameCount * channels * g_sampleFormatSizes[sampleFormat];
 
-  m_channels = channels;
-  m_sampleRate = sampleRate;
-  m_maxFrame = frameCount;
-  m_size = frameCount * channels * sizeof(uint16_t);
-  m_data = new CircularBuffer(m_size);
+  m_buffer = new char[size];
 }
 
-AudioBuffer::AudioBuffer(unsigned int channels, unsigned int sampleRate,
-			 unsigned int second, unsigned int millisecond)
+AudioBuffer::AudioBuffer(unsigned int channels,
+			 unsigned int sampleRate,
+			 unsigned int second,
+			 unsigned int millisecond,
+			 SampleFormat sampleFormat) :
+  m_channels(channels),
+  m_sampleRate(sampleRate),
+  m_sampleFormat(sampleFormat)
 {
-  m_channels = channels;
-  m_sampleRate = sampleRate;
+  size_t	size;
+
   m_maxFrame = (sampleRate * millisecond) / 1000 + sampleRate * second;
-  m_size = buffer.maxFrame * channels * sizeof(uint16_t);
-  m_data = new CircularBuffer(m_size);
+  size = m_maxFrame * channels * g_sampleFormatSizes[sampleFormat];
+  m_buffer = new char[size];
 }
 
-~AudioBuffer::AudioBuffer()
+AudioBuffer::~AudioBuffer()
 {
-  delete[] m_data;
+  delete[]	m_buffer;
 }
 
 unsigned int	AudioBuffer::channels() const
@@ -41,10 +54,55 @@ unsigned int	AudioBuffer::maxFrame() const
   return (m_maxFrame);
 }
 
-unsigned int	AudioBuffer::size() const
+SampleFormat	AudioBuffer::sampleFormat() const
 {
-  return (m_size);
+  return (m_sampleFormat);
 }
+
+// size_t		AudioBuffer::size() const
+// {
+//   return (m_buffer->size());
+// }
+
+// size_t		AudioBuffer::capacity() const
+// {
+//   return (m_buffer->capacity());
+// }
+
+// void*		AudioBuffer::data() const
+// {
+//   return (m_buffer);
+// }
+
+// size_t	AudioBuffer::peek(void* dest, size_t size) const
+// {
+//   return (m_buffer->peek(dest, size));
+// }
+
+// size_t	AudioBuffer::read(void* dest, size_t size)
+// {
+//   return (m_buffer->read(dest, size));
+// }
+
+// size_t	AudioBuffer::write(const void* src, size_t size)
+// {
+//   return (m_buffer->write(src, size));
+// }
+
+// size_t	AudioBuffer::write(char c)
+// {
+//   return (m_buffer->write(c));
+// }
+
+// size_t	AudioBuffer::read(void* dest, size_t size)
+// {
+//   return (memcpy());
+// }
+
+// void*		AudioBuffer::data() const
+// {
+//   return (m_buffer);
+// }
 
 void*		AudioBuffer::data() const
 {

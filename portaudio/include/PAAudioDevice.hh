@@ -5,6 +5,9 @@
 
 class PAAudioDevice : public IAudioDevice
 {
+private:
+  int		m_index;
+
 public:
   PAAudioDevice(unsigned int index);
   ~PAAudioDevice();

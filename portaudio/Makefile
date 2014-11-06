@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Wed Nov  5 11:42:32 2014 guerot
+## Last update Thu Nov  6 21:44:49 2014 guerot
 ##
 
 ## FILES
@@ -17,9 +17,12 @@ SRC		=	main			\
 			APAAudioStream		\
 			PAAudioInputStream	\
 			PAAudioOutputStream	\
-			AudioOperator		\
+			PAAudioDevice		\
+			CircularBuffer		\
 			AudioRecorder		\
-			AudioPlayer
+			AudioPlayer		\
+			AudioBuffer		\
+			SampleFormat
 
 SRC_EXT		=	.cpp
 
@@ -41,8 +44,7 @@ MAKED		=	make --no-print-directory -C
 
 ## LINKAGE
 
-LIB		=	portaudio	\
-			rt		\
+LIB		=	rt		\
 			asound		\
 			jack		\
 			pthread
@@ -116,7 +118,9 @@ endif
 
 CFLAGS		+=	$(CINC)
 LDFLAGS		+=	$(DLIB)				\
+			libportaudio.a			\
 			$(LIB)
+
 
 ## MISC RULES
 
