@@ -1,6 +1,7 @@
 #ifndef		__LOGINENTRYDIALOG_HH__
 # define	__LOGINENTRYDIALOG_HH__
 
+# include	<QString>
 # include	<QDialog>
 # include	<QLineEdit>
 # include	<QVBoxLayout>
@@ -25,6 +26,7 @@ private:
   QLineEdit		*_passwordEdit;
   QDialog		*_dialog;
   LoginDialog		*_parent;
+  QString		_user;
 
 private:
   void		_createErrorBox(const QString&, const QString&);

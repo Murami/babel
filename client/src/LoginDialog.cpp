@@ -56,7 +56,7 @@ void		LoginDialog::createSignInDialog()
   this->_registerDialog->show();
 }
 
-void		LoginDialog::onData(QString error)
+void		LoginDialog::onError(QString error)
 {
   std::cerr << "\033[31m" << error.toStdString() << "\033[0m" << std::endl;
   this->close();

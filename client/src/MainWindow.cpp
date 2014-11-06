@@ -53,6 +53,7 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
   this->_mainLayout->addLayout(this->_buttonLayout);
   this->_connectWidgets();
   this->_audioConversation = false;
+  this->_core.addUserInfoListener(this->_widgetListView);
 }
 
 void		MainWindow::setConnectedUserName(const QString& username)
@@ -60,6 +61,7 @@ void		MainWindow::setConnectedUserName(const QString& username)
   this->_connectedUser = username;
   this->_loggedUserLabel->setText(username);
   this->_userStatus->setPixmap(ResourceManager::getInstance()->getPellet(NET::CONNECTED).pixmap(20, 20));
+  this->setWindowTitle(QString("Babel - ") + username);
 }
 
 void		MainWindow::_connectWidgets()
@@ -68,6 +70,13 @@ void		MainWindow::_connectWidgets()
 	  this, SLOT(createChatConversationWindow()));
   connect(this->_callButton, SIGNAL(clicked()),
 	  this, SLOT(createAudioConversationWindow()));
+  connect(this->_logoutButton, SIGNAL(clicked()),
+	  this, SLOT(disconnect()));
+}
+
+void		MainWindow::disconnect()
+{
+  this->_core.onUserLogout();
 }
 
 void		MainWindow::createAudioConversationWindow()
@@ -77,7 +86,7 @@ void		MainWindow::createAudioConversationWindow()
   if (!this->_audioConversation)
     {
       this->_audioConversation = true;
-      w = new AudioConversationWindow(this);
+      w = new AudioConversationWindow(this->_widgetListView->getSelectedContactName());
       w->show();
     }
 }
@@ -88,7 +97,7 @@ void		MainWindow::createChatConversationWindow()
 
   if (this->_widgetListView->getSelectedContactIndex() != -1)
     {
-      w = new ConversationWindow(this);
+      w = new ConversationWindow(this->_widgetListView->getSelectedContactName());
       w->show();
     }
 }

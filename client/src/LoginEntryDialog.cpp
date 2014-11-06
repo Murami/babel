@@ -9,6 +9,7 @@
 
 LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
+  this->_parent = static_cast<LoginDialog*>(parent);
   this->setWindowTitle("Log in");
   this->_vLayout = new QVBoxLayout();
   this->_hLayout = new QHBoxLayout();
@@ -33,24 +34,24 @@ LoginEntryDialog::LoginEntryDialog(BabelCoreClient& core, QWidget *parent) : QDi
 
 void		LoginEntryDialog::sendData()
 {
-  QString	user = this->_pseudoEdit->text();
   QString	pass = this->_passwordEdit->text();
 
-  if (user.length() >= LOGIN_SIZE)
+  this->_user = this->_pseudoEdit->text();
+  if (this->_user.length() >= LOGIN_SIZE)
     this->_createErrorBox("Login too long",
 			  "Login is too long");
-  else if (user.length() < 3)
+  else if (this->_user.length() < 3)
     this->_createErrorBox("Login too short",
 			  "Login is too short");
   else
-    this->_core.onUserLogin(user, pass);
+    this->_core.onUserLogin(this->_user, pass);
 }
 
 void		LoginEntryDialog::onLogin(bool success)
 {
   if (success)
     {
-      this->_parent->onLogin(this->_pseudoEdit->text());
+      this->_parent->onLogin(this->_user);
       this->close();
     }
   else

@@ -37,7 +37,7 @@ private slots:
   void		createLogInDialog();
 
 public:
-  void		onData(QString);
+  void		onError(QString);
 
 public:
   LoginDialog(BabelCoreClient&, QWidget *parent = 0);

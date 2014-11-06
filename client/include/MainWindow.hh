@@ -44,6 +44,7 @@ public:
 private slots:
   void			createAudioConversationWindow();
   void			createChatConversationWindow();
+  void			disconnect();
 
 private:
   void			_connectWidgets();
