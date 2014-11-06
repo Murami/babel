@@ -4,42 +4,33 @@
 #include	"WidgetButton.hh"
 #include	"WidgetTextView.hh"
 
-int		ConversationWindow::WIDTH = 1280;
-int		ConversationWindow::HEIGHT = 960;
+int		ConversationWindow::WIDTH = 640;
+int		ConversationWindow::HEIGHT = 480;
 
-ConversationWindow::ConversationWindow(QWidget *parent) : QWidget(parent)
+ConversationWindow::ConversationWindow(const std::string& username, QWidget *parent) : QWidget(parent)
 {
+  QVBoxLayout		*mainLayout;
   QHBoxLayout		*layout;
-  QHBoxLayout		*secondLayout;
-  QMovie		*movie;
 
   this->setFixedSize(ConversationWindow::WIDTH, ConversationWindow::HEIGHT);
-  this->setWindowTitle("Conversation");
+  this->setWindowTitle(QString("Chat - ") + QString(username.c_str()));
 
-  this->_video = new QLabel(this);
-
-  // movie = new QMovie("example_video.jpg");
-  // this->_video->setMovie(movie);
-  // movie->start();
-
-  this->_sendMessageButton = new WidgetButton("Send", this);
-  this->_quitButton = new WidgetButton("Close", this);
-  this->_mainLayout = new QVBoxLayout();
+  this->_sendMessageButton = new WidgetButton("Send");
+  this->_quitButton = new WidgetButton("Close");
   layout = new QHBoxLayout();
-  secondLayout = new QHBoxLayout();
-  this->_messageTextView = new WidgetTextView(this);
-  this->_messageTextView->setEnabled(false);
-  this->_messageEdit = new QLineEdit(this);
+  mainLayout = new QVBoxLayout();
+  this->_messageTextView = new WidgetTextView();
+  this->_messageEdit = new QLineEdit();
+
   this->_messageEdit->setFocus();
-  secondLayout->addWidget(this->_messageTextView);
-  secondLayout->addWidget(this->_video);
-  this->_mainLayout->addLayout(secondLayout);
-  //this->_mainLayout->addWidget(this->_messageTextView);
-  this->_mainLayout->addWidget(this->_messageEdit);
+  this->_messageTextView->setEnabled(false);
+  mainLayout->addWidget(this->_messageTextView);
+  mainLayout->addWidget(this->_messageEdit);
   layout->addWidget(this->_sendMessageButton);
   layout->addWidget(this->_quitButton);
-  this->_mainLayout->addLayout(layout);
-  this->setLayout(this->_mainLayout);
+  mainLayout->addLayout(layout);
+  this->setLayout(mainLayout);
+
   connect(this->_quitButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(this->_messageEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
   connect(this->_sendMessageButton, SIGNAL(clicked()), this, SLOT(sendMessage()));

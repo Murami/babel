@@ -6,7 +6,7 @@
 class		IMsgListener
 {
 public:
-  virtual void	onData(NET::MsgInfo) = 0;
+  virtual void	onMsg(NET::MsgInfo) = 0;
 };
 
 #endif

@@ -6,7 +6,7 @@
 class		IConnectListener
 {
 public:
-  virtual void	onData(void) = 0;
+  virtual void	onConnect(void) = 0;
 };
 
 #endif

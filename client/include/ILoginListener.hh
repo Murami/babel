@@ -6,7 +6,7 @@
 class		ILoginListener
 {
 public:
-  virtual void	onData(bool) = 0;
+  virtual void	onLogin(bool) = 0;
 };
 
 #endif

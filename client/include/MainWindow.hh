@@ -8,6 +8,7 @@
 # include	<QVBoxLayout>
 # include	<QMainWindow>
 
+class		LoginDialog;
 class		BabelCoreClient;
 class		WidgetButton;
 class		WidgetListView;
@@ -17,6 +18,10 @@ class		MainWindow : public QWidget
 {
   Q_OBJECT
 
+public:
+  static int	WIDTH;
+  static int	HEIGHT;
+
 private:
   QHBoxLayout		*_mainLayout;
   QVBoxLayout		*_buttonLayout;
@@ -25,20 +30,21 @@ private:
   QLabel		*_loggedUserLabel;
   QLabel		*_userStatus;
   WidgetButton		*_callButton;
-  WidgetButton		*_addContactButton;
-  WidgetButton		*_connectButton;
+  WidgetButton		*_logoutButton;
+  WidgetButton		*_chatButton;
   LoginDialog		*_loginDialog;
   WidgetListView	*_widgetListView;
   BabelCoreClient&	_core;
+  QString		_connectedUser;
+  bool			_audioConversation;
 
 public:
-  static int	WIDTH;
-  static int	HEIGHT;
+  void			setConnectedUserName(const QString&);
 
 private slots:
-  void			createNewContactDialog();
-  void			createConversationWindow();
-  void			createLoginDialog();
+  void			createAudioConversationWindow();
+  void			createChatConversationWindow();
+  void			disconnect();
 
 private:
   void			_connectWidgets();

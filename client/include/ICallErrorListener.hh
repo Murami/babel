@@ -4,7 +4,7 @@
 class		ICallErrorListener
 {
 public:
-  virtual void	onData(bool) = 0;
+  virtual void	onCallError(bool) = 0;
 };
 
 #endif

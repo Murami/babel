@@ -31,7 +31,7 @@ private slots:
   void		setSelectedContact(const QModelIndex&);
 
 public:
-  virtual void	onData(NET::UserInfo);
+  virtual void	onUserInfo(NET::UserInfo);
 
 public:
   WidgetListView(QWidget *parent = 0);

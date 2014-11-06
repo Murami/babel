@@ -6,7 +6,7 @@
 class		IUserInfoListener
 {
 public:
-  virtual void	onData(NET::UserInfo) = 0;
+  virtual void	onUserInfo(NET::UserInfo) = 0;
 };
 
 #endif

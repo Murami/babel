@@ -6,7 +6,7 @@
 class		ICallListener
 {
 public:
-  virtual void	onData(NET::CallInfo) = 0;
+  virtual void	onCall(NET::CallInfo) = 0;
 };
 
 #endif
