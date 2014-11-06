@@ -24,7 +24,6 @@ BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server,
 
 BabelClient::~BabelClient()
 {
-  delete &m_client;
 }
 
 void	BabelClient::initMap()
@@ -221,13 +220,11 @@ void		BabelClient::onLogout(void * /*param*/)
   std::cout << "\033[36m[ server ]\tCallback Logout\033[0m" << std::endl;
   // memcpy(loginInfo.user, m_name.c_str(), LOGIN_SIZE);
   // memcpy(loginInfo.md5_pass, m_mdp.c_str(), MD5_PASS_SIZE);
-  // m_server.popClient(this);
-  // m_client.deleteListener(this);
-  // m_timer.deleteListener(this);
-  // m_isConnect = false;
-  //notifyConnexion(&loginInfo);
-  m_type = HEADER;
-  m_client.read(m_readBuffer, sizeof(Header));
+  // notifyConnexion(&loginInfo);
+  m_server.popClient(this);
+  m_client.deleteListener(this);
+  m_timer.deleteListener(this);
+  m_isConnect = false;
 }
 
 void		BabelClient::notifyConnexion(void *param)
