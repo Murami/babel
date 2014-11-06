@@ -20,7 +20,7 @@ class BabelClient : public ITcpAsyncClientListener, public IAsyncTimerListener
 
   struct		Buffer
   {
-    void*		data[4096];
+    char		data[4096];
     unsigned int	size;
   };
 
@@ -59,6 +59,7 @@ public:
   void			onTimeout(IAsyncTimer& timer);
   void			write(void *data, std::size_t size);
 
+  void			notifyConnexion(void *param);
 private:
   // these are the callbacks called by the parsing in onRead
   void	onHeader(void *param);
