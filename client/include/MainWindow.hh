@@ -61,10 +61,11 @@ private slots:
   void			createAudioConversationWindow();
   void			createChatConversationWindow();
   void			disconnect();
+  void			deleteConversationWindow(ConversationWindow*);
 
 private:
   void			_connectWidgets();
-  bool			_isConversationWindowOpen(NET::MsgInfo);
+  bool			_isConversationWindowOpen(const QString&);
   bool			_isAudioConversationWindowOpen();
 
 public:

@@ -71,29 +71,48 @@ void		MainWindow::setConnectedUserName(const QString& username)
   this->setWindowTitle(QString("Babel - ") + username);
 }
 
+void		MainWindow::deleteConversationWindow(ConversationWindow *w)
+{
+  std::list<ConversationWindow*>::iterator it;
+  std::list<std::string>::iterator name = this->_conversationWindowList.begin();
+  for (it = this->_conversationWindows.begin();
+       it != this->_conversationWindows.end(); it++)
+    {
+      if ((*it) == w)
+	{
+	  this->_conversationWindowList.erase(name);
+	  this->_conversationWindows.erase(it);
+	  break;
+	}
+      name++;
+    }
+}
+
 void		MainWindow::onMsg(NET::MsgInfo info)
 {
   ConversationWindow	*w;
   QString		*mate;
 
   mate = new QString(info.user);
-  if (!this->_isConversationWindowOpen(info))
+  if (!this->_isConversationWindowOpen(QString(info.user)))
     {
       w = new ConversationWindow(this->_core, mate->toStdString());
       w->show();
       w->setUsername(*mate);
       w->onMsg(info);
+      connect(w, SIGNAL(closed(ConversationWindow*)),
+	      this, SLOT(deleteConversationWindow(ConversationWindow*)));
       this->_conversationWindowList.push_back(std::string(info.user));
       this->_conversationWindows.push_back(w);
     }
 }
 
-bool		MainWindow::_isConversationWindowOpen(NET::MsgInfo info)
+bool		MainWindow::_isConversationWindowOpen(const QString& username)
 {
   for (std::list<std::string>::iterator it = this->_conversationWindowList.begin();
        it != this->_conversationWindowList.end(); it++)
     {
-      if ((*it) == std::string(info.user))
+      if ((*it) == username.toStdString())
 	return (true);
     }
   return (false);
@@ -141,12 +160,15 @@ void		MainWindow::createChatConversationWindow()
   ConversationWindow	*w;
   QString		*mate;
 
-  if (this->_widgetListView->getSelectedContactIndex() != -1)
+  if (this->_widgetListView->getSelectedContactIndex() != -1 &&
+      !this->_isConversationWindowOpen(QString(this->_widgetListView->getSelectedContactName().c_str())))
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
       w = new ConversationWindow(this->_core, mate->toStdString());
       w->setUsername(*mate);
       w->show();
+      connect(w, SIGNAL(closed(ConversationWindow*)),
+	      this, SLOT(deleteConversationWindow(ConversationWindow*)));
       this->_conversationWindowList.push_back(mate->toStdString());
       this->_conversationWindows.push_back(w);
     }

@@ -40,8 +40,12 @@ public:
 public:
   void		setUsername(const QString& username);
 
+signals:
+  void		closed(ConversationWindow*);
+
 private slots:
   void		sendMessage();
+  void		closeWindow();
 
 public:
   ConversationWindow(BabelCoreClient&, const std::string& username, QWidget *parent = 0);
