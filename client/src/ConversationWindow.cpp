@@ -1,19 +1,27 @@
+#include	<QDesktopWidget>
 #include	<QMovie>
 #include	<iostream>
 #include	"ConversationWindow.hh"
 #include	"WidgetButton.hh"
 #include	"WidgetTextView.hh"
+#include	"BabelCoreClient.hh"
 
 int		ConversationWindow::WIDTH = 640;
 int		ConversationWindow::HEIGHT = 480;
 
-ConversationWindow::ConversationWindow(const std::string& username, QWidget *parent) : QWidget(parent)
+ConversationWindow::ConversationWindow(BabelCoreClient& core, const std::string& username, QWidget *parent) : QWidget(parent), _core(core)
 {
   QVBoxLayout		*mainLayout;
   QHBoxLayout		*layout;
+  QDesktopWidget screen;
+
+  this->move(screen.screenGeometry(0).width() / 2 - ConversationWindow::WIDTH / 2,
+	     screen.screenGeometry(0).height() / 2 - ConversationWindow::HEIGHT / 2);
 
   this->setFixedSize(ConversationWindow::WIDTH, ConversationWindow::HEIGHT);
   this->setWindowTitle(QString("Chat - ") + QString(username.c_str()));
+
+  this->_connectedMate = QString(username.c_str());
 
   this->_sendMessageButton = new WidgetButton("Send");
   this->_quitButton = new WidgetButton("Close");
@@ -34,18 +42,39 @@ ConversationWindow::ConversationWindow(const std::string& username, QWidget *par
   connect(this->_quitButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(this->_messageEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
   connect(this->_sendMessageButton, SIGNAL(clicked()), this, SLOT(sendMessage()));
+  this->_core.addMsgListener(this);
+}
+
+void		ConversationWindow::setUsername(const QString& username)
+{
+  this->_username = username;
+}
+
+void		ConversationWindow::onMsg(NET::MsgInfo info)
+{
+  QString	str;
+  QTextCursor	cursor = this->_messageTextView->textCursor();
+
+  str = QString(info.msg);
+  str = QString("<span style=\"background:#ff00ff;color:#000000\">") % str % QString("</span><br>");
+  this->_messageTextView->insertHtml(str);
+  cursor.movePosition(QTextCursor::End);
+  this->_messageTextView->setTextCursor(cursor);
 }
 
 void		ConversationWindow::sendMessage()
 {
   QString	str;
+  QString	msg;
+  QTextCursor	cursor = this->_messageTextView->textCursor();
 
-  std::cout << this->_messageEdit->text().toStdString() << std::endl;
-  str = QString(this->_messageTextView->toPlainText());
-  str += this->_messageEdit->text();
-  str += QString("\n");
-  this->_messageTextView->setText(str);
+  msg = this->_messageEdit->text();
   this->_messageEdit->clear();
+  str = QString("<span style=\"background:#cccccc;color:#000000\">") % msg % QString("</span><br>");
+  this->_messageTextView->insertHtml(str);
+  cursor.movePosition(QTextCursor::End);
+  this->_messageTextView->setTextCursor(cursor);
+  this->_core.onUserMsg(this->_connectedMate, msg);
 }
 
 ConversationWindow::~ConversationWindow() {}

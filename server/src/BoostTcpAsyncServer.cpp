@@ -35,9 +35,10 @@ void	BoostTcpAsyncServer::accept()
 //   m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
 // }
 
-void	BoostTcpAsyncServer::onAccept(BoostTcpAsyncClient* client, const boost::system::error_code& /*e*/)
+void	BoostTcpAsyncServer::onAccept(BoostTcpAsyncClient* client, const boost::system::error_code& e)
 {
-  notifyAccept(client);
+  if (!e)
+    notifyAccept(client);
 }
 
 // void	BoostTcpAsyncServer::onTimeout(const boost::system::error_code& /*e*/)

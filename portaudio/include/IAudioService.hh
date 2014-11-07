@@ -6,7 +6,7 @@ class IAudioDevice;
 class IAudioService
 {
 public:
-  virtual ~IAudioService();
+  virtual ~IAudioService() {};
 
   virtual void			initialize() = 0;
   virtual void			release() = 0;

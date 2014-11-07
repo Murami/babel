@@ -1,8 +1,8 @@
 #include "CircularBuffer.hh"
 #include <cstring>
 
-CircularBuffer::CircularBuffer(capacity) :
-  m_size(0), m_start(0), m_end(0), m_capacity(capacity)
+CircularBuffer::CircularBuffer(size_t capacity) :
+ m_capacity(capacity), m_size(0), m_start(0), m_end(0)
 {
   m_buffer = new char[m_capacity];
 }
@@ -19,9 +19,14 @@ void		CircularBuffer::clear()
   m_end = 0;
 }
 
-unsigned int	CircularBuffer::size() const
+size_t		CircularBuffer::size() const
 {
   return (m_size);
+}
+
+size_t		CircularBuffer::capacity() const
+{
+  return (m_capacity);
 }
 
 bool		CircularBuffer::empty() const
@@ -29,7 +34,7 @@ bool		CircularBuffer::empty() const
   return (m_size == 0);
 }
 
-unsigned int	CircularBuffer::peek(void* dest, size_t size)
+size_t		CircularBuffer::peek(void* dest, size_t size) const
 {
   unsigned int	maxIndex = m_capacity - 1;
   unsigned int	cpySize;
@@ -45,7 +50,7 @@ unsigned int	CircularBuffer::peek(void* dest, size_t size)
   return (size);
 }
 
-unsigned int	CircularBuffer::read(void* dest, size_t size)
+size_t		CircularBuffer::read(void* dest, size_t size)
 {
   unsigned int	copiedSize;
 
@@ -55,14 +60,14 @@ unsigned int	CircularBuffer::read(void* dest, size_t size)
   return (copiedSize);
 }
 
-unsigned int	CircularBuffer::write(const void* src, size_t size)
+size_t		CircularBuffer::write(const void* src, size_t size)
 {
   unsigned int	maxIndex = m_capacity - 1;
   unsigned int	cpySize;
   const char*	srcBytes = static_cast<const char*>(src);
 
-  if (getRemainingSize() < size)
-    size = getRemainingSize();
+  if ((this->capacity() - this->size()) < size)
+    size = this->capacity() - this->size();
   cpySize = maxIndex - m_end;
   if (size < cpySize)
     cpySize = size;
@@ -71,4 +76,9 @@ unsigned int	CircularBuffer::write(const void* src, size_t size)
   m_size += size;
   m_end = (m_end + size) % m_capacity;
   return (size);
+}
+
+size_t		CircularBuffer::write(char c)
+{
+  return (this->write(&c, 1));
 }

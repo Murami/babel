@@ -23,8 +23,11 @@ public:
 
   boost::asio::ip::tcp::socket&	getSocket();
 
-  void				onRead(char* buffer, std::size_t transferred, const boost::system::error_code& e);
-  void				onWrite(char* buffer, std::size_t transferred, const boost::system::error_code& e);
+  void				onRead(char* buffer, std::size_t size,
+				       std::size_t transferred,
+				       const boost::system::error_code& e);
+  void				onWrite(char* buffer, std::size_t transferred,
+					const boost::system::error_code& e);
 };
 
 #endif /* BOOSTTCPASYNCLIENT_HH */

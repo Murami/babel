@@ -8,6 +8,8 @@ class ITcpAsyncClientListener;
 class ITcpAsyncClient
 {
 public:
+  virtual ~ITcpAsyncClient() {}
+
   virtual void			addListener(ITcpAsyncClientListener* listener) = 0;
   virtual void			deleteListener(ITcpAsyncClientListener* listener) = 0;
 

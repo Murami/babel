@@ -1,31 +1,27 @@
 #include "APAAudioStream.hh"
+#include "PAAudioService.hh"
 
 #include <cstdlib>
 #include <algorithm>
 
-APAAudioStream::APAAudioStream() :
-  m_listener(NULL)
+APAAudioStream::APAAudioStream(unsigned int channels,
+			       unsigned int sampleRate,
+			       unsigned int framesPerBuffer,
+			       SampleFormat sampleFormat) :
+  m_stream(NULL),
+  m_channels(channels),
+  m_sampleRate(sampleRate),
+  m_framesPerBuffer(framesPerBuffer),
+  m_sampleFormat(sampleFormat)
 {
-  m_inputParameters.device = -1;
-  m_outputParameters.device = -1;
-  m_stream = NULL;
+  m_parameters.channelCount = m_channels;
+  m_parameters.sampleFormat = PAAudioService::getInstance()->getPaSampleFormat(sampleFormat);
+  m_parameters.hostApiSpecificStreamInfo = NULL;
 }
 
 APAAudioStream::~APAAudioStream()
 {
 }
-
-// void	APAAudioStream::setInputStream(int inputDevice, int channelCount)
-// {
-//   m_inputParameters.device = inputDevice;
-//   if (inputDevice == -1)
-//     return;
-//   m_inputParameters.channelCount = channelCount;
-//   m_inputParameters.sampleFormat = paInt16;
-//   m_inputParameters.suggestedLatency =
-//     Pa_GetDeviceInfo(inputDevice)->defaultLowOutputLatency;
-//   m_inputParameters.hostApiSpecificStreamInfo = NULL;
-// }
 
 // void	APAAudioStream::setOutputStream(int outputDevice, int channelCount)
 // {
@@ -39,64 +35,64 @@ APAAudioStream::~APAAudioStream()
 //   m_outputParameters.hostApiSpecificStreamInfo = NULL;
 // }
 
-// void	APAAudioStream::open(double sampleRate, unsigned long framesPerBuffer)
+// void	APAAudioStream::open()
 // {
 //   if (m_stream != NULL)
 //     this->close();
 //   Pa_OpenStream(&m_stream,
-// 		(m_inputParameters.device == -1) ? NULL : &m_inputParameters,
-// 		(m_outputParameters.device == -1) ? NULL : &m_outputParameters,
-// 		sampleRate,
-// 		framesPerBuffer,
-// 		paClipOff,
-// 		&launch_listener_events,
-// 		this);
+//   		(m_inputParameters.device == -1) ? NULL : &m_inputParameters,
+//   		(m_outputParameters.device == -1) ? NULL : &m_outputParameters,
+//   		sampleRate,
+//   		framesPerBuffer,
+//   		paClipOff,
+//   		&launch_listener_events,
+//   		this);
 // }
 
-void		setSampleFormat(SampleFormat format)
+void		APAAudioStream::setSampleFormat(SampleFormat format)
 {
   m_sampleFormat = format;
-  // mapper le format vers un pa format
+  m_parameters.sampleFormat = PAAudioService::getInstance()->getPaSampleFormat(m_sampleFormat);
 }
 
-void		setChannels(unsigned int channels)
+void		APAAudioStream::setChannels(unsigned int channels)
 {
   m_channels = channels;
 }
 
-void		setSampleRate(unsigned int sampleRate)
+void		APAAudioStream::setSampleRate(unsigned int sampleRate)
 {
   m_sampleRate = sampleRate;
 }
 
-void		setFramesPerBuffer(unsigned int framesPerBuffer)
+void		APAAudioStream::setFramesPerBuffer(unsigned int framesPerBuffer)
 {
   m_framesPerBuffer = framesPerBuffer;
 }
 
-SampleFormat	getSampleFormat()
+SampleFormat	APAAudioStream::getSampleFormat()
 {
   return (m_sampleFormat);
 }
 
-unsigned int	getChannels()
+unsigned int	APAAudioStream::getChannels()
 {
   return (m_channels);
 }
 
-unsigned int	getSampleRate()
+unsigned int	APAAudioStream::getSampleRate()
 {
   return (m_sampleRate);
 }
 
-unsigned int	getFramesPerBuffer()
+unsigned int	APAAudioStream::getFramesPerBuffer()
 {
   return (m_framesPerBuffer);
 }
 
 void	APAAudioStream::close()
 {
-  if (this->isActive())
+  if (this->active())
     this->stop();
   if (m_stream == NULL)
     return;
@@ -111,13 +107,13 @@ bool	APAAudioStream::active()
 
 void	APAAudioStream::start()
 {
-  if (!this->isActive())
+  if (!this->active())
     Pa_StartStream(m_stream);
 }
 
 void	APAAudioStream::stop()
 {
-  if (this->isActive())
+  if (this->active())
     Pa_StopStream(m_stream);
 }
 

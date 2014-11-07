@@ -16,11 +16,12 @@ const std::string PATH_ACCOUNTS = "accounts.babel";
 class BabelServer : public ITcpAsyncServerListener, public IAsyncTimerListener
 {
 private:
-  ITcpAsyncServer&		m_server;
-  BoostAsyncService&		m_service;
-  std::list<BabelAccountEntry>	m_accountList;
-  std::list<BabelClient*>	m_clients;
-  std::list<BabelCall*>		m_calls;
+  ITcpAsyncServer&			m_server;
+  BoostAsyncService&			m_service;
+  std::list<BabelAccountEntry>		m_accountList;
+  std::list<BabelClient*>		m_clients;
+  std::list<BabelCall*>			m_calls;
+  std::list<ITcpAsyncClient*>		m_sockets;
 
 public:
   BabelServer(ITcpAsyncServer& server, BoostAsyncService& service);

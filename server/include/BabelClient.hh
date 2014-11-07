@@ -1,3 +1,4 @@
+
 #ifndef BABELCLIENT_HH
 #define BABELCLIENT_HH
 
@@ -20,13 +21,13 @@ class BabelClient : public ITcpAsyncClientListener, public IAsyncTimerListener
 
   struct		Buffer
   {
-    void*		data[4096];
+    char		data[4096];
     unsigned int	size;
   };
 
 private:
   Type			m_type;
-  ITcpAsyncClient&	m_client;
+  ITcpAsyncClient*	m_client;
   BabelServer&		m_server;
   BoostAsyncTimer	m_timer;
 
@@ -46,7 +47,7 @@ private:
   void	initMap();
 
 public:
-  BabelClient(ITcpAsyncClient& client, BabelServer& server, BoostAsyncService& service);
+  BabelClient(ITcpAsyncClient* client, BabelServer& server, BoostAsyncService& service);
   ~BabelClient();
 
 
@@ -54,11 +55,14 @@ public:
   const std::string &	getMdp() const;
   bool			isConnect() const;
 
+  ITcpAsyncClient*	getSocket();
   void			onRead(ITcpAsyncClient& client, char* buffer, std::size_t size);
   void			onWrite(ITcpAsyncClient& client, char* buffer, std::size_t size);
   void			onTimeout(IAsyncTimer& timer);
   void			write(void *data, std::size_t size);
 
+  void			notifyLogout();
+  void			notifyConnexion(void *param);
 private:
   // these are the callbacks called by the parsing in onRead
   void	onHeader(void *param);
