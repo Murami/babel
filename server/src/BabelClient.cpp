@@ -1,6 +1,7 @@
 #include "BabelClient.hh"
 #include "BoostAsyncTimer.hh"
 #include "BoostAsyncService.hh"
+#include "BoostTcpAsyncClient.hh"
 #include "ITcpAsyncClient.hh"
 #include "BabelServer.hh"
 #include "BabelCall.hh"
@@ -191,14 +192,19 @@ void				BabelClient::onRegister(void *param)
   m_client->read(m_readBuffer, sizeof(Header));
 }
 
-void		BabelClient::onCall(void *param)
+void			BabelClient::onCall(void *param)
 {
-  BabelClient*	tmp;
-  Call		*call = static_cast<Call*>(param);
+  BabelClient*		tmp;
+  BoostTcpAsyncClient*	client;
+  Call*			call = static_cast<Call*>(param);
 
   std::cout << "\033[36m[ server ]\tCallback CALL\033[0m" << std::endl;
   if ((tmp = m_server.getClient(call->user)) != NULL && m_server.createCall(tmp, this))
     {
+      client = dynamic_cast<BoostTcpAsyncClient*>(tmp);
+      memcpy(call->ip,
+	     client->getSocket().remote_endpoint().address().to_string().c_str(),
+	     client->getSocket().remote_endpoint().address().to_string().length() + 1);
       memcpy(call->user, m_name.c_str(), m_name.length() + 1);
       tmp->sendCall(call);
     }
@@ -353,12 +359,15 @@ void				BabelClient::sendMsg(Msg *msg)
 void				BabelClient::sendCall(Call *call)
 {
   BabelClient*			tmp;
+  Header			header;
 
   std::cout << "\033[31m[ server ]\tSEND CALL\033[0m" << std::endl;
   if ((tmp = m_server.getClient(call->user)) != NULL)
     {
-      memcpy(call->user, m_name.c_str(), m_name.length() + 1);
-      //
+      header.type = CALL;
+      header.size = sizeof(Call);
+      write(&header, sizeof(Header));
+      write(call, sizeof(Call));
     }
 }
 
