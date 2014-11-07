@@ -12,7 +12,7 @@ public:
   virtual void	deleteListener(IAsyncTimerListener* listener) = 0;
 
   virtual void	wait(unsigned int second, unsigned int microsecond) = 0;
-  virtual void	waitUntil(unsigned int second, unsigned int microsecond) = 0;
+  // virtual void	waitUntil(unsigned int second, unsigned int microsecond) = 0;
 };
 
 #endif /* IASYNCTIMER_HH */

@@ -14,12 +14,14 @@ public:
   static std::string	BUTTON_PRESSED;
   static std::string	BLUE_PELLET;
   static std::string	RED_PELLET;
+  static std::string	CALL_BACKGROUND;
 };
 
 class		ResourceManager
 {
 private:
   QPixmap	*_button[3];
+  QPixmap	*_callBackground;
   QIcon		*_pellets[2];
 
 private:
@@ -32,6 +34,12 @@ public:		ResourceManager()
     _button[2] = new QPixmap(QString(ResourcePath::BUTTON_PRESSED.c_str()));
     _pellets[0] = new QIcon(QString(ResourcePath::BLUE_PELLET.c_str()));
     _pellets[1] = new QIcon(QString(ResourcePath::RED_PELLET.c_str()));
+    _callBackground = new QPixmap(QString(ResourcePath::CALL_BACKGROUND.c_str()));
+  }
+
+  QPixmap*		getCallBackground()
+  {
+    return (_callBackground);
   }
 
   QIcon			getPellet(NET::Status s)

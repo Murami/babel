@@ -10,13 +10,14 @@
 # include	<QImage>
 # include	<QHBoxLayout>
 
+# include	"IMsgErrorListener.hh"
 # include	"IMsgListener.hh"
 
 class		BabelCoreClient;
 class		WidgetButton;
 class		WidgetTextView;
 
-class		ConversationWindow : public QWidget, public IMsgListener
+class		ConversationWindow : public QWidget, public IMsgListener, public IMsgErrorListener
 {
   Q_OBJECT
 
@@ -36,12 +37,17 @@ private:
 
 public:
   virtual void		onMsg(NET::MsgInfo);
+  virtual void		onMsgError(bool);
 
 public:
   void		setUsername(const QString& username);
 
+signals:
+  void		closed(ConversationWindow*);
+
 private slots:
   void		sendMessage();
+  void		closeWindow();
 
 public:
   ConversationWindow(BabelCoreClient&, const std::string& username, QWidget *parent = 0);

@@ -4,22 +4,39 @@
 # include	<string>
 # include	<QMainWindow>
 
+# include	"ICallErrorListener.hh"
+
+class		WidgetButton;
 class		BabelCoreClient;
 
-class		AudioConversationWindow : public QMainWindow
+class		AudioConversationWindow : public QWidget, public ICallErrorListener
 {
   Q_OBJECT
 
 private:
   QString		_username;
+  QString		_mate;
   BabelCoreClient&	_core;
+  WidgetButton		*_hangoutButton;
 
 public:
-  AudioConversationWindow(BabelCoreClient&, const std::string& username, QWidget *parent = 0);
+  AudioConversationWindow(BabelCoreClient&,
+			  const std::string& mate,
+			  const std::string& user,
+			  QWidget *parent = 0);
   ~AudioConversationWindow();
 
 public:
+  virtual void	onCallError(bool);
+
+public:
   void		setUsername(const QString& username);
+
+signals:
+  void		closed();
+
+private slots:
+  void		hangout();
 
 public:
   static int	WIDTH;

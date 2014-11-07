@@ -15,39 +15,53 @@ ConversationWindow::ConversationWindow(BabelCoreClient& core, const std::string&
   QHBoxLayout		*layout;
   QDesktopWidget screen;
 
+  this->_core.addMsgErrorListener(this);
+  this->_core.addMsgListener(this);
   this->move(screen.screenGeometry(0).width() / 2 - ConversationWindow::WIDTH / 2,
 	     screen.screenGeometry(0).height() / 2 - ConversationWindow::HEIGHT / 2);
-
   this->setFixedSize(ConversationWindow::WIDTH, ConversationWindow::HEIGHT);
   this->setWindowTitle(QString("Chat - ") + QString(username.c_str()));
-
   this->_connectedMate = QString(username.c_str());
-
   this->_sendMessageButton = new WidgetButton("Send");
   this->_quitButton = new WidgetButton("Close");
   layout = new QHBoxLayout();
   mainLayout = new QVBoxLayout();
   this->_messageTextView = new WidgetTextView();
   this->_messageEdit = new QLineEdit();
-
   this->_messageEdit->setFocus();
-  this->_messageTextView->setEnabled(false);
+  this->_messageTextView->setReadOnly(true);
   mainLayout->addWidget(this->_messageTextView);
   mainLayout->addWidget(this->_messageEdit);
   layout->addWidget(this->_sendMessageButton);
   layout->addWidget(this->_quitButton);
   mainLayout->addLayout(layout);
   this->setLayout(mainLayout);
-
-  connect(this->_quitButton, SIGNAL(clicked()), this, SLOT(close()));
+  connect(this->_quitButton, SIGNAL(clicked()), this, SLOT(closeWindow()));
   connect(this->_messageEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
   connect(this->_sendMessageButton, SIGNAL(clicked()), this, SLOT(sendMessage()));
-  this->_core.addMsgListener(this);
+}
+
+void		ConversationWindow::closeWindow()
+{
+  emit closed(this);
+  this->close();
 }
 
 void		ConversationWindow::setUsername(const QString& username)
 {
   this->_username = username;
+}
+
+void		ConversationWindow::onMsgError(bool lol)
+{
+  if (lol)
+    {
+      std::cerr << "[ CONVERSATION ]: Received an error." << std::endl;
+    }
+  else
+    {
+      std::cerr << "[ CONVERSATION ]: Error while attempting to send message." << std::endl;
+    }
 }
 
 void		ConversationWindow::onMsg(NET::MsgInfo info)
@@ -56,9 +70,14 @@ void		ConversationWindow::onMsg(NET::MsgInfo info)
   QTextCursor	cursor = this->_messageTextView->textCursor();
 
   str = QString(info.msg);
-  str = QString("<span style=\"background:#ff00ff;color:#000000\">") % str % QString("</span><br>");
+  str = QString("<span style=\"background-color:#33ffcc;color:#000000\">") % str % QString("</span>");
   this->_messageTextView->insertHtml(str);
   cursor.movePosition(QTextCursor::End);
+
+  str = QString("<br>");
+  this->_messageTextView->insertHtml(str);
+  cursor.movePosition(QTextCursor::End);
+
   this->_messageTextView->setTextCursor(cursor);
 }
 
@@ -68,9 +87,12 @@ void		ConversationWindow::sendMessage()
   QString	msg;
   QTextCursor	cursor = this->_messageTextView->textCursor();
 
+  std::cout << "[ USERNAME ] : " << this->_username.toStdString() << std::endl;
+  std::cout << "[ MATE ] : " << this->_connectedMate.toStdString() << std::endl;
+
   msg = this->_messageEdit->text();
   this->_messageEdit->clear();
-  str = QString("<span style=\"background:#cccccc;color:#000000\">") % msg % QString("</span><br>");
+  str = QString("<span style=\"background:#6a5acd;color:#ffffff\">") % msg % QString("</span><br>");
   this->_messageTextView->insertHtml(str);
   cursor.movePosition(QTextCursor::End);
   this->_messageTextView->setTextCursor(cursor);
