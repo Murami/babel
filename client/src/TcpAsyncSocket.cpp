@@ -101,7 +101,7 @@ void TcpAsyncSocket::notifyConnect()
 
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
-    (*it)->onConnect();
+    (*it)->onTcpConnect();
 }
 
 void TcpAsyncSocket::notifyDisconnect()
@@ -110,7 +110,7 @@ void TcpAsyncSocket::notifyDisconnect()
 
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
-    (*it)->onDisconnect();
+    (*it)->onTcpDisconnect();
 }
 
 void TcpAsyncSocket::notifyError(int error)
@@ -119,7 +119,7 @@ void TcpAsyncSocket::notifyError(int error)
 
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
-    (*it)->onError(error);
+    (*it)->onTcpError(error);
 }
 
 void TcpAsyncSocket::notifyRead()
@@ -128,7 +128,7 @@ void TcpAsyncSocket::notifyRead()
 
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
-    (*it)->onRead();
+    (*it)->onTcpRead();
 }
 
 void TcpAsyncSocket::addListener(ITcpAsyncSocketListener * listener)

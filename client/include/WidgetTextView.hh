@@ -13,6 +13,12 @@ private:
   QBrush	_userBrush;
   QBrush	_mateBrush;
 
+# include	<QTextEdit>
+
+class		WidgetTextView : public QTextEdit
+{
+  Q_OBJECT
+
 public:
   void		addMessageFromUser(const QString&);
   void		addMessageFromMate(const QString&);

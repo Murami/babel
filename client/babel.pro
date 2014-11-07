@@ -1,6 +1,7 @@
 CONFIG += qt
 QT += core gui widgets network
-INCLUDEPATH += include/
+LIBS += libportaudio/libs/libportaudio.a -lopus -lasound -ljack
+INCLUDEPATH +=  include libportaudio/include
 
 QMAKE_CXXFLAGS += -g3
 
@@ -41,6 +42,36 @@ HEADERS += 	include/TcpAsyncSocket.hh               \
 		include/Timer.hh		        \
 		include/IMutex.hh		       	\
 		include/Mutex.hh			\
+                include/APAAudioStream.hh               \
+                include/AudioBuffer.hh                  \
+                include/AudioPlayer.hh                  \
+                include/AudioRecorder.hh                \
+                include/AudioStreamListener.hh          \
+                include/CircularBuffer.hh               \
+                include/IAudioCoder.hh                  \
+                include/IAudioDevice.hh                 \
+                include/IAudioInputStream.hh            \
+                include/IAudioInputStreamListener.hh    \
+                include/IAudioOutputStream.hh           \
+                include/IAudioOutputStreamListener.hh   \
+                include/IAudioService.hh                \
+                include/IAudioStream.hh                 \
+                include/OpusAudioCoder.hh               \
+                include/PAAudioDevice.hh                \
+                include/PAAudioInputStream.hh           \
+                include/PAAudioOutputStream.hh          \
+                include/PAAudioService.hh               \
+                include/SampleFormat.hh                 \
+                libportaudio/include/pa_asio.h          \
+                libportaudio/include/pa_win_ds.h        \
+                libportaudio/include/pa_win_wmme.h      \
+                libportaudio/include/pa_jack.h          \
+                libportaudio/include/pa_win_wasapi.h    \
+                libportaudio/include/portaudio.h        \
+                libportaudio/include/pa_linux_alsa.h    \
+                libportaudio/include/pa_win_waveformat.h \
+                libportaudio/include/pa_mac_core.h      \
+                libportaudio/include/pa_win_wdmks.h
 
 SOURCES += 	src/main.cpp		            	\
 		src/UdpAsyncSocket.cpp		  	\
@@ -60,5 +91,16 @@ SOURCES += 	src/main.cpp		            	\
 		src/RegisterEntryDialog.cpp             \
 		src/Timer.cpp		           	\
 		src/Mutex.cpp				\
+                src/APAAudioStream.cpp                  \
+                src/AudioBuffer.cpp                     \
+                src/AudioPlayer.cpp                     \
+                src/AudioRecorder.cpp                   \
+                src/CircularBuffer.cpp                  \
+                src/OpusAudioCoder.cpp                  \
+                src/PAAudioDevice.cpp                   \
+                src/PAAudioInputStream.cpp              \
+                src/PAAudioOutputStream.cpp             \
+                src/PAAudioService.cpp                  \
+                src/SampleFormat.cpp
 
 OBJECTS_DIR	=	src/

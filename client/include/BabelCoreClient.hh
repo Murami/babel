@@ -5,9 +5,13 @@
 # include <QString>
 
 # include "ITcpAsyncSocketListener.hh"
+# include "IUdpAsyncSocketListener.hh"
 # include "IWidgetListener.hh"
 # include "ITimerListener.hh"
 # include "TcpAsyncSocket.hh"
+# include "UdpAsyncSocket.hh"
+# include "AudioRecorder.hh"
+# include "AudioPlayer.hh"
 # include "IFunctor.hh"
 # include "Protocol.hh"
 # include "Timer.hh"
@@ -23,7 +27,10 @@ class IMsgListener;
 class IMsgErrorListener;
 class IUserInfoListener;
 
-class BabelCoreClient : public ITcpAsyncSocketListener, public IWidgetListener, public ITimerListener
+class BabelCoreClient : public ITcpAsyncSocketListener,
+			public IUdpAsyncSocketListener,
+			public IWidgetListener,
+			public ITimerListener
 {
 private:
   typedef std::map<NET::Type, size_t>				SizeTypeMap;
@@ -35,10 +42,14 @@ public:
   ~BabelCoreClient();
 
 public:
-  void			onConnect();
-  void			onDisconnect();
-  void			onError(int error);
-  void			onRead();
+  void			onTcpConnect();
+  void			onTcpDisconnect();
+  void			onTcpError(int error);
+  void			onTcpRead();
+
+public:
+  void			onUdpError(int error);
+  void			onUdpRead();
 
 public:
   void			onTimeout(int id);
@@ -58,6 +69,13 @@ public:
   void			disconnect();
   void			setTypeNeeded(NET::Type type);
   NET::Type		getTypeNeeded();
+  AudioRecorder*	getRecorder();
+  AudioPlayer*		getPlayer();
+  Timer&		getTimer();
+  std::string		getUdpAddress();
+  uint16_t		getUdpPort();
+  void			setUdpAddress(std::string address);
+  void			setUdpPort(uint16_t port);
 
   void			addCallListener(ICallListener * listener);
   void			addConnectListener(IConnectListener * listener);
@@ -91,9 +109,14 @@ private:
   static FunctorTypeMap				functorTypeMap;
   static ErrorMap				errorMap;
   TcpAsyncSocket				m_socket;
+  UdpAsyncSocket				m_audio_socket;
+  AudioRecorder					*m_recorder;
+  AudioPlayer					*m_player;
   NET::Type					typeNeeded;
   Timer						m_timer;
   char						buffer[4096];
+  std::string					m_udpAddress;
+  uint16_t					m_udpPort;
 
   std::list<ICallListener *>			CallListenerList;
   std::list<IConnectListener *>			ConnectListenerList;

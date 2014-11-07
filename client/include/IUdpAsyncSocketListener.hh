@@ -4,8 +4,8 @@
 class IUdpAsyncSocketListener
 {
 public:
-  virtual void onError(int error) = 0;
-  virtual void onRead() = 0;
+  virtual void onUdpError(int error) = 0;
+  virtual void onUdpRead() = 0;
 };
 
 #endif

@@ -100,6 +100,12 @@ struct Img
   char			img[JPEG_SIZE];
 } __attribute__((packed));
 
+struct SamplePacket
+{
+  Header header;
+  Sample sample;
+} __attribute__((packed));
+
 }
 
 #endif

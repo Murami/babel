@@ -42,6 +42,8 @@ void CallFunctor::operator()(BabelCoreClient & core, void *data)
       core.setTypeNeeded(NET::T_HEADER);
       NET::CallInfo *tmp = reinterpret_cast<NET::CallInfo*>(data);
       core.notifyCall(*tmp);
+      core.setUdpAddress(tmp->ip);
+      core.setUdpPort(tmp->port);
     }
 }
 
@@ -83,6 +85,9 @@ void OkCallFunctor::operator()(BabelCoreClient & core, void *data)
   (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyCallError(true);
+  core.getRecorder()->start();
+  core.getPlayer()->start();
+  core.getTimer().start();
 }
 
 void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
@@ -91,6 +96,9 @@ void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
   (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyCallError(false);
+  core.getTimer().stop();
+  core.getPlayer()->stop();
+  core.getRecorder()->stop();
 }
 
 void OkMsgFunctor::operator()(BabelCoreClient & core, void *data)
