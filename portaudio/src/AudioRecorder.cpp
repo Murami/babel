@@ -1,21 +1,17 @@
 #include "AudioBuffer.hh"
 #include "AudioRecorder.hh"
 #include "PAAudioInputStream.hh"
+#include "OpusAudioCoder.hh"
 
 #include "SampleFormat.hh"
 
 #include <iostream>
 #include <cstring>
 
-AudioRecorder::AudioRecorder(AudioBuffer& buffer) :
-  m_buffer(buffer),
-  m_currentFrame(0)
+AudioRecorder::AudioRecorder()
 {
-  m_stream = new PAAudioInputStream(buffer.channels(),
-				    buffer.sampleRate(),
-				    0,
-				    buffer.sampleFormat(),
-				    this),
+  m_coder = new OpusAudioCoder(48000, 2, 64000);
+  m_stream = new PAAudioInputStream(2, 44100, 960, Int16, this);
   m_stream->open();
 }
 
@@ -40,26 +36,49 @@ void	AudioRecorder::stop()
   m_stream->stop();
 }
 
+void	AudioRecorder::pushFrame(void* frame)
+{
+  //Mutex ICI
+  m_frameQueue.push(frame);
+}
+
+void*	AudioRecorder::popFrame()
+{
+  //Mutex ICI
+  void*	frame;
+
+  frame = m_frameQueue.front();
+  m_frameQueue.pop();
+  return (frame);
+}
+
+int	AudioRecorder::nextFrameSize() const
+{
+  //Mutex ICI
+  uint32_t	size;
+
+  memcpy(&size, m_frameQueue.front(), 4);
+  return (size);
+}
+
+int	AudioRecorder::size() const
+{
+  //Mutex ICI
+  return (m_frameQueue.size());
+}
+
 int	AudioRecorder::onStreamRequest(const void* input,
 				       unsigned long frames,
-				       unsigned int channels,
-				       SampleFormat sampleFormat)
+				       unsigned int /*channels*/,
+				       SampleFormat /*sampleFormat*/)
 {
-  size_t	sampleSize = g_sampleFormatSizes[sampleFormat];
-  size_t	framesLeft = m_buffer.maxFrame() - m_currentFrame;
-  size_t	sizeBuffer;
-  void*		ptr;
+  unsigned char		cbits[4096];
+  size_t		size;
+  char*			frame;
 
-  if (framesLeft < frames)
-    sizeBuffer = framesLeft * channels * sampleSize;
-  else
-    sizeBuffer = frames * channels * sampleSize;
-
-  ptr = (char*)m_buffer.data() + (m_currentFrame * channels * sampleSize);
-  if (m_currentFrame > m_buffer.maxFrame())
-    m_currentFrame = m_buffer.maxFrame();
-  memcpy(ptr, input, sizeBuffer);
-
-  m_currentFrame += frames;
-  return (m_currentFrame < m_buffer.maxFrame());
+  size = m_coder->encode(static_cast<const int16_t*>(input), cbits);
+  frame = new char[size];
+  memcpy(frame, cbits, size);
+  pushFrame(frame);
+  return (true);
 }

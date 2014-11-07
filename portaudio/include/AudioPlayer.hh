@@ -2,25 +2,31 @@
 #define AUDIOPLAYER_HH
 
 #include "IAudioOutputStreamListener.hh"
+#include <queue>
 
 class AudioBuffer;
 class IAudioOutputStream;
+class IAudioCoder;
 
 class AudioPlayer : public IAudioOutputStreamListener
 {
 private:
-  AudioBuffer&		m_buffer;
+  std::queue<void*>	m_frameQueue;
+  IAudioCoder*		m_coder;
   IAudioOutputStream*	m_stream;
-  unsigned long		m_currentFrame;
-  unsigned long		m_framesMax;
 
 public:
-  AudioPlayer(AudioBuffer& m_buffer, unsigned long framesMax = 0);
+  AudioPlayer();
   ~AudioPlayer();
 
   void	start();
   void	stop();
   bool	active();
+
+  void	pushFrame(void* frame);
+  void* popFrame();
+  int	nextFrameSize() const;
+  int	size() const;
 
   int	onStreamRequest(void* output, unsigned long frame,
 			unsigned int channels, SampleFormat sampleFormat);

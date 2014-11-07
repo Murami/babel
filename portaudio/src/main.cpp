@@ -51,29 +51,34 @@ int	main()
   // init the service
   PAAudioService::getInstance()->initialize();
 
-  // create the buffer
-  AudioBuffer	buffer(CHANNELS, SAMPLE_RATE, SECONDS_RECORD, 0, Int16);
+  // // create the buffer
+  // AudioBuffer	buffer(CHANNELS, SAMPLE_RATE, SECONDS_RECORD, 0, Int16);
 
   // create the recorder
-  AudioRecorder	recorder(buffer);
+  AudioRecorder	recorder;
 
   // run the recorder until it finish by itself
   std::cout << "Debut Record" << std::endl;
   recorder.start();
-  while (recorder.active())
-    usleep(1000);
+  sleep(5);
   recorder.stop();
   std::cout << "Fin Record" << std::endl;
 
-  // create the player
-  AudioPlayer	player(buffer);
+  std::cout << "Recorded : " << recorder.size() << std::endl;
 
+  // create the player
+  AudioPlayer	player;
+
+
+  // !! TRANSFER DATA TO THE PLAYER BY ADVANCE !! //
+
+  while (recorder.size())
+    player.pushFrame(recorder.popFrame());
 
   // run the player until it finish by itself
   std::cout << "Debut Play" << std::endl;
   player.start();
-  while (player.active())
-    usleep(1000);
+  sleep(5);
   player.stop();
   std::cout << "Fin Play" << std::endl;
 
