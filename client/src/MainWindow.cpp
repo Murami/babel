@@ -207,7 +207,7 @@ void		MainWindow::createChatConversationWindow()
 
 void		MainWindow::onDisconnect()
 {
-  disconnet();
+  disconnect();
 }
 
 MainWindow::~MainWindow()
