@@ -1,3 +1,4 @@
+#include <QHostAddress>
 #include <QSettings>
 #include <cstring>
 
@@ -13,6 +14,7 @@
 #include "IMsgListener.hh"
 #include "IUserInfoListener.hh"
 #include "Functor.hh"
+#include "PAAudioService.hh"
 
 BabelCoreClient::SizeTypeMap BabelCoreClient::sizeTypeMap	= BabelCoreClient::initializeSizeTypeMap();
 BabelCoreClient::FunctorTypeMap BabelCoreClient::functorTypeMap = BabelCoreClient::initializeFunctorTypeMap();
@@ -21,53 +23,68 @@ BabelCoreClient::ErrorMap BabelCoreClient::errorMap		= BabelCoreClient::initiali
 BabelCoreClient::BabelCoreClient()
 {
   typeNeeded = NET::T_HEADER;
-  m_timer.setInterval(30000);
 
+  m_timer.setInterval(512);
   m_timer.addListener(this);
   m_socket.addListener(this);
+  m_audio_socket.addListener(this);
+  PAAudioService::getInstance()->initialize();
+  m_player = new AudioPlayer;
+  m_recorder = new AudioRecorder;
 }
 
 BabelCoreClient::~BabelCoreClient()
 {
-
+  PAAudioService::getInstance()->release();
 }
 
 /* listened timer event */
 
-void BabelCoreClient::onTimeout(int id)
+void BabelCoreClient::onTimeout(int)
 {
-  std::cout << "timeout server detected (30sec)" << std::endl;
-  (void)id;
-  // emit event close
+  NET::Header		header;
+  NET::Sample		sample;
+  void*			frame;
+  int			frameSize;
+
+  header.type = NET::T_SAMPLE;
+  header.size = sizeof(sample);
+  sample.size = 0;
+  while (m_recorder->nextFrameSize() + sample.size < 4096)
+    {
+      frameSize = m_recorder->nextFrameSize();
+      frame = m_recorder->popFrame();
+      memcpy(sample.rawData + sample.size, frame, frameSize);
+      sample.size += frameSize;
+    }
+  m_audio_socket.writeDatagram(&header, sizeof(header), m_udpAddress, m_udpPort);
+  m_audio_socket.writeDatagram(&sample, sizeof(sample), m_udpAddress, m_udpPort);
 }
 
-/* listened socket event*/
+/* listened Tcp socket event*/
 
-void BabelCoreClient::onConnect()
+void BabelCoreClient::onTcpConnect()
 {
   std::cout << "core connect detected" << std::endl;
-  m_timer.start();
   notifyConnect();
 }
 
-void BabelCoreClient::onDisconnect()
+void BabelCoreClient::onTcpDisconnect()
 {
   std::cout << __FUNCTION__ << "core disconnect detected" << std::endl;
-  m_timer.stop();
   notifyDisconnect();
 }
 
-void BabelCoreClient::onError(int error)
+void BabelCoreClient::onTcpError(int error)
 {
   std::cout << "core error detected" << std::endl;
   notifyError(errorMap[error]);
 }
 
-void BabelCoreClient::onRead()
+void BabelCoreClient::onTcpRead()
 {
   std::cout << "core data read to read" << std::endl;
 
-  m_timer.setInterval(30000);
   while (m_socket.bytesAvailable() >= sizeTypeMap[typeNeeded])
     {
       m_socket.read(buffer, sizeTypeMap[typeNeeded]);
@@ -80,6 +97,25 @@ void BabelCoreClient::onRead()
 	{
 	  (*functorTypeMap[typeNeeded])(*this, buffer);
 	}
+    }
+}
+
+/* listened Udp socket event */
+
+void BabelCoreClient::onUdpError(int)
+{
+  std::cout << "udp error detected" << std::endl;
+}
+
+void BabelCoreClient::onUdpRead()
+{
+  NET::SamplePacket packet;
+
+  while (m_audio_socket.hasPendingDatagrams() &&
+	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
+    {
+      m_audio_socket.readDatagram(&packet, sizeof(packet));
+      m_player->pushFrames(packet.sample.rawData, packet.sample.size);
     }
 }
 
@@ -131,7 +167,22 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
 void BabelCoreClient::onUserCall(QString login)
 {
   std::cout << __FUNCTION__ << std::endl;
-  /* on vera quand quentin fera port audio */
+
+  NET::Header		header;
+  NET::CallInfo		info;
+
+  m_udpAddress = "0.0.0.0"; //like QHostAddress::AnyIpv4
+  m_udpPort = 8008;
+  m_audio_socket.bind(m_udpAddress, 8008);
+  header.type = NET::T_CALL;
+  header.size = sizeof(info);
+  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memset(info.ip, 0, IP_SIZE);
+  info.port = 8008;
+  info.prot = NET::UDP;
+  info.type = NET::AUDIO;
+  m_socket.write(&header, sizeof(header));
+  m_socket.write(&info, sizeof(info));
 }
 
 void BabelCoreClient::onUserLogin(QString login, QString pass)
@@ -223,6 +274,9 @@ void BabelCoreClient::onUserHangout(QString login)
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
+  m_timer.stop();
+  m_player->stop();
+  m_recorder->stop();
 }
 
 /* core control */
@@ -255,6 +309,41 @@ void BabelCoreClient::setTypeNeeded(NET::Type type)
 NET::Type BabelCoreClient::getTypeNeeded()
 {
   return (typeNeeded);
+}
+
+AudioRecorder* BabelCoreClient::getRecorder()
+{
+  return (m_recorder);
+}
+
+AudioPlayer* BabelCoreClient::getPlayer()
+{
+  return (m_player);
+}
+
+std::string BabelCoreClient::getUdpAddress()
+{
+  return (m_udpAddress);
+}
+
+uint16_t BabelCoreClient::getUdpPort()
+{
+  return (m_udpPort);
+}
+
+void BabelCoreClient::setUdpAddress(std::string address)
+{
+  m_udpAddress = address;
+}
+
+void BabelCoreClient::setUdpPort(uint16_t port)
+{
+  m_udpPort = port;
+}
+
+Timer& BabelCoreClient::getTimer()
+{
+  return (m_timer);
 }
 
 BabelCoreClient::SizeTypeMap BabelCoreClient::initializeSizeTypeMap()

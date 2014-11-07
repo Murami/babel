@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Fri Nov  7 05:18:48 2014 guerot
+## Last update Fri Nov  7 15:21:33 2014 pinon_a
 ##
 
 ## FILES
@@ -120,7 +120,7 @@ endif
 
 CFLAGS		+=	$(CINC)
 LDFLAGS		+=	$(DLIB)				\
-			libportaudio.a			\
+			-lportaudio			\
 			$(LIB)
 
 

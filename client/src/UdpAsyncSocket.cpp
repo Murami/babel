@@ -35,7 +35,7 @@ int64_t	UdpAsyncSocket::pendingDatagramSize() const
   return (m_socket.pendingDatagramSize());
 }
 
-int64_t	UdpAsyncSocket::readDatagram(char * data, int64_t maxSize, std::string * address, uint16_t * port)
+int64_t	UdpAsyncSocket::readDatagram(void * data, int64_t maxSize, std::string * address, uint16_t * port)
 {
   QHostAddress	addr;
   std::string	tmp;
@@ -43,21 +43,21 @@ int64_t	UdpAsyncSocket::readDatagram(char * data, int64_t maxSize, std::string *
 
   if (address != NULL)
     {
-      size = m_socket.readDatagram(data, maxSize, &addr, port);
+      size = m_socket.readDatagram(static_cast<char*>(data), maxSize, &addr, port);
       tmp = addr.toString().toStdString();
       *address = tmp;
       return (size);
     }
   else
-    return (m_socket.readDatagram(data, maxSize, NULL, port));
+    return (m_socket.readDatagram(static_cast<char*>(data), maxSize, NULL, port));
 }
 
-int64_t	UdpAsyncSocket::writeDatagram(const char * data, int64_t size, std::string & address, uint16_t port)
+int64_t	UdpAsyncSocket::writeDatagram(const void * data, int64_t size, std::string & address, uint16_t port)
 {
   QHostAddress                          addr;
 
   addr.setAddress(QString::fromUtf8(address.c_str()));
-  return (m_socket.writeDatagram(data, size, addr, port));
+  return (m_socket.writeDatagram(static_cast<char*>(const_cast<void*>(data)), size, addr, port));
 }
 
 void	UdpAsyncSocket::onError(QAbstractSocket::SocketError error)
@@ -81,7 +81,7 @@ void	UdpAsyncSocket::notifyError(int error)
 
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
-    (*it)->onError(error);
+    (*it)->onUdpError(error);
 }
 
 void	UdpAsyncSocket::notifyRead()
@@ -90,5 +90,5 @@ void	UdpAsyncSocket::notifyRead()
 
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
-    (*it)->onRead();
+    (*it)->onUdpRead();
 }

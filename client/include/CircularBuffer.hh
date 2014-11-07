@@ -1,30 +1,29 @@
-#ifndef CIRCULARBUFFER_HH
-#define CIRCULARBUFFER_HH
+#ifndef CIRCULARBUFFER_HPP
+#define CIRCULARBUFFER_HPP
 
 #include <cstdlib>
-#include <cstring>
 
 class CircularBuffer
 {
 private:
   char*		m_buffer;
+  size_t	m_capacity;
   size_t	m_size;
   size_t	m_start;
   size_t	m_end;
-  size_t	m_max_size;
 
 public:
-  CircularBuffer(size_t size);
+  CircularBuffer(size_t capacity);
   ~CircularBuffer();
 
   void		clear();
-  unsigned int	getRemainingSize() const;
-  unsigned int	getSize() const;
-  bool		isEmpty() const;
-  bool		isFull() const;
-  unsigned int	peek(void* dest, size_t size);
-  unsigned int	read(void* dest, size_t size);
-  unsigned int	write(const void* src, size_t size);
+  size_t	size() const;
+  size_t	capacity() const;
+  bool		empty() const;
+  size_t	peek(void* dest, size_t size) const;
+  size_t	read(void* dest, size_t size);
+  size_t	write(const void* src, size_t size);
+  size_t	write(char c);
 };
 
-#endif /* CIRCULARBUFFER_HH */
+#endif /* CIRCULARBUFFER_HPP */

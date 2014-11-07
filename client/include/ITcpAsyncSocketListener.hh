@@ -4,10 +4,10 @@
 class ITcpAsyncSocketListener
 {
 public:
-  virtual void onConnect() = 0;
-  virtual void onDisconnect() = 0;
-  virtual void onError(int error) = 0;
-  virtual void onRead() = 0;
+  virtual void onTcpConnect() = 0;
+  virtual void onTcpDisconnect() = 0;
+  virtual void onTcpError(int error) = 0;
+  virtual void onTcpRead() = 0;
 };
 
 #endif
