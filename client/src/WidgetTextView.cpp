@@ -1,9 +1,31 @@
-#include	<QScrollArea>
 #include	"WidgetTextView.hh"
 
-WidgetTextView::WidgetTextView(QWidget *parent) : QFrame(parent)
+WidgetTextView::WidgetTextView(const QString& user,
+			       const QString& mate,
+			       QWidget *parent) : QListWidget(parent)
 {
-  this->_scrollArea = new QScrollArea(this);
+  this->_user = user;
+  this->_mate = mate;
+  this->_userBrush.setColor(QColor(255, 0, 0));
+  this->_mateBrush.setColor(QColor(0, 255, 0));
+}
+
+void		WidgetTextView::addMessageFromUser(const QString& msg)
+{
+  QListWidgetItem *item;
+
+  item = new QListWidgetItem(msg);
+  item->setBackground(this->_userBrush);
+  this->addItem(item);
+}
+
+void		WidgetTextView::addMessageFromMate(const QString& msg)
+{
+  QListWidgetItem *item;
+
+  item = new QListWidgetItem(msg);
+  item->setBackground(this->_mateBrush);
+  this->addItem(item);
 }
 
 WidgetTextView::~WidgetTextView() {}

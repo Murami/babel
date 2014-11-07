@@ -123,7 +123,8 @@ void		MainWindow::onMsg(NET::MsgInfo info)
   mate = new QString(info.user);
   if (!this->_isConversationWindowOpen(QString(info.user)))
     {
-      w = new ConversationWindow(this->_core, mate->toStdString());
+      w = new ConversationWindow(this->_core, this->_connectedUser.toStdString(),
+				 mate->toStdString());
       w->show();
       w->setUsername(this->_connectedUser);
       w->onMsg(info);
@@ -195,7 +196,8 @@ void		MainWindow::createChatConversationWindow()
       !this->_isConversationWindowOpen(QString(this->_widgetListView->getSelectedContactName().c_str())))
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
-      w = new ConversationWindow(this->_core, mate->toStdString());
+      w = new ConversationWindow(this->_core, this->_connectedUser.toStdString(),
+				 mate->toStdString());
       w->setUsername(this->_connectedUser);
       w->show();
       connect(w, SIGNAL(closed(ConversationWindow*)),

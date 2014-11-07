@@ -1,17 +1,24 @@
 #ifndef		__WIDGETTEXTVIEW_HH__
 # define	__WIDGETTEXTVIEW_HH__
 
-# include	<QFrame>
+# include	<QListWidget>
 
-class		WidgetTextView : public QFrame
+class		WidgetTextView : public QListWidget
 {
   Q_OBJECT
 
 private:
-  QScrollArea	*_scrollArea;
+  QString	_user;
+  QString	_mate;
+  QBrush	_userBrush;
+  QBrush	_mateBrush;
 
 public:
-  WidgetTextView(QWidget *parent = 0);
+  void		addMessageFromUser(const QString&);
+  void		addMessageFromMate(const QString&);
+
+public:
+  WidgetTextView(const QString& user, const QString& mate, QWidget *parent = 0);
   ~WidgetTextView();
 };
 

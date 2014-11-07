@@ -50,7 +50,9 @@ private slots:
   void		closeWindow();
 
 public:
-  ConversationWindow(BabelCoreClient&, const std::string& username, QWidget *parent = 0);
+  ConversationWindow(BabelCoreClient&,
+		     const std::string& user,
+		     const std::string& mate, QWidget *parent = 0);
   ~ConversationWindow();
 };
 
