@@ -29,8 +29,10 @@ public:
 
 
 
+  BabelCall*			getCallFromDest(BabelClient * dest);
   bool				createCall(BabelClient* dest, BabelClient* src);
   void				popClient(BabelClient* client);
+  void				popCall(BabelCall* client);
   void				loadAccounts();
   void				addAccount(BabelAccountEntry account);
 

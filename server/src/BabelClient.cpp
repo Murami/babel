@@ -3,6 +3,7 @@
 #include "BoostAsyncService.hh"
 #include "ITcpAsyncClient.hh"
 #include "BabelServer.hh"
+#include "BabelCall.hh"
 
 BabelClient::BabelClient(ITcpAsyncClient* client, BabelServer& server,
 			 BoostAsyncService& service) :
@@ -89,22 +90,22 @@ ITcpAsyncClient*		BabelClient::getSocket()
 
 void		BabelClient::write(void* data, std::size_t size)
 {
-  // Buffer	buffer;
+  Buffer	buffer;
 
-  // if (!m_isWriting)
-  //   {
+  if (!m_isWriting)
+    {
       memset(m_writeBuffer, 0, 4096);
       memcpy(m_writeBuffer, data, size);
       m_client->write(m_writeBuffer, size);
-  //     m_isWriting = true;
-  //   }
-  // else
-  //   {
-  //     memset(&buffer, 0, sizeof(Buffer));
-  //     memcpy(buffer.data, data, size);
-  //     buffer.size = size;
-  //     m_queueWrite.push(buffer);
-  //   }
+      m_isWriting = true;
+    }
+  else
+    {
+      memset(&buffer, 0, sizeof(Buffer));
+      memcpy(buffer.data, data, size);
+      buffer.size = size;
+      m_queueWrite.push(buffer);
+    }
 }
 
 void		BabelClient::onTimeout(IAsyncTimer& /*timer*/)
@@ -192,15 +193,46 @@ void				BabelClient::onRegister(void *param)
 
 void		BabelClient::onCall(void *param)
 {
+  BabelClient*	tmp;
   Call		*call = static_cast<Call*>(param);
 
   std::cout << "\033[36m[ server ]\tCallback CALL\033[0m" << std::endl;
-  if (m_server.createCall(m_server.getClient(std::string(call->user)), this))
-    sendOKCall();
+  if ((tmp = m_server.getClient(call->user)) != NULL && m_server.createCall(tmp, this))
+    {
+      memcpy(call->user, m_name.c_str(), m_name.length() + 1);
+      tmp->sendCall(call);
+    }
   else
-    sendKOCall();
+    {
+      sendKOCall();
+    }
   m_type = HEADER;
+  m_client->read(m_readBuffer, sizeof(Header));
 }
+
+void		BabelClient::onKOCall(void * param)
+{
+  UserInfo	*info = static_cast<UserInfo *>(param);
+  BabelClient	*client = m_server.getClient(std::string(info->user));
+  BabelCall	*call = m_server.getCallFromDest(client);
+
+  std::cout << "\033[36m[ server ]\tCallback KO CALL\033[0m" << std::endl;
+
+  call->getInterluctor(client)->sendKOCall();
+  m_server.popCall(call);
+}
+
+void		BabelClient::onOKCall(void * param)
+{
+  UserInfo	*info = static_cast<UserInfo*>(param);
+  BabelClient	*client = m_server.getClient(std::string(info->user));
+  BabelCall	*call = m_server.getCallFromDest(client);
+
+  std::cout << "\033[36m[ server ]\tCallback OK CALL\033[0m" << std::endl;
+  call->setValid(true);
+  call->getInterluctor(client)->sendOKCall();
+}
+
 
 void		BabelClient::onRecvMsg(void *param)
 {
@@ -318,9 +350,16 @@ void				BabelClient::sendMsg(Msg *msg)
   write(msg, sizeof(Msg));
 }
 
-void				BabelClient::sendCall()
+void				BabelClient::sendCall(Call *call)
 {
+  BabelClient*			tmp;
+
   std::cout << "\033[31m[ server ]\tSEND CALL\033[0m" << std::endl;
+  if ((tmp = m_server.getClient(call->user)) != NULL)
+    {
+      memcpy(call->user, m_name.c_str(), m_name.length() + 1);
+      //
+    }
 }
 
 // Gestion des données du client
@@ -400,18 +439,6 @@ void		BabelClient::sendKORegister()
   header.type = KO_REGISTER;
   header.size = sizeof(Header);
   write(&header, sizeof(Header));
-}
-
-void		BabelClient::onKOCall(void * /*param*/)
-{
-  std::cout << "\033[36m[ server ]\tCallback KO CALL\033[0m" << std::endl;
-  // destroycall(this);  -> getInterlocutor == -> pop
-}
-
-void		BabelClient::onOKCall(void * /*param */)
-{
-  std::cout << "\033[36m[ server ]\tCallback OK CALL\033[0m" << std::endl;
-  // getcall()isValid -> true
 }
 
 void		BabelClient::sendOKLogin()

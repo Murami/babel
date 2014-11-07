@@ -85,7 +85,7 @@ private:
   void	sendOKMsg();
   void	sendKOMSg();
   void	sendMsg(Msg *msg);
-  void	sendCall();
+  void	sendCall(Call *call);
   void	sendPing();
 };
 
