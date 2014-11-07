@@ -20,9 +20,10 @@ public:
   size_t	size() const;
   size_t	capacity() const;
   bool		empty() const;
-  size_t	peek(void* dest, size_t size);
+  size_t	peek(void* dest, size_t size) const;
   size_t	read(void* dest, size_t size);
   size_t	write(const void* src, size_t size);
+  size_t	write(char c);
 };
 
 #endif /* CIRCULARBUFFER_HPP */

@@ -17,7 +17,7 @@ private:
 
 public:
   TcpAsyncClient();
-  ~TcpAsyncClient();
+  virtual ~TcpAsyncClient();
 
   void		addListener(ITcpAsyncClientListener* listener);
   void		deleteListener(ITcpAsyncClientListener* listener);

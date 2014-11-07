@@ -2,6 +2,7 @@
 #define PAAUDIOSERVICE_HH
 
 #include "IAudioService.hh"
+#include "SampleFormat.hh"
 
 class AudioDevice;
 
@@ -26,6 +27,8 @@ public:
   IAudioDevice*			getDefaultInputDevice() const;
   IAudioDevice*			getDefaultOutputDevice() const;
   IAudioDevice*			getDevice(unsigned int index) const;
+
+  unsigned int			getPaSampleFormat(SampleFormat sampleFormat) const;
 };
 
 #endif /* PAAUDIOSERVICE_HH */

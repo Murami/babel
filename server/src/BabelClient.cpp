@@ -4,7 +4,7 @@
 #include "ITcpAsyncClient.hh"
 #include "BabelServer.hh"
 
-BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server,
+BabelClient::BabelClient(ITcpAsyncClient* client, BabelServer& server,
 			 BoostAsyncService& service) :
   m_client(client),
   m_server(server),
@@ -16,10 +16,10 @@ BabelClient::BabelClient(ITcpAsyncClient& client, BabelServer& server,
   m_isConnect = false;
   m_isWriting = false;
   m_timer.addListener(this);
-  m_client.addListener(this);
+  m_client->addListener(this);
   m_timer.wait(5, 0);
   m_type = HEADER;
-  m_client.read(m_readBuffer, sizeof(Header));
+  m_client->read(m_readBuffer, sizeof(Header));
 }
 
 BabelClient::~BabelClient()
@@ -74,12 +74,17 @@ void		BabelClient::onWrite(ITcpAsyncClient& /*client*/,
       buf = m_queueWrite.front();
       m_queueWrite.pop();
       memcpy(m_writeBuffer, buf.data, buf.size);
-      m_client.write(m_writeBuffer, buf.size);
+      m_client->write(m_writeBuffer, buf.size);
     }
   else
     {
       m_isWriting = false;
     }
+}
+
+ITcpAsyncClient*		BabelClient::getSocket()
+{
+  return (m_client);
 }
 
 void		BabelClient::write(void* data, std::size_t size)
@@ -90,7 +95,7 @@ void		BabelClient::write(void* data, std::size_t size)
   //   {
       memset(m_writeBuffer, 0, 4096);
       memcpy(m_writeBuffer, data, size);
-      m_client.write(m_writeBuffer, size);
+      m_client->write(m_writeBuffer, size);
   //     m_isWriting = true;
   //   }
   // else
@@ -104,6 +109,7 @@ void		BabelClient::write(void* data, std::size_t size)
 
 void		BabelClient::onTimeout(IAsyncTimer& /*timer*/)
 {
+  std::cout << "On Timeout" << std::endl;
   sendPing();
   m_timer.wait(5, 0);
   /*
@@ -117,19 +123,16 @@ void		BabelClient::onHeader(void *param)
 {
   Header	*header = static_cast<Header*>(param);
 
-  std::cout << "\033[36m[ server ]\tCallback Header\033[0m" << std::endl;
+  std::cout << "\033[36m[ server ]\tCallback Header " << header->type << "\033[0m" << std::endl;
   if (std::find(m_headerType.begin(),
 		m_headerType.end(), header->type) == m_headerType.end())
     {
       m_type = header->type;
-      m_client.read(m_readBuffer, header->size);
+      m_client->read(m_readBuffer, header->size);
     }
   else
     {
-      if (header->type != HEADER)
-	(this->*m_map[m_type])(param);
-      m_type = HEADER;
-      m_client.read(m_readBuffer, sizeof(Header));
+      (this->*m_map[header->type])(param);
     }
 }
 
@@ -155,11 +158,12 @@ void		BabelClient::onLogin(void *param)
       sendKOLogin();
     }
   m_type = HEADER;
-  m_client.read(m_readBuffer, sizeof(Header));
+  m_client->read(m_readBuffer, sizeof(Header));
 }
 
-void		BabelClient::onRegister(void *param)
+void				BabelClient::onRegister(void *param)
 {
+  BabelAccountEntry		account;
   LoginInfo			*loginInfo = static_cast<LoginInfo*>(param);
 
   std::cout << "\033[36m[ server ]\tCallback Register\033[0m" << std::endl;
@@ -173,14 +177,17 @@ void		BabelClient::onRegister(void *param)
       sendOKRegister();
       sendOKLogin();
       notifyConnexion(param);
-    }
+      account.login = m_name;
+      account.md5pass = m_mdp;
+      m_server.addAccount(account);
+   }
   else
     {
       m_isConnect = false;
       sendKORegister();
     }
   m_type = HEADER;
-  m_client.read(m_readBuffer, sizeof(Header));
+  m_client->read(m_readBuffer, sizeof(Header));
 }
 
 void		BabelClient::onCall(void *param)
@@ -210,27 +217,35 @@ void		BabelClient::onRecvMsg(void *param)
   else
     sendKOMSg();
   m_type = HEADER;
-  m_client.read(m_readBuffer, sizeof(Header));
+  m_client->read(m_readBuffer, sizeof(Header));
 }
 
 void		BabelClient::onLogout(void * /*param*/)
 {
-  LoginInfo			loginInfo;;
-
   std::cout << "\033[36m[ server ]\tCallback Logout\033[0m" << std::endl;
-  // memcpy(loginInfo.user, m_name.c_str(), LOGIN_SIZE);
-  // memcpy(loginInfo.md5_pass, m_mdp.c_str(), MD5_PASS_SIZE);
-  // notifyConnexion(&loginInfo);
+  notifyLogout();
   m_server.popClient(this);
-  m_client.deleteListener(this);
-  m_timer.deleteListener(this);
-  m_isConnect = false;
+  delete this;
+}
+
+void		BabelClient::notifyLogout()
+{
+  std::list<BabelClient*>	clients = m_server.getAllClients();
+  UserInfo			info;;
+
+  memcpy(info.user, m_name.c_str(), LOGIN_SIZE);
+  info.status = DISCONNECTED;
+  for (std::list<BabelClient*>::iterator it = clients.begin();
+       it != clients.end(); it++)
+    {
+      if ((*it) != this)
+	(*it)->sendUserinfo(&info);
+    }
 }
 
 void		BabelClient::notifyConnexion(void *param)
 {
   LoginInfo			*loginInfo = static_cast<LoginInfo*>(param);
-  BabelAccountEntry		account;
   std::list<BabelAccountEntry>	accounts = m_server.getAllAccounts();
   std::list<BabelClient*>	clients = m_server.getAllClients();
   UserInfo			my_info;
@@ -264,9 +279,6 @@ void		BabelClient::notifyConnexion(void *param)
       if ((*it) != this)
 	(*it)->sendUserinfo(&my_info);
     }
-  account.login = m_name;
-  account.md5pass = m_mdp;
-  m_server.addAccount(account);
 }
 
 // ANSWSER TO CLIENT
@@ -279,9 +291,9 @@ void				BabelClient::sendUserinfo(UserInfo *info)
   header.type = USERINFO;
   header.size = sizeof(UserInfo);
   write(&header, sizeof(Header));
-  std::cout << "User Server [" << m_name << "]" << std::endl;
-  std::cout << "write user info to client user";
-  std::cout << "   [" << info->user << "]" << std::endl;
+  // std::cout << "User Server [" << m_name << "]" << std::endl;
+  // std::cout << "write user info to client user";
+  // std::cout << "   [" << info->user << "]" << std::endl;
   write(info, sizeof(UserInfo));
 }
 

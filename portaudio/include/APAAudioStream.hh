@@ -1,5 +1,5 @@
-#ifndef PAAUDIOSTREAM_HH
-#define PAAUDIOSTREAM_HH
+#ifndef APAAUDIOSTREAM_HH
+#define APAAUDIOSTREAM_HH
 
 #include "IAudioStream.hh"
 #include "APAAudioStream.hh"
@@ -9,11 +9,11 @@
 
 class IAudioStreamListener;
 
-class APAAudioStream : public IAudioStream
+class APAAudioStream
 {
-private:
-  PaStreamParameters	m_streamParameters;
-  PaSampleFormat	m_PaSampleFormat;
+protected:
+  PaStreamParameters	m_parameters;
+  PaStream*		m_stream;
 
   unsigned int		m_channels;
   unsigned int		m_sampleRate;
@@ -21,7 +21,10 @@ private:
   SampleFormat		m_sampleFormat;
 
 public:
-  APAAudioStream();
+  APAAudioStream(unsigned int channels,
+		 unsigned int sampleRate,
+		 unsigned int framesPerBuffer,
+		 SampleFormat sampleFormat);
   ~APAAudioStream();
 
   void		setSampleFormat(SampleFormat format);
@@ -29,17 +32,16 @@ public:
   void		setSampleRate(unsigned int sampleRate);
   void		setFramesPerBuffer(unsigned int framesPerBuffer);
 
-  unsigned int	getSampleFormat();
+  SampleFormat	getSampleFormat();
   unsigned int	getChannels();
   unsigned int	getSampleRate();
-  SampleFormat	getFramesPerBuffer();
+  unsigned int	getFramesPerBuffer();
 
   bool		active();
   void		close();
   void		start();
   void		stop();
-
   virtual void	open() = 0;
 };
 
-#endif /* PAAUDIOSTREAM_HH */
+#endif /* APAAUDIOSTREAM_HH */

@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <portaudio.h>
 
+#include <iostream>
+
 PAAudioService*	PAAudioService::m_instance = NULL;
 
 PAAudioService::PAAudioService()
@@ -68,4 +70,9 @@ IAudioDevice*		PAAudioService::getDevice(unsigned int index) const
   if (index >= getDeviceCount())
     return (NULL);
   return (new PAAudioDevice(index));
+}
+
+unsigned int		PAAudioService::getPaSampleFormat(SampleFormat sampleFormat) const
+{
+  return (1 << sampleFormat);
 }
