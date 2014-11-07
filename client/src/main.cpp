@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
   MainWindow mainWindow(core);
   LoginDialog w(core, &mainWindow);
 
-  core.run();
   w.show();
   return app.exec();
 }
