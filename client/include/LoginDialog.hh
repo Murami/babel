@@ -35,6 +35,7 @@ public:
 private slots:
   void		createSignInDialog();
   void		createLogInDialog();
+  void		display();
 
 public:
   void		onError(QString);

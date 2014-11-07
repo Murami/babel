@@ -8,6 +8,10 @@ BoostTcpAsyncClient::BoostTcpAsyncClient(BoostAsyncService& service) : m_socket(
 {
 }
 
+BoostTcpAsyncClient::~BoostTcpAsyncClient()
+{
+}
+
 void	BoostTcpAsyncClient::readSome(char* buffer, size_t size)
 {
   m_socket.async_read_some(boost::asio::buffer(buffer, size),
@@ -26,6 +30,7 @@ void	BoostTcpAsyncClient::writeSome(char* buffer, size_t size)
 
 void	BoostTcpAsyncClient::read(char* buffer, size_t size)
 {
+  std::cout << "Oh on read !" << std::endl;
   boost::asio::async_read(m_socket, boost::asio::buffer(buffer, size),
 			  boost::bind(&BoostTcpAsyncClient::onRead, this, buffer, size,
 				      boost::asio::placeholders::bytes_transferred,

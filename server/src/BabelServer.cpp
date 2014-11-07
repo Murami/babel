@@ -5,6 +5,7 @@
 #include "BabelServer.hh"
 #include "BoostTcpAsyncServer.hh"
 #include "BabelCall.hh"
+#include "ITcpAsyncClient.hh"
 
 BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
   m_server(server), m_service(service)
@@ -21,6 +22,12 @@ BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
 BabelServer::~BabelServer()
 {
   m_server.deleteListener(this);
+  //free ts les sockets
+  std::list<ITcpAsyncClient*>::iterator	it;
+
+  for (it = m_sockets.begin(); it != m_sockets.end(); it++)
+    delete (*it);
+  m_sockets.clear();
 
   /*
     - on deconnect proprement tous les clients
@@ -63,9 +70,15 @@ void				BabelServer::onAccept(ITcpAsyncServer& server,
 {
   BabelClient*			new_client;
 
-  new_client = new BabelClient(*client, *this, m_service);
+  new_client = new BabelClient(client, *this, m_service);
   m_clients.push_back(new_client);
   server.accept();
+  //free ts les sockets
+  std::list<ITcpAsyncClient*>::iterator	it;
+
+  for (it = m_sockets.begin(); it != m_sockets.end(); it++)
+    delete (*it);
+  m_sockets.clear();
 
 }
 
@@ -152,16 +165,33 @@ bool				BabelServer::createCall(BabelClient* dest, BabelClient *src)
   for (std::list<BabelCall*>::iterator it = m_calls.begin();
        it != m_calls.end(); it++)
     {
-      // if (dest == (*it)->getDestination() || dest == (*it)->getSource() ||
-      // 	  src == (*it)->getDestination() || src == (*it)->getSource())
+      if (dest == (*it)->getDestination() || dest == (*it)->getSource() ||
+      	  src == (*it)->getDestination() || src == (*it)->getSource())
 	return false;
     }
   m_calls.push_back(new BabelCall(dest, src));
   return true;
 }
 
+BabelCall*			BabelServer::getCallFromDest(BabelClient* dest)
+{
+ for (std::list<BabelCall*>::iterator it = m_calls.begin();
+       it != m_calls.end(); it++)
+    {
+      if (dest == (*it)->getDestination())
+	return (*it);
+    }
+ return NULL;
+}
+
+
 void				BabelServer::popClient(BabelClient * client)
 {
+  m_sockets.push_back(client->getSocket());
   m_clients.remove(client);
-  delete client;
+}
+
+void				BabelServer::popCall(BabelCall * call)
+{
+  m_calls.remove(call);
 }
