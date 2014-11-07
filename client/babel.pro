@@ -28,6 +28,7 @@ HEADERS += 	include/TcpAsyncSocket.hh               \
 		include/ConversationWindow.hh           \
 		include/AudioConversationWindow.hh	\
 		include/LoginDialog.hh		  	\
+		include/AudioCallConfirmationDialog.hh	\
 		include/MainWindow.hh		   	\
 		include/User.hh		         	\
 		include/WidgetButton.hh		 	\
@@ -47,6 +48,7 @@ SOURCES += 	src/main.cpp		            	\
 		src/BabelCoreClient.cpp		 	\
 		src/Functor.cpp		         	\
 		src/ConversationWindow.cpp              \
+		src/AudioCallConfirmationDialog.cpp	\
 		src/AudioConversationWindow.cpp		\
 		src/LoginDialog.cpp		     	\
 		src/MainWindow.cpp		      	\

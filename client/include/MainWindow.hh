@@ -10,6 +10,7 @@
 # include	<QMainWindow>
 # include	"IMsgListener.hh"
 # include	"IDisconnectListener.hh"
+# include	"ICallListener.hh"
 # include	"ConversationWindow.hh"
 # include	"AudioConversationWindow.hh"
 
@@ -21,7 +22,8 @@ class		LoginDialog;
 
 class		MainWindow : public QWidget,
 			     public IMsgListener,
-			     public IDisconnectListener
+			     public IDisconnectListener,
+			     public ICallListener
 {
   Q_OBJECT
 
@@ -43,9 +45,9 @@ private:
   WidgetListView			*_widgetListView;
   BabelCoreClient&			_core;
   QString				_connectedUser;
-  std::list<std::string>		_audioConversationWindowList;
   std::list<std::string>		_conversationWindowList;
   std::list<ConversationWindow*>	_conversationWindows;
+  AudioConversationWindow*		_audioWindow;
 
 public:
   void			setConnectedUserName(const QString&);
@@ -53,6 +55,7 @@ public:
 public:
   virtual void		onMsg(NET::MsgInfo);
   virtual void		onDisconnect(void);
+  virtual void		onCall(NET::CallInfo);
 
 signals:
   void			closeMainWindow();
@@ -62,11 +65,11 @@ private slots:
   void			createChatConversationWindow();
   void			disconnect();
   void			deleteConversationWindow(ConversationWindow*);
+  void			deleteAudioWindow();
 
 private:
   void			_connectWidgets();
   bool			_isConversationWindowOpen(const QString&);
-  bool			_isAudioConversationWindowOpen();
 
 public:
   MainWindow(BabelCoreClient&, QWidget *parent = 0);

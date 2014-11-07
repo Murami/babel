@@ -15,6 +15,7 @@ ConversationWindow::ConversationWindow(BabelCoreClient& core, const std::string&
   QHBoxLayout		*layout;
   QDesktopWidget screen;
 
+  this->_core.addMsgErrorListener(this);
   this->_core.addMsgListener(this);
   this->move(screen.screenGeometry(0).width() / 2 - ConversationWindow::WIDTH / 2,
 	     screen.screenGeometry(0).height() / 2 - ConversationWindow::HEIGHT / 2);
@@ -51,13 +52,25 @@ void		ConversationWindow::setUsername(const QString& username)
   this->_username = username;
 }
 
+void		ConversationWindow::onMsgError(bool lol)
+{
+  if (lol)
+    {
+      std::cerr << "[ CONVERSATION ]: Received an error." << std::endl;
+    }
+  else
+    {
+      std::cerr << "[ CONVERSATION ]: Error while attempting to send message." << std::endl;
+    }
+}
+
 void		ConversationWindow::onMsg(NET::MsgInfo info)
 {
   QString	str;
   QTextCursor	cursor = this->_messageTextView->textCursor();
 
   str = QString(info.msg);
-  str = QString("<span style=\"background-color:#33ffcc;color:#ffffff\">") % str % QString("</span>");
+  str = QString("<span style=\"background-color:#33ffcc;color:#000000\">") % str % QString("</span>");
   this->_messageTextView->insertHtml(str);
   cursor.movePosition(QTextCursor::End);
 
@@ -74,9 +87,12 @@ void		ConversationWindow::sendMessage()
   QString	msg;
   QTextCursor	cursor = this->_messageTextView->textCursor();
 
+  std::cout << "[ USERNAME ] : " << this->_username.toStdString() << std::endl;
+  std::cout << "[ MATE ] : " << this->_connectedMate.toStdString() << std::endl;
+
   msg = this->_messageEdit->text();
   this->_messageEdit->clear();
-  str = QString("<span style=\"background:#cccccc;color:#000000\">") % msg % QString("</span><br>");
+  str = QString("<span style=\"background:#6a5acd;color:#ffffff\">") % msg % QString("</span><br>");
   this->_messageTextView->insertHtml(str);
   cursor.movePosition(QTextCursor::End);
   this->_messageTextView->setTextCursor(cursor);

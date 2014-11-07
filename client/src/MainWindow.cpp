@@ -6,6 +6,7 @@
 #include	"LoginDialog.hh"
 #include	"MainWindow.hh"
 
+#include	"AudioCallConfirmationDialog.hh"
 #include	"AudioConversationWindow.hh"
 #include	"ConversationWindow.hh"
 #include	"WidgetButton.hh"
@@ -61,6 +62,13 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
   this->_connectWidgets();
   this->_core.addUserInfoListener(this->_widgetListView);
   this->_core.addMsgListener(this);
+  this->_core.addCallListener(this);
+  this->_audioWindow = NULL;
+}
+
+void		MainWindow::deleteAudioWindow()
+{
+  this->_audioWindow = NULL;
 }
 
 void		MainWindow::setConnectedUserName(const QString& username)
@@ -88,6 +96,25 @@ void		MainWindow::deleteConversationWindow(ConversationWindow *w)
     }
 }
 
+void		MainWindow::onCall(NET::CallInfo info)
+{
+  if (this->_audioWindow == NULL)
+    {
+      AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core, this->_connectedUser, this);
+      dialog->show();
+      std::cout << "\033[42mCREATING CONFIRMATION\033[0m" << std::endl;
+    }
+  else
+    {
+      this->_audioWindow = new AudioConversationWindow(this->_core,
+						       this->_connectedUser.toStdString(),
+						       info.user);
+      this->_audioWindow->show();
+      connect(this->_audioWindow, SIGNAL(closed()),
+	      this, SLOT(deleteAudioWindow()));
+    }
+}
+
 void		MainWindow::onMsg(NET::MsgInfo info)
 {
   ConversationWindow	*w;
@@ -98,7 +125,7 @@ void		MainWindow::onMsg(NET::MsgInfo info)
     {
       w = new ConversationWindow(this->_core, mate->toStdString());
       w->show();
-      w->setUsername(*mate);
+      w->setUsername(this->_connectedUser);
       w->onMsg(info);
       connect(w, SIGNAL(closed(ConversationWindow*)),
 	      this, SLOT(deleteConversationWindow(ConversationWindow*)));
@@ -134,25 +161,28 @@ void		MainWindow::disconnect()
   for (std::list<ConversationWindow*>::iterator it = this->_conversationWindows.begin();
        it != this->_conversationWindows.end(); it++)
     (*it)->close();
+  if (this->_audioWindow != NULL)
+    this->_audioWindow->close();
   emit closeMainWindow();
 }
 
 void		MainWindow::createAudioConversationWindow()
 {
-  // AudioConversationWindow	*w;
-  // QString			*mate;
+  QString		*mate;
 
-  // if (this->_widgetListView->getSelectedContactIndex() != -1)
-  //   {
-  //     mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
-  //     if (this->_audioConversationWindowMap.find(mate) == this->_audioConversationWindowMap.end())
-  // 	{
-  // 	  w = new AudioConversationWindow(this->_core, mate->toStdString());
-  // 	  w->setUsername(*mate);
-  // 	  w->show();
-  // 	  this->_audioConversationWindowMap[mate] = w;
-  // 	}
-  //   }
+  if (this->_widgetListView->getSelectedContactIndex() != -1 &&
+      this->_widgetListView->isSelectedContactConnected() &&
+      this->_audioWindow == NULL)
+    {
+      mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
+      this->_audioWindow = new AudioConversationWindow(this->_core,
+						       this->_connectedUser.toStdString(),
+						       mate->toStdString());
+      this->_audioWindow->show();
+      connect(this->_audioWindow, SIGNAL(closed()),
+	      this, SLOT(deleteAudioWindow()));
+      this->_core.onUserCall(this->_connectedUser);
+    }
 }
 
 void		MainWindow::createChatConversationWindow()
@@ -161,11 +191,12 @@ void		MainWindow::createChatConversationWindow()
   QString		*mate;
 
   if (this->_widgetListView->getSelectedContactIndex() != -1 &&
+      this->_widgetListView->isSelectedContactConnected() &&
       !this->_isConversationWindowOpen(QString(this->_widgetListView->getSelectedContactName().c_str())))
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
       w = new ConversationWindow(this->_core, mate->toStdString());
-      w->setUsername(*mate);
+      w->setUsername(this->_connectedUser);
       w->show();
       connect(w, SIGNAL(closed(ConversationWindow*)),
 	      this, SLOT(deleteConversationWindow(ConversationWindow*)));
@@ -176,8 +207,7 @@ void		MainWindow::createChatConversationWindow()
 
 void		MainWindow::onDisconnect()
 {
-  //emit closeMainWindow();
-  //this->close();
+  disconnet();
 }
 
 MainWindow::~MainWindow()
