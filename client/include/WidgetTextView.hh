@@ -1,14 +1,11 @@
 #ifndef		__WIDGETTEXTVIEW_HH__
 # define	__WIDGETTEXTVIEW_HH__
 
-# include	<QFrame>
+# include	<QTextEdit>
 
-class		WidgetTextView : public QFrame
+class		WidgetTextView : public QTextEdit
 {
   Q_OBJECT
-
-private:
-  QScrollArea	*_scrollArea;
 
 public:
   WidgetTextView(QWidget *parent = 0);
