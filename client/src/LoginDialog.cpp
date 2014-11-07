@@ -12,7 +12,12 @@ int		LoginDialog::HEIGHT = 200;
 
 LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
-  this->_mainWindow = static_cast<MainWindow*>(parent);
+
+  if (parent != 0)
+    this->_mainWindow = static_cast<MainWindow*>(parent);
+  else
+    this->_mainWindow = new MainWindow(core);
+
   this->_loginDialog = new LoginEntryDialog(core, this);
   this->_registerDialog = new RegisterEntryDialog(core, this);
   this->setWindowTitle("Logging in");
@@ -27,21 +32,28 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
   this->setLayout(this->_layout);
   connect(this->_signInButton, SIGNAL(clicked()), this, SLOT(createSignInDialog()));
   connect(this->_logInButton, SIGNAL(clicked()), this, SLOT(createLogInDialog()));
+  connect(this->_mainWindow, SIGNAL(closeMainWindow()), this, SLOT(display()));
   core.addErrorListener(this);
+}
+
+void		LoginDialog::display()
+{
+  this->_mainWindow->close();
+  this->show();
 }
 
 void		LoginDialog::onLogin(const QString& username)
 {
   this->_mainWindow->setConnectedUserName(username);
   this->_mainWindow->show();
-  this->close();
+  this->hide();
 }
 
 void		LoginDialog::onRegister(const QString& username)
 {
   this->_mainWindow->setConnectedUserName(username);
   this->_mainWindow->show();
-  this->close();
+  this->hide();
 }
 
 void		LoginDialog::createLogInDialog()

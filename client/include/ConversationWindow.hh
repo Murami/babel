@@ -43,9 +43,6 @@ public:
 private slots:
   void		sendMessage();
 
-private:
-  void		_format();
-
 public:
   ConversationWindow(BabelCoreClient&, const std::string& username, QWidget *parent = 0);
   ~ConversationWindow();

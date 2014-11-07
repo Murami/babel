@@ -25,11 +25,6 @@ BabelCoreClient::BabelCoreClient()
 
   m_timer.addListener(this);
   m_socket.addListener(this);
-
-  // QObject::connect(&m_socket, SIGNAL(notifyRead()), this, SLOT(onRead()));
-  // QObject::connect(&m_socket, SIGNAL(notifyConnect()), this, SLOT(onConnect()));
-  // QObject::connect(&m_socket, SIGNAL(notifyDisconnect()), this, SLOT(onDisconnect()));
-  // QObject::connect(&m_socket, SIGNAL(notifyError(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 }
 
 BabelCoreClient::~BabelCoreClient()
@@ -146,6 +141,8 @@ void BabelCoreClient::onUserLogin(QString login, QString pass)
   NET::Header		header;
   NET::LoginInfo	info;
 
+  this->connect();
+
   QString md5_pass = QString(QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5).toHex());
 
   header.type = NET::T_LOGIN;
@@ -165,6 +162,7 @@ void BabelCoreClient::onUserLogout(void)
   header.type = NET::T_LOGOUT;
   header.size = 0;
   m_socket.write(&header, sizeof(header));
+  this->disconnect();
 }
 
 void BabelCoreClient::onUserRegister(QString login, QString pass)
@@ -229,9 +227,8 @@ void BabelCoreClient::onUserHangout(QString login)
 
 /* core control */
 
-void BabelCoreClient::run()
+void BabelCoreClient::connect()
 {
-  /* a faire dans le onUserLogin */
   QSettings *settings = new QSettings("setting.ini", QSettings::IniFormat);
   QString address("127.0.0.1");
   uint16_t port(1234);
@@ -243,6 +240,11 @@ void BabelCoreClient::run()
     port = settings->value("port").toUInt();
 
   m_socket.connect(address.toStdString(), port);
+}
+
+void BabelCoreClient::disconnect()
+{
+  m_socket.disconnect();
 }
 
 void BabelCoreClient::setTypeNeeded(NET::Type type)

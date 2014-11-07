@@ -50,50 +50,31 @@ void		ConversationWindow::setUsername(const QString& username)
   this->_username = username;
 }
 
-void		ConversationWindow::_format()
-{
-  QTextCursor cur( this->_messageTextView->document() );
-
-  // indent first paragraph
-  QTextBlockFormat f( cur.blockFormat() ); // note: you get a copy of the format
-
-  f.setIndent( 1 );
-  cur.setBlockFormat( f ); // here you replace the format used in document
-
-  // move to next paragraph
-  if( cur.movePosition( QTextCursor::NextBlock ) )
-    {
-
-      // select first line
-      cur.movePosition( QTextCursor::StartOfLine );
-      cur.movePosition( QTextCursor::EndOfLine, QTextCursor::KeepAnchor );
-      // note that what "line" means depends on the size of text edit --- resize the 
-      // window to see how it behaves
-
-      // underline selected line
-      QTextCharFormat f( cur.charFormat() );
-      f.setFontUnderline( true );
-      cur.setCharFormat( f );
-    }
-}
-
 void		ConversationWindow::onMsg(NET::MsgInfo info)
 {
   QString	str;
+  QTextCursor	cursor = this->_messageTextView->textCursor();
 
   str = QString(info.msg);
-  //this->_format();
-  this->_messageTextView->append(str);
+  str = QString("<span style=\"background:#ff00ff;color:#000000\">") % str % QString("</span><br>");
+  this->_messageTextView->insertHtml(str);
+  cursor.movePosition(QTextCursor::End);
+  this->_messageTextView->setTextCursor(cursor);
 }
 
 void		ConversationWindow::sendMessage()
 {
-  QString str;
+  QString	str;
+  QString	msg;
+  QTextCursor	cursor = this->_messageTextView->textCursor();
 
-   str = this->_messageEdit->text();
-   this->_messageEdit->clear();
-   this->_messageTextView->append(str);
-   this->_core.onUserMsg(this->_connectedMate, str);
- }
+  msg = this->_messageEdit->text();
+  this->_messageEdit->clear();
+  str = QString("<span style=\"background:#cccccc;color:#000000\">") % msg % QString("</span><br>");
+  this->_messageTextView->insertHtml(str);
+  cursor.movePosition(QTextCursor::End);
+  this->_messageTextView->setTextCursor(cursor);
+  this->_core.onUserMsg(this->_connectedMate, msg);
+}
 
 ConversationWindow::~ConversationWindow() {}

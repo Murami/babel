@@ -73,27 +73,31 @@ void		MainWindow::setConnectedUserName(const QString& username)
 
 void		MainWindow::onMsg(NET::MsgInfo info)
 {
-  // Si la fenetre de conversation pour cet user n'est pas faite il faut la faire sinon  notifier le message a la-dite fenetre
   ConversationWindow	*w;
   QString		*mate;
 
-  if (this->_widgetListView->getSelectedContactIndex() != -1)
+  mate = new QString(info.user);
+  if (!this->_isConversationWindowOpen(info))
     {
-      mate = new QString(info.user);
-      if (this->_conversationWindowMap.find(mate) == this->_conversationWindowMap.end())
-	{
-	  std::cout << "Did not find the window" << std::endl;
-	  w = new ConversationWindow(this->_core, mate->toStdString());
-	  w->setUsername(*mate);
-	  w->show();
-	  this->_conversationWindowMap[mate] = w;
-	}
+      w = new ConversationWindow(this->_core, mate->toStdString());
+      w->show();
+      w->setUsername(*mate);
+      w->onMsg(info);
+      this->_conversationWindowList.push_back(std::string(info.user));
+      this->_conversationWindows.push_back(w);
     }
 }
 
-// ###########################################################################
-// ####### FAUT FAIRE LES TEST AVEC LES COUT CI DESSUS #######################
-// ###########################################################################
+bool		MainWindow::_isConversationWindowOpen(NET::MsgInfo info)
+{
+  for (std::list<std::string>::iterator it = this->_conversationWindowList.begin();
+       it != this->_conversationWindowList.end(); it++)
+    {
+      if ((*it) == std::string(info.user))
+	return (true);
+    }
+  return (false);
+}
 
 void		MainWindow::_connectWidgets()
 {
@@ -108,24 +112,28 @@ void		MainWindow::_connectWidgets()
 void		MainWindow::disconnect()
 {
   this->_core.onUserLogout();
+  for (std::list<ConversationWindow*>::iterator it = this->_conversationWindows.begin();
+       it != this->_conversationWindows.end(); it++)
+    (*it)->close();
+  emit closeMainWindow();
 }
 
 void		MainWindow::createAudioConversationWindow()
 {
-  AudioConversationWindow	*w;
-  QString			*mate;
+  // AudioConversationWindow	*w;
+  // QString			*mate;
 
-  if (this->_widgetListView->getSelectedContactIndex() != -1)
-    {
-      mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
-      if (this->_audioConversationWindowMap.find(mate) == this->_audioConversationWindowMap.end())
-	{
-	  w = new AudioConversationWindow(this->_core, mate->toStdString());
-	  w->setUsername(*mate);
-	  w->show();
-	  this->_audioConversationWindowMap[mate] = w;
-	}
-    }
+  // if (this->_widgetListView->getSelectedContactIndex() != -1)
+  //   {
+  //     mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
+  //     if (this->_audioConversationWindowMap.find(mate) == this->_audioConversationWindowMap.end())
+  // 	{
+  // 	  w = new AudioConversationWindow(this->_core, mate->toStdString());
+  // 	  w->setUsername(*mate);
+  // 	  w->show();
+  // 	  this->_audioConversationWindowMap[mate] = w;
+  // 	}
+  //   }
 }
 
 void		MainWindow::createChatConversationWindow()
@@ -136,17 +144,22 @@ void		MainWindow::createChatConversationWindow()
   if (this->_widgetListView->getSelectedContactIndex() != -1)
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
-      if (this->_conversationWindowMap.find(mate) == this->_conversationWindowMap.end())
-	{
-	  w = new ConversationWindow(this->_core, mate->toStdString());
-	  w->setUsername(*mate);
-	  w->show();
-	  this->_conversationWindowMap[mate] = w;
-	}
+      w = new ConversationWindow(this->_core, mate->toStdString());
+      w->setUsername(*mate);
+      w->show();
+      this->_conversationWindowList.push_back(mate->toStdString());
+      this->_conversationWindows.push_back(w);
     }
+}
+
+void		MainWindow::onDisconnect()
+{
+  //emit closeMainWindow();
+  //this->close();
 }
 
 MainWindow::~MainWindow()
 {
-  this->_core.onDisconnect();
+  std::cout << "DESTROYING" << std::endl;
+  //this->_core.onDisconnect();
 }
