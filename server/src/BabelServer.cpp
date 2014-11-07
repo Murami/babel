@@ -165,16 +165,33 @@ bool				BabelServer::createCall(BabelClient* dest, BabelClient *src)
   for (std::list<BabelCall*>::iterator it = m_calls.begin();
        it != m_calls.end(); it++)
     {
-      // if (dest == (*it)->getDestination() || dest == (*it)->getSource() ||
-      // 	  src == (*it)->getDestination() || src == (*it)->getSource())
+      if (dest == (*it)->getDestination() || dest == (*it)->getSource() ||
+      	  src == (*it)->getDestination() || src == (*it)->getSource())
 	return false;
     }
   m_calls.push_back(new BabelCall(dest, src));
   return true;
 }
 
+BabelCall*			BabelServer::getCallFromDest(BabelClient* dest)
+{
+ for (std::list<BabelCall*>::iterator it = m_calls.begin();
+       it != m_calls.end(); it++)
+    {
+      if (dest == (*it)->getDestination())
+	return (*it);
+    }
+ return NULL;
+}
+
+
 void				BabelServer::popClient(BabelClient * client)
 {
   m_sockets.push_back(client->getSocket());
   m_clients.remove(client);
+}
+
+void				BabelServer::popCall(BabelCall * call)
+{
+  m_calls.remove(call);
 }

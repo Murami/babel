@@ -6,6 +6,7 @@ BabelCall::BabelCall(BabelClient* dest, BabelClient* src)
   m_destination = dest;
   m_source = src;
   m_timer = 0;
+  m_isValid = false;
 }
 
 BabelCall::~BabelCall()

@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Thu Nov  6 21:44:49 2014 guerot
+## Last update Fri Nov  7 05:18:48 2014 guerot
 ##
 
 ## FILES
@@ -22,7 +22,8 @@ SRC		=	main			\
 			AudioRecorder		\
 			AudioPlayer		\
 			AudioBuffer		\
-			SampleFormat
+			SampleFormat		\
+			OpusAudioCoder
 
 SRC_EXT		=	.cpp
 
@@ -45,6 +46,7 @@ MAKED		=	make --no-print-directory -C
 ## LINKAGE
 
 LIB		=	rt		\
+			opus		\
 			asound		\
 			jack		\
 			pthread
