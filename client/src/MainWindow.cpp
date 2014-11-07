@@ -60,6 +60,8 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
   this->_mainLayout->addLayout(this->_vLayout);
   this->_mainLayout->addLayout(this->_buttonLayout);
   this->_connectWidgets();
+
+  this->_core.addDisconnectListener(this);
   this->_core.addUserInfoListener(this->_widgetListView);
   this->_core.addMsgListener(this);
   this->_core.addCallListener(this);
@@ -214,6 +216,5 @@ void		MainWindow::onDisconnect()
 
 MainWindow::~MainWindow()
 {
-  std::cout << "DESTROYING" << std::endl;
   //this->_core.onDisconnect();
 }

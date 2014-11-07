@@ -1,6 +1,5 @@
 #include	"WidgetTextView.hh"
 
-<<<<<<< HEAD
 WidgetTextView::WidgetTextView(const QString& user,
 			       const QString& mate,
 			       QWidget *parent) : QListWidget(parent)
@@ -27,10 +26,6 @@ void		WidgetTextView::addMessageFromMate(const QString& msg)
   item = new QListWidgetItem(msg);
   item->setBackground(this->_mateBrush);
   this->addItem(item);
-=======
-WidgetTextView::WidgetTextView(QWidget *parent) : QTextEdit(parent)
-{
->>>>>>> 467e12c4204bc3f3fda64721866e77c9a9e5cf6c
 }
 
 WidgetTextView::~WidgetTextView() {}
