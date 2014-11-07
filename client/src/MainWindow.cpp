@@ -112,6 +112,9 @@ void		MainWindow::_connectWidgets()
 void		MainWindow::disconnect()
 {
   this->_core.onUserLogout();
+  for (std::list<ConversationWindow*>::iterator it = this->_conversationWindows.begin();
+       it != this->_conversationWindows.end(); it++)
+    (*it)->close();
   emit closeMainWindow();
 }
 
