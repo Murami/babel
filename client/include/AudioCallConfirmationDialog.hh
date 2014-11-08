@@ -4,6 +4,7 @@
 # include	<QDialog>
 # include	"ICallErrorListener.hh"
 
+class		MainWindow;
 class		WidgetButton;
 class		BabelCoreClient;
 
@@ -17,6 +18,7 @@ private:
   QString			_caller;
   WidgetButton			*_acceptButton;
   WidgetButton			*_declineButton;
+  MainWindow			*_mainWindow;
 
 private slots:
   void		acceptCall();

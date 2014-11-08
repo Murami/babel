@@ -3,12 +3,14 @@
 #include	"BabelCoreClient.hh"
 #include	"WidgetButton.hh"
 #include	"AudioCallConfirmationDialog.hh"
+#include	"MainWindow.hh"
 
 AudioCallConfirmationDialog::AudioCallConfirmationDialog(BabelCoreClient &core,
 							 const QString& caller,
 							 QWidget *parent):
   QDialog(parent), _core(core)
 {
+  this->_mainWindow = static_cast<MainWindow*>(parent);
   QVBoxLayout *layout = new QVBoxLayout(this);
   this->_caller = caller;
   this->setFixedSize(300, 200);
@@ -27,8 +29,9 @@ void		AudioCallConfirmationDialog::onCallError(bool ok)
 {
   std::cout << "\033[41m" << __FUNCTION__ << "\033[0m" << std::endl;
   if (!ok)
-    // Rajouter une messagebox pour avertir l'utilisateur
-    this->close();
+    {
+      this->close();
+    }
   else
     {
     }
