@@ -1,3 +1,4 @@
+#include <exception>
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -42,26 +43,29 @@ void				BabelServer::loadAccounts()
   std::string			line;
   std::ifstream 		file(PATH_ACCOUNTS.c_str(), std::ios::in);
 
-  if (file)
+  try
     {
-      while (getline(file, line))
-        {
-	  BabelAccountEntry	account;
-	  char			buffer[4096];
+      if (file)
+	{
+	  while (getline(file, line))
+	    {
+	      BabelAccountEntry	account;
+	      char			buffer[4096];
 
-	  strcpy(buffer, line.c_str());
-	  name = strtok(buffer, ";");
-	  mdp = strtok(NULL, ";");
-	  std::cout << "[name] = " << name << " [mdp] = " << mdp << std::endl;
-	  account.login = std::string(name);
-	  account.md5pass = std::string(mdp);
-	  m_accountList.push_back(account);
-        }
-      file.close();
+	      strcpy(buffer, line.c_str());
+	      name = strtok(buffer, ";");
+	      mdp = strtok(NULL, ";");
+	      std::cout << "[name] = " << name << " [mdp] = " << mdp << std::endl;
+	      account.login = std::string(name);
+	      account.md5pass = std::string(mdp);
+	      m_accountList.push_back(account);
+	    }
+	  file.close();
+	}
     }
-  else
+  catch (std::exception& e)
     {
-
+      std::cout << e.what() << std::endl;
     }
 }
 
