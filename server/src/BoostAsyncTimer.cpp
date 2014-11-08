@@ -12,7 +12,7 @@ BoostAsyncTimer::~BoostAsyncTimer()
 {
 }
 
-void	BoostAsyncTimer::wait(unsigned int second, unsigned int microsecond)
+void		BoostAsyncTimer::wait(unsigned int second, unsigned int microsecond)
 {
   boost::posix_time::time_duration	duration;
 
@@ -23,12 +23,22 @@ void	BoostAsyncTimer::wait(unsigned int second, unsigned int microsecond)
 				 boost::asio::placeholders::error));
 }
 
-// void	BoostAsyncTimer::waitUntil(unsigned int second, unsigned int microsecond)
-// {
-
-// }
-
-void	BoostAsyncTimer::onTimeout(const boost::system::error_code& /*e*/)
+void		BoostAsyncTimer::cancel()
 {
-  notifyTimeout();
+  m_timer.cancel();
+}
+
+void		BoostAsyncTimer::onTimeout(const boost::system::error_code& e)
+{
+  if (e == boost::asio::error::operation_aborted)
+    notifyTimeout(false);
+  else if (!e)
+    notifyTimeout(true);
+}
+
+unsigned int	BoostAsyncTimer::getCurrentTime() const
+{
+  boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
+  boost::posix_time::ptime epoch = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
+  return ((time - epoch).total_milliseconds());
 }
