@@ -134,7 +134,6 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
   std::string		s_msg;
   std::string::iterator it;
   std::string::iterator start;
-  int			curr;
 
   s_msg = msg.toStdString();
   it = s_msg.begin();
@@ -241,6 +240,12 @@ void BabelCoreClient::onUserAcceptCall(QString login)
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
+  if (m_recorder->active() == false)
+    m_recorder->start();
+  if (m_player->active() == false)
+    m_player->start();
+  if (m_timer.isActive() == false)
+    m_timer.start();
 }
 
 void BabelCoreClient::onUserDeclineCall(QString login)
@@ -256,6 +261,12 @@ void BabelCoreClient::onUserDeclineCall(QString login)
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
+  if (m_timer.isActive() == true)
+    m_timer.stop();
+  if (m_player->active() == true)
+    m_player->stop();
+  if (m_recorder->active() == true)
+    m_recorder->stop();
 }
 
 void BabelCoreClient::onUserHangout(QString login)
@@ -271,9 +282,12 @@ void BabelCoreClient::onUserHangout(QString login)
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
-  m_timer.stop();
-  m_player->stop();
-  m_recorder->stop();
+  if (m_timer.isActive() == true)
+    m_timer.stop();
+  if (m_player->active() == true)
+    m_player->stop();
+  if (m_recorder->active() == true)
+    m_recorder->stop();
 }
 
 void BabelCoreClient::onPing()
