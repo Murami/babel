@@ -65,6 +65,9 @@ public:
   void			onUserHangout(QString login);
 
 public:
+  void			onPing();
+
+public:
   void			connect();
   void			disconnect();
   void			setTypeNeeded(NET::Type type);

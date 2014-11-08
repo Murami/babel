@@ -129,5 +129,8 @@ void ImgFunctor::operator()(BabelCoreClient & core, void *data)
 
 void PingFunctor::operator()(BabelCoreClient & core, void *data)
 {
-
+  std::cout << "recv kologin" << std::endl;
+  (void)data;
+  core.setTypeNeeded(NET::T_HEADER);
+  core.onPing();
 }

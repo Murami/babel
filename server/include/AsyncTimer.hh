@@ -7,20 +7,16 @@
 
 class AsyncTimer : public IAsyncTimer
 {
-  typedef std::list<IAsyncTimerListener*> AsyncTimerListenerList;
-  int	test;
-
 private:
-  AsyncTimerListenerList	m_listenerList;
+  IAsyncTimerListener*	m_listener;
 
 public:
   AsyncTimer();
   virtual ~AsyncTimer();
 
-  void	addListener(IAsyncTimerListener* listener);
-  void	deleteListener(IAsyncTimerListener* listener);
+  void	setListener(IAsyncTimerListener* listener);
 
-  void	notifyTimeout();
+  void	notifyTimeout(bool error);
 };
 
 #endif /* ASYNCTIMER_HH */

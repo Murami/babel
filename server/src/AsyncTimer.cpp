@@ -13,22 +13,12 @@ AsyncTimer::~AsyncTimer()
 {
 }
 
-void	AsyncTimer::addListener(IAsyncTimerListener* listener)
+void	AsyncTimer::setListener(IAsyncTimerListener* listener)
 {
-  if (std::find(m_listenerList.begin(),
-		m_listenerList.end(), listener) == m_listenerList.end())
-    m_listenerList.push_back(listener);
+  m_listener = listener;
 }
 
-void	AsyncTimer::deleteListener(IAsyncTimerListener* listener)
+void	AsyncTimer::notifyTimeout(bool error)
 {
-  m_listenerList.remove(listener);
-}
-
-void	AsyncTimer::notifyTimeout()
-{
-  AsyncTimerListenerList::iterator	it;
-
-  for (it = m_listenerList.begin(); it != m_listenerList.end(); it++)
-    (*it)->onTimeout(*this);
+  m_listener->onTimeout(*this, error);
 }
