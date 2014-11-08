@@ -11,10 +11,6 @@
 BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
   m_server(server), m_service(service)
 {
-  /*
-    - on load les users
-    - on init le timeout (ping)
-  */
   m_server.addListener(this);
   m_server.accept();
   loadAccounts();
@@ -23,13 +19,6 @@ BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
 BabelServer::~BabelServer()
 {
   m_server.deleteListener(this);
-  //free ts les sockets
-  std::list<ITcpAsyncClient*>::iterator	it;
-
-  for (it = m_sockets.begin(); it != m_sockets.end(); it++)
-    delete (*it);
-  m_sockets.clear();
-
   /*
     - on deconnect proprement tous les clients
     - on libere les ressources
@@ -77,21 +66,6 @@ void				BabelServer::onAccept(ITcpAsyncServer& server,
   new_client = new BabelClient(client, *this, m_service);
   m_clients.push_back(new_client);
   server.accept();
-  //free ts les sockets
-  std::list<ITcpAsyncClient*>::iterator	it;
-
-  for (it = m_sockets.begin(); it != m_sockets.end(); it++)
-    delete (*it);
-  m_sockets.clear();
-
-}
-
-void				BabelServer::onTimeout(IAsyncTimer& /*server*/)
-{
-  /*
-    - on ping tout les clients
-    - on refait un wait async
-  */
 }
 
 BabelClient*			BabelServer::getClient(const std::string & name)
@@ -136,7 +110,6 @@ bool				BabelServer::registerClient(const std::string & name,
       entry.login = name;
       entry.md5pass = mdp;
       m_accountList.push_back(entry);
-      // écrire dans la BDD
       return (true);
     }
   return (false);
@@ -191,7 +164,6 @@ BabelCall*			BabelServer::getCallFromDest(BabelClient* dest)
 
 void				BabelServer::popClient(BabelClient * client)
 {
-  m_sockets.push_back(client->getSocket());
   m_clients.remove(client);
 }
 

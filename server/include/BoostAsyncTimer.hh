@@ -15,10 +15,10 @@ public:
   BoostAsyncTimer(BoostAsyncService& service);
   ~BoostAsyncTimer();
 
+  void	cancel();
   void	wait(unsigned int second, unsigned int microsecond);
-  // void	waitUntil(unsigned int second, unsigned int microsecond);
-
   void	onTimeout(const boost::system::error_code& e);
+  unsigned int getCurrentTime() const;
 };
 
 #endif /* BOOSTASYNCTIMER_HH */

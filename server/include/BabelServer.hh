@@ -13,7 +13,7 @@ class BoostAsyncService;
 
 const std::string PATH_ACCOUNTS = "accounts.babel";
 
-class BabelServer : public ITcpAsyncServerListener, public IAsyncTimerListener
+class BabelServer : public ITcpAsyncServerListener
 {
 private:
   ITcpAsyncServer&			m_server;
@@ -21,7 +21,6 @@ private:
   std::list<BabelAccountEntry>		m_accountList;
   std::list<BabelClient*>		m_clients;
   std::list<BabelCall*>			m_calls;
-  std::list<ITcpAsyncClient*>		m_sockets;
 
 public:
   BabelServer(ITcpAsyncServer& server, BoostAsyncService& service);
@@ -47,7 +46,6 @@ public:
 					   const std::string & mdp);
 
   void				onAccept(ITcpAsyncServer& server, ITcpAsyncClient* client);
-  void				onTimeout(IAsyncTimer& server);
 };
 
 #endif /* BABELSERVER_HH */

@@ -17,11 +17,12 @@ BabelClient::BabelClient(ITcpAsyncClient* client, BabelServer& server,
   memset(m_readBuffer, 0, 4096);
   m_isConnect = false;
   m_isWriting = false;
-  m_timer.addListener(this);
+  m_timer.setListener(this);
   m_client->addListener(this);
-  m_timer.wait(5, 0);
+  m_timer.wait(3, 0);
   m_type = HEADER;
   m_client->read(m_readBuffer, sizeof(Header));
+  m_lastPing = m_timer.getCurrentTime();
 }
 
 BabelClient::~BabelClient()
@@ -31,6 +32,7 @@ BabelClient::~BabelClient()
 void				BabelClient::initMap()
 {
   m_map[HEADER] = &BabelClient::onHeader;
+  m_map[PING] = &BabelClient::onPing;
   m_map[LOGIN] = &BabelClient::onLogin;
   m_map[LOGOUT] = &BabelClient::onLogout;
   m_map[REGISTER] = &BabelClient::onRegister;
@@ -41,12 +43,12 @@ void				BabelClient::initMap()
 
   m_headerType.push_back(HEADER);
   m_headerType.push_back(LOGOUT);
-  m_headerType.push_back(PING);
   m_headerType.push_back(KO_LOGIN);
   m_headerType.push_back(OK_LOGIN);
   m_headerType.push_back(OK_REGISTER);
   m_headerType.push_back(KO_REGISTER);
   m_headerType.push_back(OK_MSG);
+  m_headerType.push_back(PING);
   m_headerType.push_back(KO_MSG);
   m_headerType.push_back(OK_CALL);
   m_headerType.push_back(KO_CALL);
@@ -65,8 +67,7 @@ void		BabelClient::onRead(ITcpAsyncClient& /*client*/, char* buffer,
   (this->*m_map[m_type])(buffer);
 }
 
-void		BabelClient::onWrite(ITcpAsyncClient& /*client*/,
-				     char* /*buffer*/, std::size_t /*size*/)
+void		BabelClient::onWrite(ITcpAsyncClient& /*client*/, char* /*buffer*/, std::size_t /*size*/)
 {
   Buffer       	buf;
 
@@ -109,14 +110,22 @@ void		BabelClient::write(void* data, std::size_t size)
     }
 }
 
-void		BabelClient::onTimeout(IAsyncTimer& /*timer*/)
+void		BabelClient::onTimeout(IAsyncTimer& /*timer*/, bool error)
 {
   std::cout << "On Timeout" << std::endl;
-  sendPing();
-  m_timer.wait(5, 0);
-  /*
-    - on verifie l'existence du serveur (check du dernier ping server)
-  */
+  if (!error)
+    {
+      delete this;
+    }
+  else if (m_timer.getCurrentTime() - m_lastPing >= 5000)
+    {
+      std::cout << "Must Logout" << std::endl;
+    }
+  else
+    {
+      sendPing();
+      m_timer.wait(3, 0);
+    }
 }
 
 /* CALLBACKS DU ON READ */
@@ -129,11 +138,15 @@ void		BabelClient::onHeader(void *param)
   if (std::find(m_headerType.begin(),
 		m_headerType.end(), header->type) == m_headerType.end())
     {
+      if (header->type == PING)
+	std::cout << "dafuq" << std::endl;
       m_type = header->type;
       m_client->read(m_readBuffer, header->size);
     }
   else
     {
+      if (header->type == PING)
+	std::cout << "dafuq bis" << std::endl;
       (this->*m_map[header->type])(param);
     }
 }
@@ -159,6 +172,14 @@ void		BabelClient::onLogin(void *param)
       m_isConnect = false;
       sendKOLogin();
     }
+  m_type = HEADER;
+  m_client->read(m_readBuffer, sizeof(Header));
+}
+
+void				BabelClient::onPing(void * /*param*/)
+{
+  std::cout << "\033[36m[ server ]\tON PING\033[0m" << std::endl;
+  m_lastPing = m_timer.getCurrentTime();
   m_type = HEADER;
   m_client->read(m_readBuffer, sizeof(Header));
 }
@@ -223,7 +244,6 @@ void		BabelClient::onKOCall(void * param)
   BabelCall	*call = m_server.getCallFromDest(client);
 
   std::cout << "\033[36m[ server ]\tCallback KO CALL\033[0m" << std::endl;
-
   call->getInterluctor(client)->sendKOCall();
   m_server.popCall(call);
 }
@@ -262,8 +282,8 @@ void				BabelClient::onLogout(void * /*param*/)
 {
   std::cout << "\033[36m[ server ]\tCallback Logout\033[0m" << std::endl;
   notifyLogout();
+  m_timer.cancel();
   m_server.popClient(this);
-  delete this;
 }
 
 void				BabelClient::notifyLogout()
@@ -339,7 +359,7 @@ void				BabelClient::sendPing()
 {
   Header			header;
 
-  std::cout << "\033[33m[ server ]\tPING\033[0m" << std::endl;
+  std::cout << "\033[33m[ server ]\tSEND PING\033[0m" << std::endl;
   header.type = PING;
   header.size = sizeof(Header);
   write(&header, sizeof(Header));

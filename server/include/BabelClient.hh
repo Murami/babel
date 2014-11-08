@@ -39,6 +39,7 @@ private:
   std::map<Type, ptr>	m_map;
   std::vector<Type>	m_headerType;
 
+  unsigned int		m_lastPing;
   bool			m_isConnect;
   std::string		m_name;
   std::string		m_mdp;
@@ -58,7 +59,7 @@ public:
   ITcpAsyncClient*	getSocket();
   void			onRead(ITcpAsyncClient& client, char* buffer, std::size_t size);
   void			onWrite(ITcpAsyncClient& client, char* buffer, std::size_t size);
-  void			onTimeout(IAsyncTimer& timer);
+  void			onTimeout(IAsyncTimer& timer, bool error);
   void			write(void *data, std::size_t size);
 
   void			notifyLogout();
@@ -72,6 +73,7 @@ private:
   void	onCall(void *param);
   void	onKOCall(void *param);
   void	onOKCall(void *param);
+  void	onPing(void *param);
   void	onRecvMsg(void *param);
 
   // these are answers to client
