@@ -114,10 +114,11 @@ void BabelCoreClient::onUdpRead()
 {
   NET::SamplePacket packet;
 
+  std::cout << "-> [udp read] <-" << std::endl;
   while (m_audio_socket.hasPendingDatagrams() &&
 	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
     {
-      m_audio_socket.readDatagram(&packet, sizeof(packet));
+     m_audio_socket.readDatagram(&packet, sizeof(packet));
       m_player->pushFrames(packet.sample.rawData, packet.sample.size);
     }
 }
@@ -175,13 +176,15 @@ void BabelCoreClient::onUserCall(QString login)
   NET::CallInfo		info;
 
   m_udpAddress = "0.0.0.0"; //like QHostAddress::AnyIpv4
-  m_udpPort = 8008;
-  m_audio_socket.bind(m_udpAddress, 8008);
+  m_udpPort = 1235;
+  std::cout << "-> Here we bind the socket : ";
+  m_audio_socket.bind(1235);
+  std::cout << "OK" << std::endl;
   header.type = NET::T_CALL;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memset(info.ip, 0, IP_SIZE);
-  info.port = 8008;
+  info.port = 1235;
   info.prot = NET::UDP;
   info.type = NET::AUDIO;
   m_socket.write(&header, sizeof(header));
@@ -360,6 +363,8 @@ Timer& BabelCoreClient::getTimer()
 {
   return (m_timer);
 }
+
+/* initialize core constant */
 
 BabelCoreClient::SizeTypeMap BabelCoreClient::initializeSizeTypeMap()
 {
