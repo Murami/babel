@@ -70,6 +70,7 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
 
 void		MainWindow::deleteAudioWindow()
 {
+  this->_audioWindow->close();
   this->_audioWindow = NULL;
 }
 
@@ -120,7 +121,7 @@ void		MainWindow::onCall(NET::CallInfo info)
     {
       QString mate(info.user);
       AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core,
-									    mate, this);
+      									    mate, this);
       dialog->show();
     }
 }
@@ -175,6 +176,7 @@ void		MainWindow::disconnect()
   if (this->_audioWindow != NULL)
     this->_audioWindow->close();
   emit closeMainWindow();
+  this->close();
 }
 
 void		MainWindow::createAudioConversationWindow()

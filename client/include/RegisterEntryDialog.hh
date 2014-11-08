@@ -34,6 +34,7 @@ private slots:
 
 public:
   void		onRegister(bool);
+  void		reset();
 
 public:
   RegisterEntryDialog(BabelCoreClient&, QWidget *parent = 0);

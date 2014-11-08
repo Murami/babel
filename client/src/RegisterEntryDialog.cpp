@@ -81,4 +81,11 @@ void		RegisterEntryDialog::_createErrorBox(const QString& title, const QString& 
   box->show();
 }
 
+void		RegisterEntryDialog::reset()
+{
+  this->_pseudoEdit->clear();
+  this->_passwordEdit1->clear();
+  this->_passwordEdit2->clear();
+}
+
 RegisterEntryDialog::~RegisterEntryDialog() {}

@@ -33,6 +33,7 @@ BabelCoreClient::BabelCoreClient()
   PAAudioService::getInstance()->initialize();
   m_player = new AudioPlayer;
   m_recorder = new AudioRecorder;
+  m_isConnected = false;
 }
 
 BabelCoreClient::~BabelCoreClient()
@@ -84,17 +85,18 @@ void BabelCoreClient::onTcpError(int error)
 void BabelCoreClient::onTcpRead()
 {
   std::cout << "core data read to read" << std::endl;
-
   while (m_socket.bytesAvailable() >= sizeTypeMap[typeNeeded])
     {
       m_socket.read(buffer, sizeTypeMap[typeNeeded]);
       if (typeNeeded == NET::T_HEADER)
 	{
+	  std::cout << "\033[42m" << typeNeeded << "\033[0m\n";
 	  NET::Header* tmp = reinterpret_cast<NET::Header*>(buffer);
 	  (*functorTypeMap[tmp->type])(*this, buffer);
 	}
       else
 	{
+	  std::cout << "\033[41m" << typeNeeded << "\033[0m\n";
 	  (*functorTypeMap[typeNeeded])(*this, buffer);
 	}
     }
@@ -116,7 +118,7 @@ void BabelCoreClient::onUdpRead()
   while (m_audio_socket.hasPendingDatagrams() &&
 	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
     {
-     m_audio_socket.readDatagram(&packet, sizeof(packet));
+      m_audio_socket.readDatagram(&packet, sizeof(packet));
       m_player->pushFrames(packet.sample.rawData, packet.sample.size);
     }
 }
@@ -292,17 +294,22 @@ void BabelCoreClient::connect()
   QString address("127.0.0.1");
   uint16_t port(1234);
 
-  if (settings->contains("ip") == true)
-    address = settings->value("ip").toString();
+  if (!m_isConnected)
+    {
+      if (settings->contains("ip") == true)
+	address = settings->value("ip").toString();
 
-  if (settings->contains("port") == true)
-    port = settings->value("port").toUInt();
+      if (settings->contains("port") == true)
+	port = settings->value("port").toUInt();
 
-  m_socket.connect(address.toStdString(), port);
+      m_socket.connect(address.toStdString(), port);
+      m_isConnected = true;
+    }
 }
 
 void BabelCoreClient::disconnect()
 {
+  m_isConnected = false;
   m_socket.disconnect();
 }
 
@@ -439,6 +446,7 @@ void BabelCoreClient::addErrorListener(IErrorListener * listener)
 
 void BabelCoreClient::addCallErrorListener(ICallErrorListener * listener)
 {
+  std::cout << "\033[33mADDING NEW CALL ERROR LISTENER\033[0m" << std::endl;
   CallErrorListenerList.push_front(listener);
 }
 
@@ -512,18 +520,16 @@ void BabelCoreClient::notifyDisconnect(void)
 void BabelCoreClient::notifyError(QString error)
 {
   std::list<IErrorListener *>::iterator it;
-
   it = ErrorListenerList.begin();
   for (; it != ErrorListenerList.end(); ++it)
     (*it)->onError(error);
 }
 
-void BabelCoreClient::notifyCallError(bool rep)
+void BabelCoreClient::notifyCallError(bool rep, NET::UserInfo info)
 {
   std::list<ICallErrorListener *>::iterator it;
-
   it = CallErrorListenerList.begin();
-  for (; it != CallErrorListenerList.end(); ++it)
+  for (; it != CallErrorListenerList.end(); it++)
     (*it)->onCallError(rep);
 }
 

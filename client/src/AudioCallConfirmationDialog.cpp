@@ -10,6 +10,7 @@ AudioCallConfirmationDialog::AudioCallConfirmationDialog(BabelCoreClient &core,
 							 QWidget *parent):
   QDialog(parent), _core(core)
 {
+  core.addCallErrorListener(this);
   this->_mainWindow = static_cast<MainWindow*>(parent);
   QVBoxLayout *layout = new QVBoxLayout(this);
   this->_caller = caller;
@@ -22,12 +23,11 @@ AudioCallConfirmationDialog::AudioCallConfirmationDialog(BabelCoreClient &core,
   this->setLayout(layout);
   connect(this->_acceptButton, SIGNAL(clicked()), this, SLOT(acceptCall()));
   connect(this->_declineButton, SIGNAL(clicked()), this, SLOT(declineCall()));
-  this->_core.addCallErrorListener(this);
 }
 
 void		AudioCallConfirmationDialog::onCallError(bool ok)
 {
-  std::cout << "\033[41m" << __FUNCTION__ << "\033[0m" << std::endl;
+  std::cout << "\033[41m" << __FUNCTION__ << std::boolalpha << ok << "\033]0m" << std::endl;
   if (!ok)
     {
       this->close();
@@ -41,13 +41,11 @@ void		AudioCallConfirmationDialog::onCallError(bool ok)
 
 void		AudioCallConfirmationDialog::acceptCall()
 {
-  std::cout << this->_caller.toStdString() << std::endl;
   this->_core.onUserAcceptCall(this->_caller);
 }
 
 void		AudioCallConfirmationDialog::declineCall()
 {
-  std::cout << this->_caller.toStdString() << std::endl;
   this->_core.onUserDeclineCall(this->_caller);
 }
 

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Functor.hh"
 #include "Protocol.hh"
 #include "BabelCoreClient.hh"
@@ -81,24 +82,30 @@ void KoRegisterFunctor::operator()(BabelCoreClient & core, void *data)
 
 void OkCallFunctor::operator()(BabelCoreClient & core, void *data)
 {
-  std::cout << "recv ok call" << std::endl;
-  (void)data;
-  core.setTypeNeeded(NET::T_HEADER);
-  core.notifyCallError(true);
-  core.getRecorder()->start();
-  core.getPlayer()->start();
-  core.getTimer().start();
+  if (core.getTypeNeeded() == NET::T_HEADER)
+    core.setTypeNeeded(NET::T_OK_CALL);
+  else
+    {
+      std::cout << "=======================================================\n";
+      NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
+      core.setTypeNeeded(NET::T_USERINFO);
+      core.notifyCallError(true, *tmp);
+      // core.getRecorder()->start();
+      // core.getPlayer()->start();
+      // core.getTimer().start();
+    }
 }
+
 
 void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
 {
   std::cout << "recv ko call" << std::endl;
-  (void)data;
   core.setTypeNeeded(NET::T_HEADER);
-  core.notifyCallError(false);
-  core.getTimer().stop();
-  core.getPlayer()->stop();
-  core.getRecorder()->stop();
+  NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
+  core.notifyCallError(false, *tmp);
+  // core.getTimer().stop();
+  // core.getPlayer()->stop();
+  // core.getRecorder()->stop();
 }
 
 void OkMsgFunctor::operator()(BabelCoreClient & core, void *data)
@@ -129,7 +136,7 @@ void ImgFunctor::operator()(BabelCoreClient & core, void *data)
 
 void PingFunctor::operator()(BabelCoreClient & core, void *data)
 {
-  std::cout << "recv kologin" << std::endl;
+  std::cout << "recv ping" << std::endl;
   (void)data;
   core.setTypeNeeded(NET::T_HEADER);
   core.onPing();

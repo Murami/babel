@@ -102,7 +102,7 @@ public:
   void			notifyConnect(void);
   void			notifyDisconnect(void);
   void			notifyError(QString error);
-  void			notifyCallError(bool rep);
+  void			notifyCallError(bool rep, NET::UserInfo);
   void			notifyLogin(bool rep);
   void			notifyRegister(bool rep);
   void			notifyMsg(NET::MsgInfo info);
@@ -122,6 +122,7 @@ private:
   char						buffer[4096];
   std::string					m_udpAddress;
   uint16_t					m_udpPort;
+  bool						m_isConnected;
 
   std::list<ICallListener *>			CallListenerList;
   std::list<IConnectListener *>			ConnectListenerList;
