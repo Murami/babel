@@ -184,7 +184,7 @@ void BabelCoreClient::onUserCall(QString login)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memset(info.ip, 0, IP_SIZE);
-  info.port = 8008;
+  info.port = 1235;
   info.prot = NET::UDP;
   info.type = NET::AUDIO;
   m_socket.write(&header, sizeof(header));
