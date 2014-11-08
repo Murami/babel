@@ -97,8 +97,10 @@ void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyCallError(false);
   core.getTimer().stop();
-  core.getPlayer()->stop();
-  core.getRecorder()->stop();
+  if (core.getPlayer->active())
+    core.getPlayer()->stop();
+  if (core.getPlayer->active())
+    core.getRecorder()->stop();
 }
 
 void OkMsgFunctor::operator()(BabelCoreClient & core, void *data)
