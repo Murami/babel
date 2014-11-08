@@ -75,7 +75,7 @@ int	AudioPlayer::nextFrameSize()
   m_mutex.lock();
   memcpy(&size, m_frameQueue.front(), 4);
   m_mutex.unlock();
-  return (size);
+  return (size + 4);
 }
 
 int	AudioPlayer::size()
@@ -93,23 +93,6 @@ int	AudioPlayer::onStreamRequest(void* output,
 				     unsigned int channels,
 				     SampleFormat sampleFormat)
 {
-  // size_t	sampleSize = g_sampleFormatSizes[sampleFormat];
-  // size_t	framesLeft = m_buffer.maxFrame() - m_currentFrame;
-  // size_t	sizeBuffer;
-  // void*		ptr;
-
-  // if (framesLeft < frames)
-  //   sizeBuffer = framesLeft * channels * sampleSize;
-  // else
-  //   sizeBuffer = frames * channels * sampleSize;
-
-  // ptr = (char*)m_buffer.data() + (m_currentFrame * channels * sampleSize);
-  // if (m_currentFrame > m_buffer.maxFrame())
-  //   m_currentFrame = m_buffer.maxFrame();
-  // memcpy(output, ptr, sizeBuffer);
-
-  // m_currentFrame += frames;
-  // return (m_currentFrame < m_buffer.maxFrame());
   if (!m_frameQueue.empty())
     {
       m_coder->decode(static_cast<int16_t*>(output),

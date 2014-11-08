@@ -1,6 +1,8 @@
 #include <QHostAddress>
 #include <QSettings>
 #include <cstring>
+#include <exception>
+#include <stdexcept>
 
 #include "BabelCoreClient.hh"
 #include "ICallErrorListener.hh"
@@ -105,6 +107,7 @@ void BabelCoreClient::onTcpRead()
 void BabelCoreClient::onUdpError(int)
 {
   std::cout << "udp error detected" << std::endl;
+  throw std::runtime_error("UDP ERROR");
 }
 
 void BabelCoreClient::onUdpRead()
@@ -277,6 +280,16 @@ void BabelCoreClient::onUserHangout(QString login)
   m_timer.stop();
   m_player->stop();
   m_recorder->stop();
+}
+
+void BabelCoreClient::onPing()
+{
+  NET::Header	header;
+
+  std::cout << "anwser to a server ping" << std::endl;
+  header.type = NET::T_PING;
+  header.size = sizeof(NET::Header);
+  m_socket.write(&header, sizeof(NET::Header));
 }
 
 /* core control */
