@@ -98,6 +98,12 @@ void		MainWindow::deleteConversationWindow(ConversationWindow *w)
     }
 }
 
+void		MainWindow::closeEvent(QCloseEvent *event)
+{
+  this->_core.onUserLogout();
+  emit closeMainWindow();
+}
+
 void		MainWindow::onCall(NET::CallInfo info)
 {
   if (this->_audioWindow == NULL)

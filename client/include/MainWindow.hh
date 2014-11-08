@@ -51,6 +51,7 @@ private:
 
 public:
   void			setConnectedUserName(const QString&);
+  void			closeEvent(QCloseEvent*);
 
 public:
   virtual void		onMsg(NET::MsgInfo);
