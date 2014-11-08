@@ -184,7 +184,7 @@ void BabelCoreClient::onUserCall(QString login)
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
   memset(info.ip, 0, IP_SIZE);
-  info.port = 8008;
+  info.port = 1235;
   info.prot = NET::UDP;
   info.type = NET::AUDIO;
   m_socket.write(&header, sizeof(header));
@@ -478,6 +478,18 @@ void BabelCoreClient::addMsgErrorListener(IMsgErrorListener * listener)
 void BabelCoreClient::addUserInfoListener(IUserInfoListener * listener)
 {
   UserInfoListenerList.push_front(listener);
+}
+
+/* delete listener */
+
+void BabelCoreClient::deleteDisconnectListener(IDisconnectListener * listener)
+{
+  std::list<IDisconnectListener *>::iterator it;
+
+  it = DisconnectListenerList.begin();
+  for (; it != DisconnectListenerList.end(); ++it)
+    if ((*it) == listener)
+      DisconnectListenerList.erase(it);
 }
 
 /* notify listener */

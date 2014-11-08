@@ -91,6 +91,8 @@ public:
   void			addMsgErrorListener(IMsgErrorListener * listener);
   void			addUserInfoListener(IUserInfoListener * listener);
 
+  void			deleteDisconnectListener(IDisconnectListener * listener);
+
   static SizeTypeMap	initializeSizeTypeMap();
   static FunctorTypeMap initializeFunctorTypeMap();
   static ErrorMap	initializeErrorMap();
