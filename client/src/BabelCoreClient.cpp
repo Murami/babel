@@ -224,6 +224,8 @@ void BabelCoreClient::onUserRegister(QString login, QString pass)
   NET::Header		header;
   NET::LoginInfo	info;
 
+  this->connect();
+
   QString md5_pass = QString(QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5).toHex());
 
   header.type = NET::T_REGISTER;
