@@ -104,24 +104,25 @@ void		MainWindow::closeEvent(QCloseEvent *)
   emit closeMainWindow();
 }
 
+void		MainWindow::openAudioConversationWindow(const QString& caller)
+{
+  this->_audioWindow = new AudioConversationWindow(this->_core,
+						   caller.toStdString(),
+						   this->_connectedUser.toStdString());
+  this->_audioWindow->show();
+  connect(this->_audioWindow, SIGNAL(closed()),
+	  this, SLOT(deleteAudioWindow()));
+}
+
 void		MainWindow::onCall(NET::CallInfo info)
 {
   if (this->_audioWindow == NULL)
     {
-      QString mate(this->_widgetListView->getSelectedContactName().c_str());
+      QString mate(info.user);
       AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core,
 									    mate, this);
       dialog->show();
     }
-  // else
-  //   {
-  //     this->_audioWindow = new AudioConversationWindow(this->_core,
-  // 						       this->_connectedUser.toStdString(),
-  // 						       info.user);
-  //     this->_audioWindow->show();
-  //     connect(this->_audioWindow, SIGNAL(closed()),
-  // 	      this, SLOT(deleteAudioWindow()));
-  //   }
 }
 
 void		MainWindow::onMsg(NET::MsgInfo info)

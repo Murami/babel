@@ -34,16 +34,20 @@ void		AudioCallConfirmationDialog::onCallError(bool ok)
     }
   else
     {
+      this->_mainWindow->openAudioConversationWindow(this->_caller);
+      this->close();
     }
 }
 
 void		AudioCallConfirmationDialog::acceptCall()
 {
+  std::cout << this->_caller.toStdString() << std::endl;
   this->_core.onUserAcceptCall(this->_caller);
 }
 
 void		AudioCallConfirmationDialog::declineCall()
 {
+  std::cout << this->_caller.toStdString() << std::endl;
   this->_core.onUserDeclineCall(this->_caller);
 }
 

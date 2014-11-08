@@ -57,13 +57,13 @@ void		LoginEntryDialog::onLogin(bool success)
   if (success)
     {
       this->_parent->onLogin(this->_user);
-      this->close();
+      //this->close();
     }
   else
     {
       this->_createErrorBox("Unable to log in",
 			    "Error : combination login/password is not correct");
-      this->close();
+      //this->close();
     }
 }
 

@@ -52,6 +52,7 @@ private:
 public:
   void			setConnectedUserName(const QString&);
   void			closeEvent(QCloseEvent*);
+  void			openAudioConversationWindow(const QString&);
 
 public:
   virtual void		onMsg(NET::MsgInfo);
