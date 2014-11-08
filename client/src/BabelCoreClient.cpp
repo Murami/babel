@@ -138,31 +138,20 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
 
   s_msg = msg.toStdString();
   it = s_msg.begin();
-  start = s_msg.begin();
-  curr = 0;
 
   header.type = NET::T_SENDMSG;
+  header.size = sizeof(NET::Header);
   header.size = sizeof(info);
 
   memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
 
-  for (; it != s_msg.end(); ++it)
+  while (it != s_msg.end())
     {
-      curr = std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *it));
-      if ((curr != 0) && (curr % (MSG_SIZE - 1) == 0))
-      	{
-      	  memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
-      					MSG_SIZE - 1).c_str(), MSG_SIZE);
-      	  start = it + 1;
-      	  m_socket.write(&header, sizeof(NET::Header));
-      	  m_socket.write(&info, sizeof(info));
-      	}
-    }
-  if (curr != 0 && (curr % (MSG_SIZE - 1) != 0))
-    {
+      int	i;
 
-      memcpy(info.msg, s_msg.substr(std::distance(s_msg.begin(), std::find(s_msg.begin(), s_msg.end(), *start)),
-  				    MSG_SIZE - 1).c_str(), MSG_SIZE);
+      for (i = 0; i != MSG_SIZE - 1 && it != s_msg.end(); i++, it++)
+	info.msg[i] = *it;
+      info.msg[i] = '\0';
       m_socket.write(&header, sizeof(NET::Header));
       m_socket.write(&info, sizeof(info));
     }
