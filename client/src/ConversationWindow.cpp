@@ -51,6 +51,12 @@ void		ConversationWindow::closeWindow()
   this->close();
 }
 
+void		ConversationWindow::closeEvent(QCloseEvent *)
+{
+  emit closed(this);
+  this->close();
+}
+
 void		ConversationWindow::setUsername(const QString& username)
 {
   this->_username = username;

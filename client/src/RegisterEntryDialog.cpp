@@ -57,10 +57,7 @@ void		RegisterEntryDialog::sendData()
     this->_createErrorBox("Password mismatch",
 			  "Passwords must be identical");
   else
-    {
-      std::cout << "COUCOUUUUUUUUUUUUUUUUUUUUUUUU" << std::endl;
-      this->_core.onUserRegister(user, pass);
-    }
+    this->_core.onUserRegister(user, pass);
 }
 
 void		RegisterEntryDialog::onRegister(bool success)

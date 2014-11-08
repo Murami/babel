@@ -41,6 +41,7 @@ public:
 
 public:
   void		setUsername(const QString& username);
+  void		closeEvent(QCloseEvent*);
 
 signals:
   void		closed(ConversationWindow*);

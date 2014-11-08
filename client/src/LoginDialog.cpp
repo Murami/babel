@@ -45,6 +45,7 @@ void		LoginDialog::onDisconnect()
 {
   std::cout << "\033[41mON DISCONNECT\033[0m" << std::endl;
   // REMOVE DISCONNECT LISTENER ICI
+  //this->_core.deleteDisconnectListener(this);
 }
 
 void		LoginDialog::onLogin(const QString& username)
