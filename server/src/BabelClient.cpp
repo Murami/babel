@@ -120,6 +120,7 @@ void		BabelClient::onTimeout(IAsyncTimer& /*timer*/, bool error)
   else if (m_timer.getCurrentTime() - m_lastPing >= 5000)
     {
       std::cout << "Must Logout" << std::endl;
+      onLogout(NULL);
     }
   else
     {
