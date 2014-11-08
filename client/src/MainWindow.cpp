@@ -189,8 +189,8 @@ void		MainWindow::createAudioConversationWindow()
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
       this->_audioWindow = new AudioConversationWindow(this->_core,
-						       this->_connectedUser.toStdString(),
-						       mate->toStdString());
+						       mate->toStdString(),
+						       this->_connectedUser.toStdString());
       this->_audioWindow->show();
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));

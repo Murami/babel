@@ -1,3 +1,4 @@
+#include <sstream>
 #include <QHostAddress>
 #include <QSettings>
 #include <cstring>
@@ -104,10 +105,13 @@ void BabelCoreClient::onTcpRead()
 
 /* listened Udp socket event */
 
-void BabelCoreClient::onUdpError(int)
+void BabelCoreClient::onUdpError(int e)
 {
+  std::stringstream ss;
+
+  ss << e;
   std::cout << "udp error detected" << std::endl;
-  throw std::runtime_error("UDP ERROR");
+  throw std::runtime_error("UDP ERROR" + ss.str());
 }
 
 void BabelCoreClient::onUdpRead()
@@ -446,7 +450,6 @@ void BabelCoreClient::addErrorListener(IErrorListener * listener)
 
 void BabelCoreClient::addCallErrorListener(ICallErrorListener * listener)
 {
-  std::cout << "\033[33mADDING NEW CALL ERROR LISTENER\033[0m" << std::endl;
   CallErrorListenerList.push_front(listener);
 }
 

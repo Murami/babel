@@ -90,12 +90,11 @@ void OkCallFunctor::operator()(BabelCoreClient & core, void *data)
       NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
       core.setTypeNeeded(NET::T_USERINFO);
       core.notifyCallError(true, *tmp);
-      // core.getRecorder()->start();
-      // core.getPlayer()->start();
-      // core.getTimer().start();
+      core.getRecorder()->start();
+      core.getPlayer()->start();
+      core.getTimer().start();
     }
 }
-
 
 void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
 {
