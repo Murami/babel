@@ -469,6 +469,18 @@ void BabelCoreClient::addUserInfoListener(IUserInfoListener * listener)
   UserInfoListenerList.push_front(listener);
 }
 
+/* delete listener */
+
+void BabelCoreClient::deleteDisconnectListener(IDisconnectListener * listener)
+{
+  std::list<IDisconnectListener *>::iterator it;
+
+  it = DisconnectListenerList.begin();
+  for (; it != DisconnectListenerList.end(); ++it)
+    if ((*it) == listener)
+      DisconnectListenerList.erase(it);
+}
+
 /* notify listener */
 
 void BabelCoreClient::notifyCall(NET::CallInfo info)
