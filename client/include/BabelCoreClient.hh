@@ -91,7 +91,17 @@ public:
   void			addMsgErrorListener(IMsgErrorListener * listener);
   void			addUserInfoListener(IUserInfoListener * listener);
 
+  void			deleteCallListener(ICallListener * listener);
+  void			deleteConnectListener(IConnectListener * listener);
   void			deleteDisconnectListener(IDisconnectListener * listener);
+  void			deleteErrorListener(IErrorListener * listener);
+  void			deleteCallErrorListener(ICallErrorListener * listener);
+  void			deleteLoginListener(ILoginListener * listener);
+  void			deleteRegisterListener(IRegisterListener * listener);
+  void			deleteMsgListener(IMsgListener * listener);
+  void			deleteMsgErrorListener(IMsgErrorListener * listener);
+  void			deleteUserInfoListener(IUserInfoListener * listener);
+
 
   static SizeTypeMap	initializeSizeTypeMap();
   static FunctorTypeMap initializeFunctorTypeMap();
@@ -124,16 +134,16 @@ private:
   uint16_t					m_udpPort;
   bool						m_isConnected;
 
-  std::list<ICallListener *>			CallListenerList;
-  std::list<IConnectListener *>			ConnectListenerList;
-  std::list<IDisconnectListener *>		DisconnectListenerList;
-  std::list<IErrorListener *>			ErrorListenerList;
-  std::list<ICallErrorListener *>		CallErrorListenerList;
-  std::list<ILoginListener *>			LoginListenerList;
-  std::list<IRegisterListener *>		RegisterListenerList;
-  std::list<IMsgListener *>			MsgListenerList;
-  std::list<IMsgErrorListener *>		MsgErrorListenerList;
-  std::list<IUserInfoListener *>		UserInfoListenerList;
+  std::list<std::pair<bool, ICallListener *> >			CallListenerList;
+  std::list<std::pair<bool, IConnectListener *> >		ConnectListenerList;
+  std::list<std::pair<bool, IDisconnectListener *> >		DisconnectListenerList;
+  std::list<std::pair<bool, IErrorListener *> >			ErrorListenerList;
+  std::list<std::pair<bool, ICallErrorListener *> >		CallErrorListenerList;
+  std::list<std::pair<bool, ILoginListener *> >			LoginListenerList;
+  std::list<std::pair<bool, IRegisterListener *> >		RegisterListenerList;
+  std::list<std::pair<bool, IMsgListener *> >			MsgListenerList;
+  std::list<std::pair<bool, IMsgErrorListener *> >		MsgErrorListenerList;
+  std::list<std::pair<bool, IUserInfoListener *> >		UserInfoListenerList;
 };
 
 #endif

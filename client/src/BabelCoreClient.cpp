@@ -440,155 +440,255 @@ BabelCoreClient::ErrorMap BabelCoreClient::initializeErrorMap()
 
 void BabelCoreClient::addCallListener(ICallListener * listener)
 {
-  CallListenerList.push_front(listener);
+  CallListenerList.push_front(std::pair<bool, ICallListener*>(true, listener));
 }
 
 void BabelCoreClient::addConnectListener(IConnectListener * listener)
 {
-  ConnectListenerList.push_front(listener);
+  ConnectListenerList.push_front(std::pair<bool, IConnectListener*>(true, listener));
 }
 
 void BabelCoreClient::addDisconnectListener(IDisconnectListener * listener)
 {
-  DisconnectListenerList.push_front(listener);
+  DisconnectListenerList.push_front(std::pair<bool, IDisconnectListener*>(true, listener));
 }
 
 void BabelCoreClient::addErrorListener(IErrorListener * listener)
 {
-  ErrorListenerList.push_front(listener);
+  ErrorListenerList.push_front(std::pair<bool, IErrorListener*>(true, listener));
 }
 
 void BabelCoreClient::addCallErrorListener(ICallErrorListener * listener)
 {
   std::cout << "\033[33mADDING NEW CALL ERROR LISTENER\033[0m" << std::endl;
-  CallErrorListenerList.push_front(listener);
+  CallErrorListenerList.push_front(std::pair<bool, ICallErrorListener*>(true, listener));
 }
 
 void BabelCoreClient::addLoginListener(ILoginListener * listener)
 {
-  LoginListenerList.push_front(listener);
+  LoginListenerList.push_front(std::pair<bool, ILoginListener*>(true, listener));
 }
 
 void BabelCoreClient::addRegisterListener(IRegisterListener * listener)
 {
-  RegisterListenerList.push_front(listener);
+  RegisterListenerList.push_front(std::pair<bool, IRegisterListener*>(true, listener));
 }
 
 void BabelCoreClient::addMsgListener(IMsgListener * listener)
 {
-  MsgListenerList.push_front(listener);
+  MsgListenerList.push_front(std::pair<bool, IMsgListener*>(true, listener));
 }
 
 void BabelCoreClient::addMsgErrorListener(IMsgErrorListener * listener)
 {
-  MsgErrorListenerList.push_front(listener);
+  MsgErrorListenerList.push_front(std::pair<bool, IMsgErrorListener*>(true, listener));
 }
 
 void BabelCoreClient::addUserInfoListener(IUserInfoListener * listener)
 {
-  UserInfoListenerList.push_front(listener);
+  UserInfoListenerList.push_front(std::pair<bool, IUserInfoListener*>(true, listener));
 }
 
 /* delete listener */
 
+void BabelCoreClient::deleteCallListener(ICallListener * listener)
+{
+  std::list<std::pair<bool, ICallListener *> >::iterator it;
+
+  it = CallListenerList.begin();
+  for (; it != CallListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteConnectListener(IConnectListener * listener)
+{
+  std::list<std::pair<bool, IConnectListener *> >::iterator it;
+
+  it = ConnectListenerList.begin();
+  for (; it != ConnectListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
 void BabelCoreClient::deleteDisconnectListener(IDisconnectListener * listener)
 {
-  std::list<IDisconnectListener *>::iterator it;
+  std::list<std::pair<bool, IDisconnectListener *> >::iterator it;
 
   it = DisconnectListenerList.begin();
   for (; it != DisconnectListenerList.end(); it++)
-    if ((*it) == listener)
-      DisconnectListenerList.erase(it);
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteErrorListener(IErrorListener * listener)
+{
+  std::list<std::pair<bool, IErrorListener *> >::iterator it;
+
+  it = ErrorListenerList.begin();
+  for (; it != ErrorListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteCallErrorListener(ICallErrorListener * listener)
+{
+  std::list<std::pair<bool, ICallErrorListener *> >::iterator it;
+
+  it = CallErrorListenerList.begin();
+  for (; it != CallErrorListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteLoginListener(ILoginListener * listener)
+{
+  std::list<std::pair<bool, ILoginListener *> >::iterator it;
+
+  it = LoginListenerList.begin();
+  for (; it != LoginListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteRegisterListener(IRegisterListener * listener)
+{
+  std::list<std::pair<bool, IRegisterListener *> >::iterator it;
+
+  it = RegisterListenerList.begin();
+  for (; it != RegisterListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteMsgListener(IMsgListener * listener)
+{
+  std::list<std::pair<bool, IMsgListener *> >::iterator it;
+
+  it = MsgListenerList.begin();
+  for (; it != MsgListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteMsgErrorListener(IMsgErrorListener * listener)
+{
+  std::list<std::pair<bool, IMsgErrorListener *> >::iterator it;
+
+  it = MsgErrorListenerList.begin();
+  for (; it != MsgErrorListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
+void BabelCoreClient::deleteUserInfoListener(IUserInfoListener * listener)
+{
+  std::list<std::pair<bool, IUserInfoListener *> >::iterator it;
+
+  it = UserInfoListenerList.begin();
+  for (; it != UserInfoListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
 }
 
 /* notify listener */
 
 void BabelCoreClient::notifyCall(NET::CallInfo info)
 {
-  std::list<ICallListener *>::iterator it;
+  std::list<std::pair<bool, ICallListener *> >::iterator it;
 
   it = CallListenerList.begin();
   for (; it != CallListenerList.end(); ++it)
-    (*it)->onCall(info);
+    if ((*it).first == true)
+      (*it).second->onCall(info);
 }
 
 void BabelCoreClient::notifyConnect(void)
 {
-  std::list<IConnectListener *>::iterator it;
+  std::list<std::pair<bool, IConnectListener *> >::iterator it;
 
   it = ConnectListenerList.begin();
   for (; it != ConnectListenerList.end(); ++it)
-    (*it)->onConnect();
+    if ((*it).first == true)
+      (*it).second->onConnect();
 }
 
 void BabelCoreClient::notifyDisconnect(void)
 {
-  std::list<IDisconnectListener *>::iterator it;
+  std::list<std::pair<bool, IDisconnectListener *> >::iterator it;
 
   it = DisconnectListenerList.begin();
   for (; it != DisconnectListenerList.end(); ++it)
-    (*it)->onDisconnect();
-  DisconnectListenerList.clear();
+    if ((*it).first == true)
+      (*it).second->onDisconnect();
 }
 
 void BabelCoreClient::notifyError(QString error)
 {
-  std::list<IErrorListener *>::iterator it;
+  std::list<std::pair<bool, IErrorListener *> >::iterator it;
+
   it = ErrorListenerList.begin();
   for (; it != ErrorListenerList.end(); ++it)
-    (*it)->onError(error);
+    if ((*it).first == true)
+      (*it).second->onError(error);
 }
 
 void BabelCoreClient::notifyCallError(bool rep, NET::UserInfo info)
 {
-  std::list<ICallErrorListener *>::iterator it;
+  std::list<std::pair<bool, ICallErrorListener *> >::iterator it;
+
   it = CallErrorListenerList.begin();
   for (; it != CallErrorListenerList.end(); it++)
-    (*it)->onCallError(rep);
+    if ((*it).first == true)
+      (*it).second->onCallError(rep);
 }
 
 void BabelCoreClient::notifyLogin(bool rep)
 {
-  std::list<ILoginListener *>::iterator it;
+  std::list<std::pair<bool, ILoginListener *> >::iterator it;
 
-  std::cout << __FUNCTION__ << std::endl;
   it = LoginListenerList.begin();
   for (; it != LoginListenerList.end(); ++it)
-    (*it)->onLogin(rep);
+    if ((*it).first == true)
+      (*it).second->onLogin(rep);
 }
 
 void BabelCoreClient::notifyRegister(bool rep)
 {
-  std::list<IRegisterListener *>::iterator it;
+  std::list<std::pair<bool, IRegisterListener *> >::iterator it;
 
   it = RegisterListenerList.begin();
   for (; it != RegisterListenerList.end(); ++it)
-    (*it)->onRegister(rep);
+    if ((*it).first == true)
+      (*it).second->onRegister(rep);
 }
 
 void BabelCoreClient::notifyMsg(NET::MsgInfo info)
 {
-  std::list<IMsgListener *>::iterator it;
+  std::list<std::pair<bool, IMsgListener *> >::iterator it;
 
   it = MsgListenerList.begin();
   for (; it != MsgListenerList.end(); ++it)
-    (*it)->onMsg(info);
+    if ((*it).first == true)
+      (*it).second->onMsg(info);
 }
 
 void BabelCoreClient::notifyMsgError(bool rep)
 {
-  std::list<IMsgErrorListener *>::iterator it;
+  std::list<std::pair<bool, IMsgErrorListener *> >::iterator it;
 
   it = MsgErrorListenerList.begin();
   for (; it != MsgErrorListenerList.end(); ++it)
-    (*it)->onMsgError(rep);
+    if ((*it).first == true)
+      (*it).second->onMsgError(rep);
 }
 
 void BabelCoreClient::notifyUserInfo(NET::UserInfo info)
 {
-  std::list<IUserInfoListener *>::iterator it;
+  std::list<std::pair<bool, IUserInfoListener *> >::iterator it;
 
   it = UserInfoListenerList.begin();
   for (; it != UserInfoListenerList.end(); ++it)
-    (*it)->onUserInfo(info);
+    if ((*it).first == true)
+      (*it).second->onUserInfo(info);
 }
