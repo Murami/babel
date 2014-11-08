@@ -70,36 +70,16 @@ void		ConversationWindow::onMsgError(bool lol)
 
 void		ConversationWindow::onMsg(NET::MsgInfo info)
 {
-  this->_messageTextView->addMessageFromMate(QString(info.user));
-
-  // QString	str;
-  // QTextCursor	cursor = this->_messageTextView->textCursor();
-
-  // str = QString(info.msg);
-  // str = QString("<span style=\"background-color:#33ffcc;color:#000000\">") % str % QString("</span>");
-  // this->_messageTextView->insertHtml(str);
-  // cursor.movePosition(QTextCursor::End);
-
-  // str = QString("<br>");
-  // this->_messageTextView->insertHtml(str);
-  // cursor.movePosition(QTextCursor::End);
-
-  // this->_messageTextView->setTextCursor(cursor);
+  this->_messageTextView->addMessageFromMate(QString(info.msg));
 }
 
 void		ConversationWindow::sendMessage()
 {
   this->_messageTextView->addMessageFromUser(this->_messageEdit->text());
-  // QString	str;
   QString	msg;
-  // QTextCursor	cursor = this->_messageTextView->textCursor();
 
-  // msg = this->_messageEdit->text();
+  msg = this->_messageEdit->text();
   this->_messageEdit->clear();
-  // str = QString("<span style=\"background:#6a5acd;color:#ffffff\">") % msg % QString("</span><br>");
-  // this->_messageTextView->insertHtml(str);
-  // cursor.movePosition(QTextCursor::End);
-  // this->_messageTextView->setTextCursor(cursor);
   this->_core.onUserMsg(this->_connectedMate, msg);
 }
 

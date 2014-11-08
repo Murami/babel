@@ -128,6 +128,7 @@ void		MainWindow::onMsg(NET::MsgInfo info)
   ConversationWindow	*w;
   QString		*mate;
 
+  std::cout << "MAIN WINDOW RECEIVED A MSG" << std::endl;
   mate = new QString(info.user);
   if (!this->_isConversationWindowOpen(QString(info.user)))
     {
@@ -190,7 +191,7 @@ void		MainWindow::createAudioConversationWindow()
       this->_audioWindow->show();
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));
-      this->_core.onUserCall(this->_connectedUser);
+      //this->_core.onUserCall(this->_connectedUser);
     }
 }
 
