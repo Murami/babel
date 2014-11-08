@@ -33,11 +33,7 @@ RegisterEntryDialog::RegisterEntryDialog(BabelCoreClient& core, QWidget *parent)
   connect(this->_pseudoEdit, SIGNAL(returnPressed()), this, SLOT(sendData()));
   connect(this->_passwordEdit1, SIGNAL(returnPressed()), this, SLOT(sendData()));
   connect(this->_passwordEdit2, SIGNAL(returnPressed()), this, SLOT(sendData()));
-
-  // ##### REMETTRE LE CANCEL QUAND J'AURAI COMPRIS POURQUOI EST-CE QU'IL NE MARCHE PAS !
-  // ##### PARCE QUE LE CANCEL EST APPELE LORS DE L'APPUI SUR ENTER
-  //connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
-
+  connect(this->_cancelButton, SIGNAL(clicked()), this, SLOT(close()));
   connect(this->_signInButton, SIGNAL(clicked()), this, SLOT(sendData()));
 }
 
