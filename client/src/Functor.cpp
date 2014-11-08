@@ -44,6 +44,9 @@ void CallFunctor::operator()(BabelCoreClient & core, void *data)
       core.notifyCall(*tmp);
       core.setUdpAddress(tmp->ip);
       core.setUdpPort(tmp->port);
+      core.getRecorder()->start();
+      core.getPlayer()->start();
+      core.getTimer().start();
     }
 }
 
@@ -97,9 +100,9 @@ void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
   core.setTypeNeeded(NET::T_HEADER);
   core.notifyCallError(false);
   core.getTimer().stop();
-  if (core.getPlayer->active())
+  if (core.getPlayer()->active())
     core.getPlayer()->stop();
-  if (core.getPlayer->active())
+  if (core.getPlayer()->active())
     core.getRecorder()->stop();
 }
 
@@ -121,7 +124,6 @@ void KoMsgFunctor::operator()(BabelCoreClient & core, void *data)
 
 void SampleFunctor::operator()(BabelCoreClient & core, void *data)
 {
-
 }
 
 void ImgFunctor::operator()(BabelCoreClient & core, void *data)

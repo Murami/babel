@@ -31,7 +31,8 @@ enum Type
     KO_MSG = 16,
     SAMPLE = 17,
     IMG = 18,
-    PING = 19
+    PING = 19,
+    UNKNOWN
   };
 
 enum Status{CONNECTED = 1, DISCONNECTED = 2};

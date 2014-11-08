@@ -13,7 +13,6 @@ SRC		=	main			\
 			BoostAsyncTimer		\
 			AsyncTimer		\
 			BabelServer		\
-			BabelCall		\
 			BabelClient
 
 SRC_EXT		=	.cpp

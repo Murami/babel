@@ -118,7 +118,7 @@ void BabelCoreClient::onUdpRead()
   while (m_audio_socket.hasPendingDatagrams() &&
 	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
     {
-     m_audio_socket.readDatagram(&packet, sizeof(packet));
+      m_audio_socket.readDatagram(&packet, sizeof(packet));
       m_player->pushFrames(packet.sample.rawData, packet.sample.size);
     }
 }
