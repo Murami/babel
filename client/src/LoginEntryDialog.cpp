@@ -60,8 +60,11 @@ void		LoginEntryDialog::onLogin(bool success)
       this->close();
     }
   else
-    this->_createErrorBox("Unable to log in",
-			  "Error : combination login/password is not correct");
+    {
+      this->_createErrorBox("Unable to log in",
+			    "Error : combination login/password is not correct");
+      this->close();
+    }
 }
 
 void		LoginEntryDialog::_createErrorBox(const QString& title, const QString& msg)

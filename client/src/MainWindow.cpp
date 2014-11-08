@@ -98,7 +98,7 @@ void		MainWindow::deleteConversationWindow(ConversationWindow *w)
     }
 }
 
-void		MainWindow::closeEvent(QCloseEvent *event)
+void		MainWindow::closeEvent(QCloseEvent *)
 {
   this->_core.onUserLogout();
   emit closeMainWindow();
@@ -108,19 +108,20 @@ void		MainWindow::onCall(NET::CallInfo info)
 {
   if (this->_audioWindow == NULL)
     {
-      AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core, this->_connectedUser, this);
+      QString mate(this->_widgetListView->getSelectedContactName().c_str());
+      AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core,
+									    mate, this);
       dialog->show();
-      std::cout << "\033[42mCREATING CONFIRMATION\033[0m" << std::endl;
     }
-  else
-    {
-      this->_audioWindow = new AudioConversationWindow(this->_core,
-						       this->_connectedUser.toStdString(),
-						       info.user);
-      this->_audioWindow->show();
-      connect(this->_audioWindow, SIGNAL(closed()),
-	      this, SLOT(deleteAudioWindow()));
-    }
+  // else
+  //   {
+  //     this->_audioWindow = new AudioConversationWindow(this->_core,
+  // 						       this->_connectedUser.toStdString(),
+  // 						       info.user);
+  //     this->_audioWindow->show();
+  //     connect(this->_audioWindow, SIGNAL(closed()),
+  // 	      this, SLOT(deleteAudioWindow()));
+  //   }
 }
 
 void		MainWindow::onMsg(NET::MsgInfo info)
@@ -128,7 +129,6 @@ void		MainWindow::onMsg(NET::MsgInfo info)
   ConversationWindow	*w;
   QString		*mate;
 
-  std::cout << "MAIN WINDOW RECEIVED A MSG" << std::endl;
   mate = new QString(info.user);
   if (!this->_isConversationWindowOpen(QString(info.user)))
     {
@@ -191,7 +191,6 @@ void		MainWindow::createAudioConversationWindow()
       this->_audioWindow->show();
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));
-      //this->_core.onUserCall(this->_connectedUser);
     }
 }
 
