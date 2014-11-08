@@ -15,6 +15,7 @@ void		WidgetTextView::addMessageFromUser(const QString& msg)
   QListWidgetItem *item;
 
   item = new QListWidgetItem(msg);
+  this->_userBrush.setStyle(Qt::SolidPattern);
   item->setBackground(this->_userBrush);
   this->addItem(item);
 }
@@ -24,6 +25,7 @@ void		WidgetTextView::addMessageFromMate(const QString& msg)
   QListWidgetItem *item;
 
   item = new QListWidgetItem(msg);
+  this->_mateBrush.setStyle(Qt::SolidPattern);
   item->setBackground(this->_mateBrush);
   this->addItem(item);
 }
