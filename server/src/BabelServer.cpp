@@ -2,13 +2,14 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <stdexcept>
 #include "BabelClient.hh"
 #include "BabelServer.hh"
 #include "BoostTcpAsyncServer.hh"
 #include "BabelCall.hh"
 #include "ITcpAsyncClient.hh"
 
-BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service) :
+BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service):
   m_server(server), m_service(service)
 {
   m_server.addListener(this);
@@ -52,7 +53,7 @@ void				BabelServer::loadAccounts()
 	  file.close();
 	}
     }
-  catch (std::exception& e)
+  catch (const std::exception& e)
     {
       std::cout << e.what() << std::endl;
     }
@@ -65,6 +66,7 @@ void				BabelServer::onAccept(ITcpAsyncServer& server,
 
   new_client = new BabelClient(client, *this, m_service);
   m_clients.push_back(new_client);
+
   server.accept();
 }
 

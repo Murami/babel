@@ -3,6 +3,7 @@
 
 # include <stdint.h>
 
+# define PORT		1234
 # define IP_SIZE       	0x40//64
 # define LOGIN_SIZE	0x80//128
 # define MD5_PASS_SIZE	0x80//128

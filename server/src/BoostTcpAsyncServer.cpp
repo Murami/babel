@@ -2,15 +2,23 @@
 #include "BoostTcpAsyncClient.hh"
 #include "BoostAsyncService.hh"
 
+#include <exception>
+#include <stdexcept>
+#include <boost/exception/all.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/bind.hpp>
 
-BoostTcpAsyncServer::BoostTcpAsyncServer(BoostAsyncService& service, int port) :
+BoostTcpAsyncServer::BoostTcpAsyncServer(BoostAsyncService& service, int port) try :
   m_io_service(service),
-  m_acceptor(service.getIOService(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-  m_timer(service.getIOService())
+    m_acceptor(service.getIOService(),
+	       boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
+    m_timer(service.getIOService())
 {
 }
+catch (const boost::exception &e)
+  {
+    throw (std::runtime_error("Bind Error"));
+  }
 
 void	BoostTcpAsyncServer::accept()
 {
@@ -20,28 +28,8 @@ void	BoostTcpAsyncServer::accept()
   							  this, client, boost::asio::placeholders::error));
 }
 
-// void	BoostTcpAsyncServer::wait(unsigned int second, unsigned int microsecond)
-// {
-//   m_timer.expires_from_now(boost::posix_time::seconds(second) + boost::posix_time::microseconds(microsecond));
-//   m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
-// }
-
-// void	BoostTcpAsyncServer::waitUntil(unsigned int second, unsigned int microsecond)
-// {
-//   boost::posix_time::ptime	expiration(boost::gregorian::date(1970,1,1),
-// 					   boost::posix_time::seconds(second) +
-// 					   boost::posix_time::microseconds(microsecond));
-//   m_timer.expires_at(expiration);
-//   m_timer.async_wait(boost::bind(&BoostTcpAsyncServer::onTimeout, this, boost::asio::placeholders::error));
-// }
-
 void	BoostTcpAsyncServer::onAccept(BoostTcpAsyncClient* client, const boost::system::error_code& e)
 {
   if (!e)
     notifyAccept(client);
 }
-
-// void	BoostTcpAsyncServer::onTimeout(const boost::system::error_code& /*e*/)
-// {
-//   /* gerer les erreurs et notifier les litener */
-// }

@@ -5,13 +5,16 @@
 # include	<QPushButton>
 # include	<QDialog>
 # include	"IErrorListener.hh"
+# include	"IDisconnectListener.hh"
 
 class		MainWindow;
 class		LoginEntryDialog;
 class		RegisterEntryDialog;
 class		BabelCoreClient;
 
-class		LoginDialog : public QDialog, public IErrorListener
+class		LoginDialog : public QDialog,
+			      public IErrorListener,
+			      public IDisconnectListener
 {
   Q_OBJECT
 
@@ -38,7 +41,8 @@ private slots:
   void		display();
 
 public:
-  void		onError(QString);
+  virtual void	onError(QString);
+  virtual void	onDisconnect();
 
 public:
   LoginDialog(BabelCoreClient&, QWidget *parent = 0);
