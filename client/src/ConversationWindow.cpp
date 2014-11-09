@@ -51,6 +51,12 @@ void		ConversationWindow::closeWindow()
   this->close();
 }
 
+void		ConversationWindow::closeEvent(QCloseEvent *)
+{
+  emit closed(this);
+  this->close();
+}
+
 void		ConversationWindow::setUsername(const QString& username)
 {
   this->_username = username;
@@ -75,12 +81,19 @@ void		ConversationWindow::onMsg(NET::MsgInfo info)
 
 void		ConversationWindow::sendMessage()
 {
-  this->_messageTextView->addMessageFromUser(this->_messageEdit->text());
   QString	msg;
 
   msg = this->_messageEdit->text();
-  this->_messageEdit->clear();
-  this->_core.onUserMsg(this->_connectedMate, msg);
+  if (msg.length())
+    {
+      this->_messageTextView->addMessageFromUser(this->_messageEdit->text());
+      this->_messageEdit->clear();
+      this->_core.onUserMsg(this->_connectedMate, msg);
+    }
 }
 
-ConversationWindow::~ConversationWindow() {}
+ConversationWindow::~ConversationWindow()
+{
+  this->_core.deleteMsgErrorListener(this);
+  this->_core.deleteMsgListener(this);
+}

@@ -57,10 +57,7 @@ void		RegisterEntryDialog::sendData()
     this->_createErrorBox("Password mismatch",
 			  "Passwords must be identical");
   else
-    {
-      std::cout << "COUCOUUUUUUUUUUUUUUUUUUUUUUUU" << std::endl;
-      this->_core.onUserRegister(user, pass);
-    }
+    this->_core.onUserRegister(user, pass);
 }
 
 void		RegisterEntryDialog::onRegister(bool success)
@@ -82,6 +79,13 @@ void		RegisterEntryDialog::_createErrorBox(const QString& title, const QString& 
   box->setText(msg);
   box->setIcon(QMessageBox::Critical);
   box->show();
+}
+
+void		RegisterEntryDialog::reset()
+{
+  this->_pseudoEdit->clear();
+  this->_passwordEdit1->clear();
+  this->_passwordEdit2->clear();
 }
 
 RegisterEntryDialog::~RegisterEntryDialog() {}

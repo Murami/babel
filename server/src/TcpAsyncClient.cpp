@@ -29,7 +29,7 @@ void	TcpAsyncClient::deleteListener(ITcpAsyncClientListener* listener)
 void	TcpAsyncClient::notifyRead(char* buffer, std::size_t transferred)
 {
   TcpAsyncClientListenerList::iterator	it;
-  std::cout << m_listenerList.size() << std::endl;
+
   for (it = m_listenerList.begin(); it != m_listenerList.end(); it++)
     {
       (*it)->onRead(*this, buffer, transferred);

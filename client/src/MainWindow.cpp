@@ -70,6 +70,7 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
 
 void		MainWindow::deleteAudioWindow()
 {
+  this->_audioWindow->close();
   this->_audioWindow = NULL;
 }
 
@@ -104,24 +105,25 @@ void		MainWindow::closeEvent(QCloseEvent *)
   emit closeMainWindow();
 }
 
+void		MainWindow::openAudioConversationWindow(const QString& caller)
+{
+  this->_audioWindow = new AudioConversationWindow(this->_core,
+						   caller.toStdString(),
+						   this->_connectedUser.toStdString());
+  this->_audioWindow->show();
+  connect(this->_audioWindow, SIGNAL(closed()),
+	  this, SLOT(deleteAudioWindow()));
+}
+
 void		MainWindow::onCall(NET::CallInfo info)
 {
   if (this->_audioWindow == NULL)
     {
-      QString mate(this->_widgetListView->getSelectedContactName().c_str());
+      QString mate(info.user);
       AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core,
-									    mate, this);
+      									    mate, this);
       dialog->show();
     }
-  // else
-  //   {
-  //     this->_audioWindow = new AudioConversationWindow(this->_core,
-  // 						       this->_connectedUser.toStdString(),
-  // 						       info.user);
-  //     this->_audioWindow->show();
-  //     connect(this->_audioWindow, SIGNAL(closed()),
-  // 	      this, SLOT(deleteAudioWindow()));
-  //   }
 }
 
 void		MainWindow::onMsg(NET::MsgInfo info)
@@ -174,6 +176,7 @@ void		MainWindow::disconnect()
   if (this->_audioWindow != NULL)
     this->_audioWindow->close();
   emit closeMainWindow();
+  this->close();
 }
 
 void		MainWindow::createAudioConversationWindow()
@@ -186,8 +189,8 @@ void		MainWindow::createAudioConversationWindow()
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
       this->_audioWindow = new AudioConversationWindow(this->_core,
-						       this->_connectedUser.toStdString(),
-						       mate->toStdString());
+						       mate->toStdString(),
+						       this->_connectedUser.toStdString());
       this->_audioWindow->show();
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));
@@ -222,5 +225,8 @@ void		MainWindow::onDisconnect()
 
 MainWindow::~MainWindow()
 {
-  //this->_core.onDisconnect();
+  this->_core.deleteDisconnectListener(this);
+  this->_core.deleteUserInfoListener(this->_widgetListView);
+  this->_core.deleteMsgListener(this);
+  this->_core.deleteCallListener(this);
 }

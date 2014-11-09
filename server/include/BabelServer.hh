@@ -4,6 +4,7 @@
 #include "ITcpAsyncServerListener.hh"
 #include "IAsyncTimerListener.hh"
 #include "BabelAccountEntry.hh"
+#include "BoostTcpAsyncServer.hh"
 
 #include <list>
 
@@ -16,22 +17,16 @@ const std::string PATH_ACCOUNTS = "accounts.babel";
 class BabelServer : public ITcpAsyncServerListener
 {
 private:
-  ITcpAsyncServer&			m_server;
+  BoostTcpAsyncServer&			m_server;
   BoostAsyncService&			m_service;
   std::list<BabelAccountEntry>		m_accountList;
   std::list<BabelClient*>		m_clients;
-  std::list<BabelCall*>			m_calls;
 
 public:
-  BabelServer(ITcpAsyncServer& server, BoostAsyncService& service);
+  BabelServer(BoostTcpAsyncServer& server, BoostAsyncService& service);
   ~BabelServer();
 
-
-
-  BabelCall*			getCallFromDest(BabelClient * dest);
-  bool				createCall(BabelClient* dest, BabelClient* src);
   void				popClient(BabelClient* client);
-  void				popCall(BabelCall* client);
   void				loadAccounts();
   void				addAccount(BabelAccountEntry account);
 

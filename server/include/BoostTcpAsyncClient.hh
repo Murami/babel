@@ -28,6 +28,7 @@ public:
 				       const boost::system::error_code& e);
   void				onWrite(char* buffer, std::size_t transferred,
 					const boost::system::error_code& e);
+  void				close();
 };
 
 #endif /* BOOSTTCPASYNCLIENT_HH */

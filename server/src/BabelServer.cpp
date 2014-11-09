@@ -6,10 +6,9 @@
 #include "BabelClient.hh"
 #include "BabelServer.hh"
 #include "BoostTcpAsyncServer.hh"
-#include "BabelCall.hh"
 #include "ITcpAsyncClient.hh"
 
-BabelServer::BabelServer(ITcpAsyncServer& server, BoostAsyncService& service):
+BabelServer::BabelServer(BoostTcpAsyncServer& server, BoostAsyncService& service) :
   m_server(server), m_service(service)
 {
   m_server.addListener(this);
@@ -64,7 +63,7 @@ void				BabelServer::onAccept(ITcpAsyncServer& server,
 {
   BabelClient*			new_client;
 
-  new_client = new BabelClient(client, *this, m_service);
+  new_client = new BabelClient(dynamic_cast<BoostTcpAsyncClient*>(client), *this, m_service);
   m_clients.push_back(new_client);
 
   server.accept();
@@ -139,37 +138,7 @@ bool				BabelServer::authClient(const std::string & name,
   return false;
 }
 
-bool				BabelServer::createCall(BabelClient* dest, BabelClient *src)
-{
-  for (std::list<BabelCall*>::iterator it = m_calls.begin();
-       it != m_calls.end(); it++)
-    {
-      if (dest == (*it)->getDestination() || dest == (*it)->getSource() ||
-      	  src == (*it)->getDestination() || src == (*it)->getSource())
-	return false;
-    }
-  m_calls.push_back(new BabelCall(dest, src));
-  return true;
-}
-
-BabelCall*			BabelServer::getCallFromDest(BabelClient* dest)
-{
- for (std::list<BabelCall*>::iterator it = m_calls.begin();
-       it != m_calls.end(); it++)
-    {
-      if (dest == (*it)->getDestination())
-	return (*it);
-    }
- return NULL;
-}
-
-
 void				BabelServer::popClient(BabelClient * client)
 {
   m_clients.remove(client);
-}
-
-void				BabelServer::popCall(BabelCall * call)
-{
-  m_calls.remove(call);
 }

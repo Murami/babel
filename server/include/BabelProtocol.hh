@@ -9,7 +9,7 @@
 # define MD5_PASS_SIZE	0x80//128
 # define MSG_SIZE	0x400//1024
 # define RAW_SIZE	0x1000//4096
-# define JPEG_SIZE	0x40000//262144
+# define JPEG_SIZE	0x6000//262144
 
 enum Type
   {
@@ -32,7 +32,8 @@ enum Type
     KO_MSG = 16,
     SAMPLE = 17,
     IMG = 18,
-    PING = 19
+    PING = 19,
+    UNKNOWN
   };
 
 enum Status{CONNECTED = 1, DISCONNECTED = 2};
@@ -61,7 +62,7 @@ struct		Call
 {
   char		user[LOGIN_SIZE];
   char		ip[IP_SIZE];
-  size_t	port;
+  uint32_t	port;
   Protocol	prot;
   DataType	type;
 }__attribute__((packed));
@@ -74,13 +75,13 @@ struct		Msg
 
 struct Sample
 {
-  size_t	size;
+  uint32_t	size;
   char		rawData[RAW_SIZE];
 }__attribute__((packed));
 
 struct Img
 {
-  size_t	size;
+  uint32_t	size;
   char		img[JPEG_SIZE];
 }__attribute__((packed));
 

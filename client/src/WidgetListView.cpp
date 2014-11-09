@@ -62,18 +62,7 @@ void		WidgetListView::onUserInfo(NET::UserInfo info)
     this->_contactList.push_back(new User(info.user,
 					  info.status == NET::CONNECTED ?
 					  true : false));
-
-  std::cout << "[ BEFORE SORT ]" << std::endl;
-  for (std::list<User*>::iterator it = this->_contactList.begin(); it != this->_contactList.end(); it++)
-    std::cout << (*it)->getName() << std::endl;
-
   this->_sortList();
-
-  std::cout << "[ AFTER SORT ]" << std::endl;
-  for (std::list<User*>::iterator it = this->_contactList.begin(); it != this->_contactList.end(); it++)
-    std::cout << (*it)->getName() << std::endl;
-  std::cout << std::endl;
-
   this->_model->clear();
   for (std::list<User*>::iterator it = this->_contactList.begin();
        it != this->_contactList.end(); it++)

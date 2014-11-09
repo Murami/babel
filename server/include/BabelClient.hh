@@ -6,6 +6,7 @@
 #include "IAsyncTimerListener.hh"
 #include "BoostAsyncTimer.hh"
 #include "BabelProtocol.hh"
+#include "BoostTcpAsyncClient.hh"
 
 #include <queue>
 #include <cstdlib>
@@ -27,7 +28,7 @@ class BabelClient : public ITcpAsyncClientListener, public IAsyncTimerListener
 
 private:
   Type			m_type;
-  ITcpAsyncClient*	m_client;
+  BoostTcpAsyncClient*	m_client;
   BabelServer&		m_server;
   BoostAsyncTimer	m_timer;
 
@@ -48,7 +49,7 @@ private:
   void	initMap();
 
 public:
-  BabelClient(ITcpAsyncClient* client, BabelServer& server, BoostAsyncService& service);
+  BabelClient(BoostTcpAsyncClient* client, BabelServer& server, BoostAsyncService& service);
   ~BabelClient();
 
 
@@ -75,20 +76,22 @@ private:
   void	onOKCall(void *param);
   void	onPing(void *param);
   void	onRecvMsg(void *param);
+  void	onHangout(void* param);
 
   // these are answers to client
   void	sendOKLogin();
   void	sendKOLogin();
   void	sendOKRegister();
   void	sendKORegister();
-  void	sendOKCall();
-  void	sendKOCall();
+  void	sendOKCall(UserInfo* info);
+  void	sendKOCall(UserInfo* info);
   void	sendUserinfo(UserInfo *info);
   void	sendOKMsg();
   void	sendKOMSg();
   void	sendMsg(Msg *msg);
   void	sendCall(Call *call);
   void	sendPing();
+  void	sendLogout();
 };
 
 #endif /* BABELCLIENT_HH */

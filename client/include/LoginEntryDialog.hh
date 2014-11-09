@@ -36,7 +36,8 @@ private:
 
 public:
   void		onLogin(bool);
-  virtual	void	onError(QString);
+  virtual void	onError(QString);
+  void		reset();
 
 private slots:
   void		sendData();
