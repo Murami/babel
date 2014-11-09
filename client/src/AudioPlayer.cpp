@@ -10,7 +10,7 @@
 AudioPlayer::AudioPlayer()
 {
   m_coder = new OpusAudioCoder(48000, 2, 64000);
-  m_stream = new PAAudioOutputStream(2, 44100, 960, Int16, this);
+  m_stream = new PAAudioOutputStream(2, 44100, 120, Int16, this);
   m_stream->open();
 }
 
