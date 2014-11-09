@@ -20,6 +20,11 @@ bool	UdpAsyncSocket::bind(std::string & address, uint16_t port)
   return (m_socket.bind(addr, port));
 }
 
+void	UdpAsyncSocket::close()
+{
+  m_socket.close();
+}
+
 bool	UdpAsyncSocket::bind(uint16_t port = 0)
 {
   return (m_socket.bind(port, QUdpSocket::ShareAddress));

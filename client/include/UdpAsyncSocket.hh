@@ -24,6 +24,7 @@ public:
   int64_t	pendingDatagramSize() const;
   int64_t	readDatagram(void * data, int64_t maxSize, std::string * address = NULL, uint16_t * port = NULL);
   int64_t	writeDatagram(const void * data, int64_t size, std::string & address, uint16_t port);
+  void		close();
 
 public slots:
   void		onError(QAbstractSocket::SocketError error);

@@ -38,7 +38,6 @@ void TcpAsyncSocket::disconnect()
 
 void TcpAsyncSocket::read(char * data, int64_t maxSize)
 {
-  std::cout << "\033[34m[ client ]\tReading data from server\033[0m" << std::endl;
   m_socket.read(data, maxSize);
 }
 
@@ -71,25 +70,21 @@ uint64_t TcpAsyncSocket::bytesAvailable()
 
 void TcpAsyncSocket::onConnect()
 {
-  std::cout << "connect detected" << std::endl;
   notifyConnect();
 }
 
 void TcpAsyncSocket::onDisconnect()
 {
-  std::cout << "disconnect detected" << std::endl;
   notifyDisconnect();
 }
 
 void TcpAsyncSocket::onError(QAbstractSocket::SocketError error)
 {
-  std::cout << "error detected" << std::endl;
   notifyError(error);
 }
 
 void TcpAsyncSocket::onRead()
 {
-  std::cout << "data ready to read" << std::endl;
   notifyRead();
 }
 

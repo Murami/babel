@@ -71,6 +71,7 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
 void		MainWindow::deleteAudioWindow()
 {
   this->_audioWindow->close();
+  delete this->_audioWindow;
   this->_audioWindow = NULL;
 }
 
@@ -192,6 +193,7 @@ void		MainWindow::createAudioConversationWindow()
 						       mate->toStdString(),
 						       this->_connectedUser.toStdString());
       this->_audioWindow->show();
+      this->_core.onUserCall(*mate);
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));
     }
