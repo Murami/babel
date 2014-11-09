@@ -71,6 +71,7 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
 void		MainWindow::deleteAudioWindow()
 {
   this->_audioWindow->close();
+  delete this->_audioWindow;
   this->_audioWindow = NULL;
 }
 

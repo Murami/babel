@@ -4,12 +4,13 @@
 # include	<string>
 # include	<QMainWindow>
 
+# include	"IKoCallListener.hh"
 # include	"ICallErrorListener.hh"
 
 class		WidgetButton;
 class		BabelCoreClient;
 
-class		AudioConversationWindow : public QWidget, public ICallErrorListener
+class		AudioConversationWindow : public QWidget, public ICallErrorListener, public IKoCallListener
 {
   Q_OBJECT
 
@@ -28,6 +29,7 @@ public:
 
 public:
   virtual void	onCallError(bool);
+  virtual void	onKoCall();
 
 public:
   void		setUsername(const QString& username);

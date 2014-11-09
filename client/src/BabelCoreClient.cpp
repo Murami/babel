@@ -5,6 +5,7 @@
 #include <exception>
 #include <stdexcept>
 
+#include "IKoCallListener.hh"
 #include "BabelCoreClient.hh"
 #include "ICallErrorListener.hh"
 #include "IConnectListener.hh"
@@ -54,7 +55,7 @@ void BabelCoreClient::onTimeout(int)
   header.type = NET::T_SAMPLE;
   header.size = sizeof(sample);
   sample.size = 0;
-  while (m_recorder->nextFrameSize() + sample.size < 4096)
+  while (m_recorder->size() && m_recorder->nextFrameSize() + sample.size < 4096)
     {
       frameSize = m_recorder->nextFrameSize();
       frame = m_recorder->popFrame();
@@ -160,9 +161,11 @@ void BabelCoreClient::onUserCall(QString login)
 
   m_udpAddress = "0.0.0.0"; //like QHostAddress::AnyIpv4
   m_udpPort = 1235;
-  std::cout << "-> Here we bind the socket : ";
-  m_audio_socket.bind(1235);
-  std::cout << "OK" << std::endl;
+
+  // std::cout << "-> Here we bind the socket : ";
+  // m_audio_socket.bind(1235);
+  // std::cout << "OK" << std::endl;
+
   header.type = NET::T_CALL;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
@@ -235,12 +238,15 @@ void BabelCoreClient::onUserAcceptCall(QString login)
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
+  connectAudio();
+
   if (m_recorder->active() == false)
     m_recorder->start();
   if (m_player->active() == false)
     m_player->start();
   if (m_timer.isActive() == false)
     m_timer.start();
+
 }
 
 void BabelCoreClient::onUserDeclineCall(QString login)
@@ -249,28 +255,28 @@ void BabelCoreClient::onUserDeclineCall(QString login)
 
   NET::Header	header;
   NET::UserInfo info;
-
   header.type = NET::T_KO_CALL;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
-  if (m_timer.isActive() == true)
-    m_timer.stop();
-  if (m_player->active() == true)
-    m_player->stop();
-  if (m_recorder->active() == true)
-    m_recorder->stop();
+
+  // if (m_timer.isActive() == true)
+  //   m_timer.stop();
+  // if (m_player->active() == true)
+  //   m_player->stop();
+  // if (m_recorder->active() == true)
+  //   m_recorder->stop();
+
 }
 
 void BabelCoreClient::onUserHangout(QString login)
 {
-  std::cout << __FUNCTION__ << std::endl;
-
   NET::Header	header;
   NET::UserInfo info;
 
+  std::cout << "\033[42mHangout from : " << login.toStdString() << "\033[0m\n";
   header.type = NET::T_HANGOUT;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
@@ -283,6 +289,7 @@ void BabelCoreClient::onUserHangout(QString login)
     m_player->stop();
   if (m_recorder->active() == true)
     m_recorder->stop();
+  disconnectAudio();
 }
 
 void BabelCoreClient::onPing()
@@ -296,6 +303,16 @@ void BabelCoreClient::onPing()
 }
 
 /* core control */
+
+void BabelCoreClient::connectAudio()
+{
+  m_audio_socket.bind(m_udpPort);
+}
+
+void BabelCoreClient::disconnectAudio()
+{
+  m_audio_socket.close();
+}
 
 void BabelCoreClient::connect()
 {
@@ -483,6 +500,11 @@ void BabelCoreClient::addUserInfoListener(IUserInfoListener * listener)
   UserInfoListenerList.push_front(std::pair<bool, IUserInfoListener*>(true, listener));
 }
 
+void BabelCoreClient::addKoCallListener(IKoCallListener * listener)
+{
+  KoCallListenerList.push_front(std::pair<bool, IKoCallListener*>(true, listener));
+}
+
 /* delete listener */
 
 void BabelCoreClient::deleteCallListener(ICallListener * listener)
@@ -585,7 +607,27 @@ void BabelCoreClient::deleteUserInfoListener(IUserInfoListener * listener)
       (*it).first = false;
 }
 
+void BabelCoreClient::deleteKoCallListener(IKoCallListener * listener)
+{
+  std::list<std::pair<bool, IKoCallListener *> >::iterator it;
+
+  it = KoCallListenerList.begin();
+  for (; it != KoCallListenerList.end(); it++)
+    if ((*it).second == listener)
+      (*it).first = false;
+}
+
 /* notify listener */
+
+void BabelCoreClient::notifyKoCall()
+{
+  std::list<std::pair<bool, IKoCallListener *> >::iterator it;
+
+  it = KoCallListenerList.begin();
+  for (; it != KoCallListenerList.end(); ++it)
+    if ((*it).first == true)
+      (*it).second->onKoCall();
+}
 
 void BabelCoreClient::notifyCall(NET::CallInfo info)
 {

@@ -20,10 +20,11 @@ AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
   QVBoxLayout		*layout;
   QLabel		*img;
 
+  core.addKoCallListener(this);
   core.addCallErrorListener(this);
   this->setFixedSize(AudioConversationWindow::WIDTH, AudioConversationWindow::HEIGHT);
   this->setWindowTitle(QString("Audio call - ") + QString(mate.c_str()));
-
+  this->_username = QString(mate.c_str());
   layout = new QVBoxLayout();
   this->_hangoutButton = new WidgetButton("Hangout", this);
   this->_hangoutButton->setFixedSize(200, 50);
@@ -36,23 +37,21 @@ AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
   this->_core.onUserCall(QString(mate.c_str()));
 }
 
+void		AudioConversationWindow::onKoCall()
+{
+  emit closed();
+}
+
 void		AudioConversationWindow::onCallError(bool lol)
 {
-  if (lol)
-    {
-      std::cerr << "[ AUDIO ] : Got an error on true" << std::endl;
-    }
-  else
-    {
-      hangout();
-    }
+  if (!lol)
+    emit closed();
 }
 
 void		AudioConversationWindow::hangout()
 {
   this->_core.onUserHangout(this->_username);
   emit closed();
-  this->close();
 }
 
 void		AudioConversationWindow::setUsername(const QString& username)
@@ -63,4 +62,5 @@ void		AudioConversationWindow::setUsername(const QString& username)
 AudioConversationWindow::~AudioConversationWindow()
 {
   this->_core.deleteCallErrorListener(this);
+  this->_core.deleteKoCallListener(this);
 }

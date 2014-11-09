@@ -16,6 +16,7 @@
 # include "Protocol.hh"
 # include "Timer.hh"
 
+class IKoCallListener;
 class ICallListener;
 class IConnectListener;
 class IDisconnectListener;
@@ -70,6 +71,8 @@ public:
 public:
   void			connect();
   void			disconnect();
+  void			connectAudio();
+  void			disconnectAudio();
   void			setTypeNeeded(NET::Type type);
   NET::Type		getTypeNeeded();
   AudioRecorder*	getRecorder();
@@ -90,6 +93,7 @@ public:
   void			addMsgListener(IMsgListener * listener);
   void			addMsgErrorListener(IMsgErrorListener * listener);
   void			addUserInfoListener(IUserInfoListener * listener);
+  void			addKoCallListener(IKoCallListener * listener);
 
   void			deleteCallListener(ICallListener * listener);
   void			deleteConnectListener(IConnectListener * listener);
@@ -101,7 +105,7 @@ public:
   void			deleteMsgListener(IMsgListener * listener);
   void			deleteMsgErrorListener(IMsgErrorListener * listener);
   void			deleteUserInfoListener(IUserInfoListener * listener);
-
+  void			deleteKoCallListener(IKoCallListener * listener);
 
   static SizeTypeMap	initializeSizeTypeMap();
   static FunctorTypeMap initializeFunctorTypeMap();
@@ -118,6 +122,7 @@ public:
   void			notifyMsg(NET::MsgInfo info);
   void			notifyMsgError(bool rep);
   void			notifyUserInfo(NET::UserInfo info);
+  void			notifyKoCall();
 
 private:
   static SizeTypeMap				sizeTypeMap;
@@ -144,6 +149,7 @@ private:
   std::list<std::pair<bool, IMsgListener *> >			MsgListenerList;
   std::list<std::pair<bool, IMsgErrorListener *> >		MsgErrorListenerList;
   std::list<std::pair<bool, IUserInfoListener *> >		UserInfoListenerList;
+  std::list<std::pair<bool, IKoCallListener *> >		KoCallListenerList;
 };
 
 #endif
