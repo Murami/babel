@@ -12,6 +12,7 @@
 #include "LoginEntryDialog.hh"
 #include "RegisterEntryDialog.hh"
 
+std::string	ResourcePath::WAIT_BACKGROUND	= "./res/wait_background.jpg";
 std::string	ResourcePath::CALL_BACKGROUND	= "./res/call_background.jpg";
 std::string	ResourcePath::BUTTON_NORMAL	= "./res/button_normal.jpg";
 std::string	ResourcePath::BUTTON_HOVERED	= "./res/button_hovered.jpg";

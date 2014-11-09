@@ -111,6 +111,7 @@ void		MainWindow::openAudioConversationWindow(const QString& caller)
   this->_audioWindow = new AudioConversationWindow(this->_core,
 						   caller.toStdString(),
 						   this->_connectedUser.toStdString());
+  this->_audioWindow->onCallError(true);
   this->_audioWindow->show();
   connect(this->_audioWindow, SIGNAL(closed()),
 	  this, SLOT(deleteAudioWindow()));

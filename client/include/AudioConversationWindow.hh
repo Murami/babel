@@ -1,6 +1,7 @@
 #ifndef		__AUDIOCONVERSATIONWINDOW_HH__
 # define	__AUDIOCONVERSATIONWINDOW_HH__
 
+# include	<QLabel>
 # include	<string>
 # include	<QMainWindow>
 
@@ -19,6 +20,7 @@ private:
   QString		_mate;
   BabelCoreClient&	_core;
   WidgetButton		*_hangoutButton;
+  QLabel		*_background;
 
 public:
   AudioConversationWindow(BabelCoreClient&,

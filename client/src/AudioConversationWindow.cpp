@@ -18,7 +18,6 @@ AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
   QWidget(parent), _core(core)
 {
   QVBoxLayout		*layout;
-  QLabel		*img;
 
   core.addKoCallListener(this);
   core.addCallErrorListener(this);
@@ -28,13 +27,12 @@ AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
   layout = new QVBoxLayout();
   this->_hangoutButton = new WidgetButton("Hangout", this);
   this->_hangoutButton->setFixedSize(200, 50);
-  img = new QLabel();
-  img->setPixmap((*ResourceManager::getInstance()->getCallBackground()).scaled(img->size().width(), img->size().height() - 100));
-  layout->addWidget(img);
+  this->_background = new QLabel();
+  this->_background->setPixmap((*ResourceManager::getInstance()->getWaitCallBackground()).scaled(this->_background->size().width(), this->_background->size().height() - 100));
+  layout->addWidget(this->_background);
   layout->addWidget(this->_hangoutButton);
   this->setLayout(layout);
   connect(this->_hangoutButton, SIGNAL(clicked()), this, SLOT(hangout()));
-  //  this->_core.onUserCall(QString(mate.c_str()));
 }
 
 void		AudioConversationWindow::onKoCall()
@@ -46,6 +44,8 @@ void		AudioConversationWindow::onCallError(bool lol)
 {
   if (!lol)
     emit closed();
+  else
+    this->_background->setPixmap((*ResourceManager::getInstance()->getCallBackground()).scaled(this->_background->size().width(), this->_background->size().height() - 100));
 }
 
 void		AudioConversationWindow::hangout()

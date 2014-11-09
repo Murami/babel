@@ -67,6 +67,8 @@ private slots:
   void			createChatConversationWindow();
   void			disconnect();
   void			deleteConversationWindow(ConversationWindow*);
+
+public slots:
   void			deleteAudioWindow();
 
 private:

@@ -41,12 +41,12 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
 
 void		LoginDialog::display()
 {
+  this->_mainWindow->deleteAudioWindow();
   this->show();
 }
 
 void		LoginDialog::onLogin(const QString& username)
 {
-  std::cout << "\033[41mON LOGIN\033[0m" << std::endl;
   this->_mainWindow->setConnectedUserName(username);
   this->_mainWindow->show();
   this->hide();

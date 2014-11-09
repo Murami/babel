@@ -15,6 +15,7 @@ public:
   static std::string	BLUE_PELLET;
   static std::string	RED_PELLET;
   static std::string	CALL_BACKGROUND;
+  static std::string	WAIT_BACKGROUND;
 };
 
 class		ResourceManager
@@ -22,6 +23,7 @@ class		ResourceManager
 private:
   QPixmap	*_button[3];
   QPixmap	*_callBackground;
+  QPixmap	*_waitBackground;
   QIcon		*_pellets[2];
 
 private:
@@ -35,11 +37,17 @@ public:		ResourceManager()
     _pellets[0] = new QIcon(QString(ResourcePath::BLUE_PELLET.c_str()));
     _pellets[1] = new QIcon(QString(ResourcePath::RED_PELLET.c_str()));
     _callBackground = new QPixmap(QString(ResourcePath::CALL_BACKGROUND.c_str()));
+    _waitBackground = new QPixmap(QString(ResourcePath::WAIT_BACKGROUND.c_str()));
   }
 
   QPixmap*		getCallBackground()
   {
     return (_callBackground);
+  }
+
+  QPixmap*		getWaitCallBackground()
+  {
+    return (_waitBackground);
   }
 
   QIcon			getPellet(NET::Status s)
