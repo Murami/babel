@@ -16,6 +16,7 @@ OpusAudioCoder::OpusAudioCoder(size_t samplingRate, size_t nbrChannels, size_t b
   if (error < 0) throw std::runtime_error("opus encoder create");
   m_decoder		= opus_decoder_create(m_samplingRate, m_nbrChannels, &error);
   if (error < 0) throw std::runtime_error("opus encoder create");
+  opus_encoder_ctl(m_encoder, OPUS_SET_BITRATE(m_bitRate));
 }
 
 OpusAudioCoder::~OpusAudioCoder()
@@ -31,7 +32,7 @@ uint32_t	 OpusAudioCoder::decode(int16_t* audioRaw, const unsigned char* packetD
 
   memcpy(&nbBytes, packetData, 4);
   memset(audioRaw, 0, 960);
-  frameSize = opus_decode(m_decoder, packetData + 4, nbBytes - 4, audioRaw, 960, 0);
+  frameSize = opus_decode(m_decoder, packetData + 4, nbBytes, audioRaw, 960, 0);
   return (frameSize);
 }
 
@@ -57,6 +58,7 @@ void OpusAudioCoder::setNbrChannels(size_t nbrChannels)
 void OpusAudioCoder::setBitRate(size_t bitRate)
 {
   m_bitRate = bitRate;
+  opus_encoder_ctl(m_encoder, OPUS_SET_BITRATE(m_bitRate));
 }
 
 size_t	OpusAudioCoder::getSamplingRate() const
