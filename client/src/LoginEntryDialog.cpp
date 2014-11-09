@@ -54,6 +54,7 @@ void		LoginEntryDialog::sendData()
 
 void		LoginEntryDialog::reset()
 {
+  this->_pseudoEdit->setFocus();
   this->_pseudoEdit->clear();
   this->_passwordEdit->clear();
 }

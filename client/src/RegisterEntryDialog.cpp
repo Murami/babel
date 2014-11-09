@@ -83,6 +83,7 @@ void		RegisterEntryDialog::_createErrorBox(const QString& title, const QString& 
 
 void		RegisterEntryDialog::reset()
 {
+  this->_pseudoEdit->setFocus();
   this->_pseudoEdit->clear();
   this->_passwordEdit1->clear();
   this->_passwordEdit2->clear();

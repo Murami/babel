@@ -44,6 +44,9 @@ public:
   virtual void	onError(QString);
   virtual void	onDisconnect();
 
+private:
+  void		_initialize();
+
 public:
   LoginDialog(BabelCoreClient&, QWidget *parent = 0);
   ~LoginDialog();

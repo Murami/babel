@@ -70,9 +70,12 @@ MainWindow::MainWindow(BabelCoreClient& core, QWidget *parent) : QWidget(parent)
 
 void		MainWindow::deleteAudioWindow()
 {
-  this->_audioWindow->close();
-  delete this->_audioWindow;
-  this->_audioWindow = NULL;
+  if (this->_audioWindow)
+    {
+      this->_audioWindow->close();
+      delete this->_audioWindow;
+      this->_audioWindow = NULL;
+    }
 }
 
 void		MainWindow::setConnectedUserName(const QString& username)
@@ -103,7 +106,13 @@ void		MainWindow::deleteConversationWindow(ConversationWindow *w)
 void		MainWindow::closeEvent(QCloseEvent *)
 {
   this->_core.onUserLogout();
+  this->_core.deleteDisconnectListener(this);
+  this->_core.deleteUserInfoListener(this->_widgetListView);
+  this->_core.deleteMsgListener(this);
+  this->_core.deleteCallListener(this);
   emit closeMainWindow();
+  this->deleteAudioWindow();
+  this->close();
 }
 
 void		MainWindow::openAudioConversationWindow(const QString& caller)
@@ -177,8 +186,12 @@ void		MainWindow::disconnect()
     (*it)->close();
   if (this->_audioWindow != NULL)
     this->_audioWindow->close();
-  emit closeMainWindow();
+  this->_core.deleteDisconnectListener(this);
+  this->_core.deleteUserInfoListener(this->_widgetListView);
+  this->_core.deleteMsgListener(this);
+  this->_core.deleteCallListener(this);
   this->close();
+  //emit closeMainWindow();
 }
 
 void		MainWindow::createAudioConversationWindow()
