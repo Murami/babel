@@ -1,11 +1,12 @@
 CONFIG += qt
-QT += core gui widgets network
+QT += core gui network
 LIBS += libportaudio/libs/libportaudio.a -lopus -lasound -ljack
 INCLUDEPATH +=  include libportaudio/include
 
 QMAKE_CXXFLAGS += -g3 -ggdb
 
-HEADERS += 	include/TcpAsyncSocket.hh               \
+HEADERS += 	include/main.hh                         \
+                include/TcpAsyncSocket.hh               \
 		include/UdpAsyncSocket.hh               \
 		include/BabelCoreClient.hh              \
 		include/ITcpAsyncSocketListener.hh      \

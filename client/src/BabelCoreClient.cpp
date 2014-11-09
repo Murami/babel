@@ -49,6 +49,7 @@ void BabelCoreClient::onTimeout(int)
 {
   NET::Header		header;
   NET::Sample		sample;
+  NET::SamplePacket packet;
   void*			frame;
   int			frameSize;
 
@@ -62,10 +63,17 @@ void BabelCoreClient::onTimeout(int)
       frame = m_recorder->popFrame();
       memcpy(sample.rawData + sample.size, frame, frameSize);
       sample.size += frameSize;
-      std::cout << "SMPL" << std::endl;
     }
-  m_audio_socket.writeDatagram(&header, sizeof(header), m_udpAddress, m_udpPort);
-  m_audio_socket.writeDatagram(&sample, sizeof(sample), m_udpAddress, m_udpPort);
+  std::cout << "sent to" << m_udpAddress <<std::endl;
+  std::cout << m_audio_socket.writeDatagram(&header, sizeof(header), m_udpAddress, m_udpPort);
+  std::cout << "  " << m_audio_socket.writeDatagram(&sample, sizeof(sample), m_udpAddress, m_udpPort) << std::endl;
+  while (m_audio_socket.hasPendingDatagrams() &&
+  	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
+    {
+      std::cout << "WAT ?" << std::endl;
+      m_audio_socket.readDatagram(&packet, sizeof(packet));
+      m_player->pushFrames(packet.sample.rawData, packet.sample.size);
+    }
 }
 
 /* listened Tcp socket event*/
@@ -114,8 +122,9 @@ void BabelCoreClient::onUdpRead()
   NET::SamplePacket packet;
 
   std::cout << "UdpRead"  << std::endl;
+  std::cout <<  m_audio_socket.pendingDatagramSize()  << std::endl;
   while (m_audio_socket.hasPendingDatagrams() &&
-	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
+  	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
     {
       m_audio_socket.readDatagram(&packet, sizeof(packet));
       m_player->pushFrames(packet.sample.rawData, packet.sample.size);
@@ -162,7 +171,9 @@ void BabelCoreClient::onUserCall(QString login)
   NET::Header		header;
   NET::CallInfo		info;
 
-  m_udpAddress = "0.0.0.0"; //like QHostAddress::AnyIpv4
+  // m_udpAddress = "0.0.0.0"; //like QHostAddress::AnyIpv4
+  // m_udpAddress = QHostAddress::Any;
+  m_udpAddress = "127.0.0.1";
   m_udpPort = 1235;
 
   // std::cout << "-> Here we bind the socket : ";
@@ -299,7 +310,6 @@ void BabelCoreClient::onPing()
 {
   NET::Header	header;
 
-  std::cout << "anwser to a server ping" << std::endl;
   header.type = NET::T_PING;
   header.size = sizeof(NET::Header);
   m_socket.write(&header, sizeof(NET::Header));
@@ -309,7 +319,7 @@ void BabelCoreClient::onPing()
 
 void BabelCoreClient::connectAudio()
 {
-  m_audio_socket.bind(m_udpPort);
+  m_audio_socket.bind(m_udpAddress, m_udpPort);
 }
 
 void BabelCoreClient::disconnectAudio()
