@@ -34,7 +34,7 @@ AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
   layout->addWidget(this->_hangoutButton);
   this->setLayout(layout);
   connect(this->_hangoutButton, SIGNAL(clicked()), this, SLOT(hangout()));
-  this->_core.onUserCall(QString(mate.c_str()));
+  //  this->_core.onUserCall(QString(mate.c_str()));
 }
 
 void		AudioConversationWindow::onKoCall()

@@ -193,6 +193,7 @@ void		MainWindow::createAudioConversationWindow()
 						       mate->toStdString(),
 						       this->_connectedUser.toStdString());
       this->_audioWindow->show();
+      this->_core.onUserCall(*mate);
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));
     }
