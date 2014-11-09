@@ -189,8 +189,8 @@ void		MainWindow::createAudioConversationWindow()
     {
       mate = new QString(this->_widgetListView->getSelectedContactName().c_str());
       this->_audioWindow = new AudioConversationWindow(this->_core,
-						       this->_connectedUser.toStdString(),
-						       mate->toStdString());
+						       mate->toStdString(),
+						       this->_connectedUser.toStdString());
       this->_audioWindow->show();
       connect(this->_audioWindow, SIGNAL(closed()),
 	      this, SLOT(deleteAudioWindow()));
@@ -225,5 +225,8 @@ void		MainWindow::onDisconnect()
 
 MainWindow::~MainWindow()
 {
-  //this->_core.onDisconnect();
+  this->_core.deleteDisconnectListener(this);
+  this->_core.deleteUserInfoListener(this->_widgetListView);
+  this->_core.deleteMsgListener(this);
+  this->_core.deleteCallListener(this);
 }

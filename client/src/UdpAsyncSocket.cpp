@@ -3,7 +3,7 @@
 
 UdpAsyncSocket::UdpAsyncSocket()
 {
-  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));;
+  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
   QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 }
 
@@ -22,7 +22,7 @@ bool	UdpAsyncSocket::bind(std::string & address, uint16_t port)
 
 bool	UdpAsyncSocket::bind(uint16_t port = 0)
 {
-  return (m_socket.bind(port));
+  return (m_socket.bind(port, QUdpSocket::ShareAddress));
 }
 
 bool	UdpAsyncSocket::hasPendingDatagrams() const

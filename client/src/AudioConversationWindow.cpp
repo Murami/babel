@@ -22,20 +22,18 @@ AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
 
   core.addCallErrorListener(this);
   this->setFixedSize(AudioConversationWindow::WIDTH, AudioConversationWindow::HEIGHT);
-  this->setWindowTitle(QString("Audio call - ") + QString(user.c_str()));
+  this->setWindowTitle(QString("Audio call - ") + QString(mate.c_str()));
 
   layout = new QVBoxLayout();
   this->_hangoutButton = new WidgetButton("Hangout", this);
   this->_hangoutButton->setFixedSize(200, 50);
-  // ######### FAIRE UNE FONCTION QUI CHANGE LE STATE DU BOUTON
-
   img = new QLabel();
   img->setPixmap((*ResourceManager::getInstance()->getCallBackground()).scaled(img->size().width(), img->size().height() - 100));
   layout->addWidget(img);
   layout->addWidget(this->_hangoutButton);
   this->setLayout(layout);
   connect(this->_hangoutButton, SIGNAL(clicked()), this, SLOT(hangout()));
-  this->_core.onUserCall(QString(user.c_str()));
+  this->_core.onUserCall(QString(mate.c_str()));
 }
 
 void		AudioConversationWindow::onCallError(bool lol)
@@ -46,7 +44,7 @@ void		AudioConversationWindow::onCallError(bool lol)
     }
   else
     {
-      std::cerr << "[ AUDIO ] : Got an error on false" << std::endl;
+      hangout();
     }
 }
 
@@ -62,4 +60,7 @@ void		AudioConversationWindow::setUsername(const QString& username)
   this->_username = username;
 }
 
-AudioConversationWindow::~AudioConversationWindow() {}
+AudioConversationWindow::~AudioConversationWindow()
+{
+  this->_core.deleteCallErrorListener(this);
+}
