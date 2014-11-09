@@ -19,6 +19,8 @@ AudioCallConfirmationDialog::AudioCallConfirmationDialog(BabelCoreClient &core,
   this->_declineButton = new WidgetButton("Decline", this);
   layout->addWidget(this->_acceptButton);
   layout->addWidget(this->_declineButton);
+  layout->setAlignment(this->_acceptButton, Qt::AlignHCenter);
+  layout->setAlignment(this->_declineButton, Qt::AlignHCenter);
   this->setLayout(layout);
   connect(this->_acceptButton, SIGNAL(clicked()), this, SLOT(acceptCall()));
   connect(this->_declineButton, SIGNAL(clicked()), this, SLOT(declineCall()));

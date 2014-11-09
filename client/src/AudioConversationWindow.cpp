@@ -44,7 +44,7 @@ void		AudioConversationWindow::onCallError(bool lol)
     }
   else
     {
-      std::cerr << "[ AUDIO ] : Got an error on false" << std::endl;
+      hangout();
     }
 }
 
@@ -60,4 +60,7 @@ void		AudioConversationWindow::setUsername(const QString& username)
   this->_username = username;
 }
 
-AudioConversationWindow::~AudioConversationWindow() {}
+AudioConversationWindow::~AudioConversationWindow()
+{
+  this->_core.deleteCallErrorListener(this);
+}

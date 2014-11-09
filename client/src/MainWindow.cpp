@@ -225,5 +225,8 @@ void		MainWindow::onDisconnect()
 
 MainWindow::~MainWindow()
 {
-  //this->_core.onDisconnect();
+  this->_core.deleteDisconnectListener(this);
+  this->_core.deleteUserInfoListener(this->_widgetListView);
+  this->_core.deleteMsgListener(this);
+  this->_core.deleteCallListener(this);
 }

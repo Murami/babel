@@ -92,4 +92,8 @@ void		ConversationWindow::sendMessage()
     }
 }
 
-ConversationWindow::~ConversationWindow() {}
+ConversationWindow::~ConversationWindow()
+{
+  this->_core.deleteMsgErrorListener(this);
+  this->_core.deleteMsgListener(this);
+}

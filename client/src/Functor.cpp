@@ -86,37 +86,34 @@ void OkCallFunctor::operator()(BabelCoreClient & core, void *data)
     core.setTypeNeeded(NET::T_OK_CALL);
   else
     {
-      std::cout << "=======================================================\n";
       NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
       core.setTypeNeeded(NET::T_USERINFO);
       core.notifyCallError(true, *tmp);
-<<<<<<< HEAD
-      core.getRecorder()->start();
-      core.getPlayer()->start();
-      core.getTimer().start();
-=======
       if (core.getRecorder()->active() == false)
 	core.getRecorder()->start();
       if (core.getPlayer()->active() == false)
 	core.getPlayer()->start();
       if (core.getTimer().isActive() == false)
 	core.getTimer().start();
->>>>>>> bf36dbae6e0ea83d6ddaecc40ce8cf4a36d9e8b8
     }
 }
 
 void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
 {
-  std::cout << "recv ko call" << std::endl;
-  core.setTypeNeeded(NET::T_HEADER);
-  NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
-  core.notifyCallError(false, *tmp);
-  if (core.getTimer().isActive() == true)
-    core.getTimer().stop();
-  if (core.getPlayer()->active() == true)
-    core.getPlayer()->stop();
-  if (core.getRecorder()->active() == true)
-    core.getRecorder()->stop();
+  if (core.getTypeNeeded() == NET::T_HEADER)
+    core.setTypeNeeded(NET::T_KO_CALL);
+  else
+    {
+      core.setTypeNeeded(NET::T_USERINFO);
+      NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
+      core.notifyCallError(false, *tmp);
+      if (core.getTimer().isActive() == true)
+	core.getTimer().stop();
+      if (core.getPlayer()->active() == true)
+	core.getPlayer()->stop();
+      if (core.getRecorder()->active() == true)
+	core.getRecorder()->stop();
+    }
 }
 
 void OkMsgFunctor::operator()(BabelCoreClient & core, void *data)

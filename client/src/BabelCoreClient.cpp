@@ -69,7 +69,6 @@ void BabelCoreClient::onTimeout(int)
 
 void BabelCoreClient::onTcpConnect()
 {
-  std::cout << "core connect detected" << std::endl;
   notifyConnect();
 }
 
@@ -79,27 +78,21 @@ void BabelCoreClient::onTcpDisconnect()
 
 void BabelCoreClient::onTcpError(int error)
 {
-  std::cout << "core error detected" << std::endl;
   notifyError(errorMap[error]);
 }
 
 void BabelCoreClient::onTcpRead()
 {
-  std::cout << "core data read to read" << std::endl;
   while (m_socket.bytesAvailable() >= sizeTypeMap[typeNeeded])
     {
       m_socket.read(buffer, sizeTypeMap[typeNeeded]);
       if (typeNeeded == NET::T_HEADER)
 	{
-	  std::cout << "\033[42m" << typeNeeded << "\033[0m\n";
 	  NET::Header* tmp = reinterpret_cast<NET::Header*>(buffer);
 	  (*functorTypeMap[tmp->type])(*this, buffer);
 	}
       else
-	{
-	  std::cout << "\033[41m" << typeNeeded << "\033[0m\n";
-	  (*functorTypeMap[typeNeeded])(*this, buffer);
-	}
+	(*functorTypeMap[typeNeeded])(*this, buffer);
     }
 }
 
@@ -110,15 +103,13 @@ void BabelCoreClient::onUdpError(int e)
   std::stringstream ss;
 
   ss << e;
-  std::cout << "udp error detected" << std::endl;
-  throw std::runtime_error("UDP ERROR" + ss.str());
+  throw std::runtime_error("UDP ERROR : " + ss.str());
 }
 
 void BabelCoreClient::onUdpRead()
 {
   NET::SamplePacket packet;
 
-  std::cout << "-> [udp read] <-" << std::endl;
   while (m_audio_socket.hasPendingDatagrams() &&
 	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
     {
@@ -464,12 +455,7 @@ void BabelCoreClient::addErrorListener(IErrorListener * listener)
 
 void BabelCoreClient::addCallErrorListener(ICallErrorListener * listener)
 {
-<<<<<<< HEAD
-  CallErrorListenerList.push_front(listener);
-=======
-  std::cout << "\033[33mADDING NEW CALL ERROR LISTENER\033[0m" << std::endl;
   CallErrorListenerList.push_front(std::pair<bool, ICallErrorListener*>(true, listener));
->>>>>>> bf36dbae6e0ea83d6ddaecc40ce8cf4a36d9e8b8
 }
 
 void BabelCoreClient::addLoginListener(ILoginListener * listener)
