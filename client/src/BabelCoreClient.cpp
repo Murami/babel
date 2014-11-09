@@ -308,6 +308,12 @@ void BabelCoreClient::connect()
 void BabelCoreClient::disconnect()
 {
   m_isConnected = false;
+  if (m_timer.isActive() == true)
+    m_timer.stop();
+  if (m_player->active() == true)
+    m_player->stop();
+  if (m_recorder->active() == true)
+    m_recorder->stop();
   m_socket.disconnect();
 }
 

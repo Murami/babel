@@ -72,6 +72,7 @@ void		MainWindow::deleteAudioWindow()
 {
   if (this->_audioWindow)
     {
+      this->_core.onUserHangout(this->_connectedUser);
       this->_audioWindow->close();
       delete this->_audioWindow;
       this->_audioWindow = NULL;
