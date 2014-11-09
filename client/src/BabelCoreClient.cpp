@@ -140,7 +140,7 @@ void BabelCoreClient::onUserCall(QString login)
   NET::Header		header;
   NET::CallInfo		info;
 
-  m_udpAddress = "0.0.0.0"; //like QHostAddress::AnyIpv4
+  m_udpAddress = "0.0.0.0";
   m_udpPort = 1235;
 
   header.type = NET::T_CALL;
@@ -264,7 +264,6 @@ void BabelCoreClient::sendAudioFrame(void* frame, int size)
   NET::Sample		sample;
   NET::SamplePacket	packet;
 
-  // std::string addr("255.255.255.255");
   packet.sample.size = size;
   packet.header.size = sizeof(sample);
   packet.header.type = NET::T_SAMPLE;

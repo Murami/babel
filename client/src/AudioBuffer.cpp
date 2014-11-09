@@ -59,50 +59,6 @@ SampleFormat	AudioBuffer::sampleFormat() const
   return (m_sampleFormat);
 }
 
-// size_t		AudioBuffer::size() const
-// {
-//   return (m_buffer->size());
-// }
-
-// size_t		AudioBuffer::capacity() const
-// {
-//   return (m_buffer->capacity());
-// }
-
-// void*		AudioBuffer::data() const
-// {
-//   return (m_buffer);
-// }
-
-// size_t	AudioBuffer::peek(void* dest, size_t size) const
-// {
-//   return (m_buffer->peek(dest, size));
-// }
-
-// size_t	AudioBuffer::read(void* dest, size_t size)
-// {
-//   return (m_buffer->read(dest, size));
-// }
-
-// size_t	AudioBuffer::write(const void* src, size_t size)
-// {
-//   return (m_buffer->write(src, size));
-// }
-
-// size_t	AudioBuffer::write(char c)
-// {
-//   return (m_buffer->write(c));
-// }
-
-// size_t	AudioBuffer::read(void* dest, size_t size)
-// {
-//   return (memcpy());
-// }
-
-// void*		AudioBuffer::data() const
-// {
-//   return (m_buffer);
-// }
 
 void*		AudioBuffer::data() const
 {

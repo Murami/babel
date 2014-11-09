@@ -199,7 +199,6 @@ void		MainWindow::disconnect()
   this->_core.deleteMsgListener(this);
   this->_core.deleteCallListener(this);
   this->close();
-  //emit closeMainWindow();
 }
 
 void		MainWindow::createAudioConversationWindow()
