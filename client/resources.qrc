@@ -1,0 +1,16 @@
+<!DOCTYPE RCC>
+<RCC>
+  <qresource prefix="/button">
+    <file alias="hovered">res/button_hovered.jpg</file>
+    <file alias="normal">res/button_normal.jpg</file>
+    <file alias="pressed">res/button_pressed.jpg</file>
+  </qresource>
+  <qresource prefix="/background">
+    <file alias="call">res/call_background.jpg</file>
+    <file alias="wait">res/wait_background.jpg</file>
+  </qresource>
+  <qresource prefix="/pellet">
+    <file alias="blue">res/blue_pellet.png</file>
+    <file alias="red">res/red_pellet.png</file>
+  </qresource>
+</RCC>
