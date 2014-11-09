@@ -303,7 +303,11 @@ void BabelCoreClient::sendAudioFrame(void* frame, int size)
   packet.header.size = sizeof(sample);
   packet.header.type = NET::T_SAMPLE;
   memcpy(&packet.sample.rawData, frame, size);
-  m_audio_socket_write.writeDatagram(&packet, sizeof(NET::SamplePacket), addr, m_udpPort);
+  // std::cout << "========= SEND AUDIO FRAME =========" << std::endl;
+  // std::cout << "header.size = " << packet.header.size << std::endl;
+  // std::cout << "sample.size = " << packet.sample.size << std::endl;
+  // std::cout << "header.nbBytes[1] = " << *((int*)packet.sample.rawData) << std::endl;
+  m_audio_socket_read.writeDatagram(&packet, sizeof(NET::SamplePacket), addr, m_udpPort);
 }
 
 void BabelCoreClient::connectAudio()

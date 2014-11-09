@@ -12,7 +12,7 @@ AudioRecorder::AudioRecorder(BabelCoreClient& core) :
   m_core(core)
 {
   m_coder = new OpusAudioCoder(48000, 2, 64000);
-  m_stream = new PAAudioInputStream(2, 44100, 960, Int16, this);
+  m_stream = new PAAudioInputStream(2, 44100, 120, Int16, this);
   m_stream->open();
 }
 
@@ -86,6 +86,7 @@ int	AudioRecorder::onStreamRequest(const void* input,
   char*			frame;
 
   size = m_coder->encode(static_cast<const int16_t*>(input), cbits);
+  std::cout << "encode " << size << std::endl;
   frame = new char[size];
   memcpy(frame, cbits, size);
   m_core.sendAudioFrame(frame, size);

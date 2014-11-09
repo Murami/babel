@@ -34,8 +34,8 @@ uint32_t	 OpusAudioCoder::decode(int16_t* audioRaw, const unsigned char* packetD
   // ptr = static_cast<int16_t*>(static_cast<void*>(packetData));
 
   memcpy(&nbBytes, packetData, 4);
-  memset(audioRaw, 0, 960);
-  frameSize = opus_decode(m_decoder, packetData + 4, nbBytes - 4, audioRaw, 960, 0);
+  memset(audioRaw, 0, 120);
+  frameSize = opus_decode(m_decoder, packetData + 4, nbBytes - 4, audioRaw, 120, 0);
   return (frameSize);
 }
 
@@ -43,7 +43,7 @@ uint32_t	OpusAudioCoder::encode(const int16_t* audioRaw, unsigned char* packetDa
 {
   uint32_t	nbBytes;
 
-  nbBytes = opus_encode(m_encoder, audioRaw, 960, packetData + 4, 500);
+  nbBytes = opus_encode(m_encoder, audioRaw, 120, packetData + 4, 500);
   // std::cout << "[ ENCODER ] : Returning " << nbBytes << std::endl;
   memcpy(packetData, &nbBytes, 4);
   return (nbBytes + 4);
