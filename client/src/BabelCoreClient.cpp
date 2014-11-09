@@ -267,13 +267,12 @@ void BabelCoreClient::sendAudioFrame(void* frame, int size)
   NET::Sample		sample;
   NET::SamplePacket	packet;
 
-  std::string addr("255.255.255.255");
+  // std::string addr("255.255.255.255");
   packet.sample.size = size;
   packet.header.size = sizeof(sample);
   packet.header.type = NET::T_SAMPLE;
   memcpy(&packet.sample.rawData, frame, size);
-  m_audio_socket_read.writeDatagram(&packet, sizeof(NET::SamplePacket), addr, m_udpPort);
-  delete static_cast<char*>(frame);
+  m_audio_socket_read.writeDatagram(&packet, sizeof(NET::SamplePacket), m_udpAddress, m_udpPort);
 }
 
 void BabelCoreClient::connectAudio()
@@ -308,8 +307,6 @@ void BabelCoreClient::connect()
 void BabelCoreClient::disconnect()
 {
   m_isConnected = false;
-  if (m_timer.isActive() == true)
-    m_timer.stop();
   if (m_player->active() == true)
     m_player->stop();
   if (m_recorder->active() == true)

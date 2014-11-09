@@ -5,6 +5,7 @@
 #include "SampleFormat.hh"
 #include "BabelCoreClient.hh"
 
+#include <istream>
 #include <iostream>
 #include <cstring>
 
@@ -83,16 +84,27 @@ int	AudioRecorder::onStreamRequest(const void* input,
   unsigned char		cbits[4096];
   size_t		size;
   char*			frame;
+  int			total_size = 0;
 
   size = m_coder->encode(static_cast<const int16_t*>(input), cbits);
-  std::cout << "encode " << size << std::endl;
   frame = new char[size];
-
   memcpy(frame, cbits, size);
+  pushFrame(frame);
+
   if (this->size() >= 10)
     {
+      char	buffer[RAW_SIZE];
+
       for (int i = 0; i != 10; i++)
-	m_core.sendAudioFrame(popFrame(), size);
+	{
+	  int	_size = nextFrameSize();
+	  void*	_frame = popFrame();
+
+	  memcpy(buffer + total_size, _frame, _size);
+	  total_size += _size;
+	  delete static_cast<char*>(_frame);
+	}
+      m_core.sendAudioFrame(buffer, total_size);
     }
   return (true);
 }
