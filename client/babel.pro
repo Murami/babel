@@ -3,6 +3,8 @@ QT += core gui network
 LIBS += libportaudio/libs/libportaudio.a -lopus -lasound -ljack
 INCLUDEPATH +=  include libportaudio/include
 
+RESOURCES += resources.qrc
+
 QMAKE_CXXFLAGS += -g3 -ggdb
 
 HEADERS += 	include/TcpAsyncSocket.hh               \
