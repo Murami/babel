@@ -88,7 +88,9 @@ void OkCallFunctor::operator()(BabelCoreClient & core, void *data)
       NET::UserInfo *tmp = reinterpret_cast<NET::UserInfo*>(data);
       core.setTypeNeeded(NET::T_USERINFO);
       core.notifyCallError(true, *tmp);
+
       core.connectAudio();
+
       if (core.getRecorder()->active() == false)
       	core.getRecorder()->start();
       if (core.getPlayer()->active() == false)

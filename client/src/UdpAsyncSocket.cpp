@@ -10,16 +10,22 @@ UdpAsyncSocket::~UdpAsyncSocket()
 
 }
 
+void	UdpAsyncSocket::connectToHost(const std::string& host, qint16 port)
+{
+  m_socket.connectToHost(host.c_str(), port);
+  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
+  QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+}
+
 bool	UdpAsyncSocket::bind(std::string & address, uint16_t port)
 {
   QHostAddress	addr;
   bool		ret;
 
   addr.setAddress(QString::fromUtf8(address.c_str()));
-  ret = m_socket.bind(addr, port);
-  std::cout << address << " - " << port << std::endl;
-  // QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
-  // QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+  ret = m_socket.bind(QHostAddress::Any, port);
+  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
+  QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 
   return (ret);
 }
@@ -34,8 +40,8 @@ bool	UdpAsyncSocket::bind(uint16_t port = 0)
   bool	ret;
 
   ret =  m_socket.bind(port, QUdpSocket::ShareAddress);
-  // QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
-  // QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
+  QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 
   return (ret);
 }
@@ -72,7 +78,6 @@ int64_t	UdpAsyncSocket::writeDatagram(const void * data, int64_t size, std::stri
   QHostAddress                          addr;
 
   addr.setAddress(QString::fromUtf8(address.c_str()));
-  std::cout << "----- WRITE " << size << std::endl;
   return (m_socket.writeDatagram(static_cast<char*>(const_cast<void*>(data)), size, addr, port));
 }
 
@@ -83,6 +88,7 @@ void	UdpAsyncSocket::onError(QAbstractSocket::SocketError error)
 
 void	UdpAsyncSocket::onRead()
 {
+  std::cout << "\033[41monRead\033[0m\n";
   notifyRead();
 }
 
@@ -104,8 +110,6 @@ void	UdpAsyncSocket::notifyRead()
 {
   std::list<IUdpAsyncSocketListener *>::iterator it;
 
-
-  std::cout << "YOLOOO" << std::endl;
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
     (*it)->onUdpRead();

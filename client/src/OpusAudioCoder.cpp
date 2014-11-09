@@ -44,6 +44,7 @@ uint32_t	OpusAudioCoder::encode(const int16_t* audioRaw, unsigned char* packetDa
   uint32_t	nbBytes;
 
   nbBytes = opus_encode(m_encoder, audioRaw, 960, packetData + 4, 4096 - 4);
+  std::cout << "[ ENCODER ] : Returning " << nbBytes << std::endl;
   memcpy(packetData, &nbBytes, 4);
   return (nbBytes + 4);
 }

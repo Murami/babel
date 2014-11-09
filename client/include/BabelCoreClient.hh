@@ -129,7 +129,8 @@ private:
   static FunctorTypeMap				functorTypeMap;
   static ErrorMap				errorMap;
   TcpAsyncSocket				m_socket;
-  UdpAsyncSocket				m_audio_socket;
+  UdpAsyncSocket				m_audio_socket_read;
+  UdpAsyncSocket				m_audio_socket_write;
   AudioRecorder					*m_recorder;
   AudioPlayer					*m_player;
   NET::Type					typeNeeded;

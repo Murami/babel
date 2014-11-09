@@ -49,12 +49,11 @@ void  AudioPlayer::pushFrames(void* frames, size_t size)
 
   for (uint32_t i = 0; i < size;)
     {
-      // ####### PROBLEME DE SIZE ICI
-      memcpy(&_size, static_cast<char*>(frames) + i, 4);
-      frame = new char[_size];
-      memcpy(frame, static_cast<char*>(frames) + i, _size + 4);
+      // memcpy(&_size, static_cast<char*>(frames) + i, 4);
+      frame = new char[960];
+      memcpy(frame, static_cast<char*>(frames) + i, 960);
       this->pushFrame(frame);
-      i += _size;
+      i += 960;
     }
 }
 
@@ -96,8 +95,9 @@ int	AudioPlayer::onStreamRequest(void* output,
 {
   if (!m_frameQueue.empty())
     {
-      m_coder->decode(static_cast<int16_t*>(output),
-		      static_cast<unsigned char*>(m_frameQueue.front()));
+      // m_coder->decode(static_cast<int16_t*>(output),
+      // 		      static_cast<unsigned char*>(m_frameQueue.front()));
+      memcpy(output, m_frameQueue.front(), 960);
       delete static_cast<char*>(m_frameQueue.front());
       m_frameQueue.pop();
     }
