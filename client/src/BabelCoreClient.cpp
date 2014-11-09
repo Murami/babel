@@ -55,12 +55,14 @@ void BabelCoreClient::onTimeout(int)
   header.type = NET::T_SAMPLE;
   header.size = sizeof(sample);
   sample.size = 0;
+  std::cout << "Write samples" << std::endl;
   while (m_recorder->size() && m_recorder->nextFrameSize() + sample.size < 4096)
     {
       frameSize = m_recorder->nextFrameSize();
       frame = m_recorder->popFrame();
       memcpy(sample.rawData + sample.size, frame, frameSize);
       sample.size += frameSize;
+      std::cout << "SMPL" << std::endl;
     }
   m_audio_socket.writeDatagram(&header, sizeof(header), m_udpAddress, m_udpPort);
   m_audio_socket.writeDatagram(&sample, sizeof(sample), m_udpAddress, m_udpPort);
@@ -111,6 +113,7 @@ void BabelCoreClient::onUdpRead()
 {
   NET::SamplePacket packet;
 
+  std::cout << "UdpRead"  << std::endl;
   while (m_audio_socket.hasPendingDatagrams() &&
 	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
     {

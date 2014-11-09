@@ -3,8 +3,6 @@
 
 UdpAsyncSocket::UdpAsyncSocket()
 {
-  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
-  QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 }
 
 UdpAsyncSocket::~UdpAsyncSocket()
@@ -15,9 +13,14 @@ UdpAsyncSocket::~UdpAsyncSocket()
 bool	UdpAsyncSocket::bind(std::string & address, uint16_t port)
 {
   QHostAddress	addr;
+  bool		ret;
 
   addr.setAddress(QString::fromUtf8(address.c_str()));
-  return (m_socket.bind(addr, port));
+  ret = m_socket.bind(addr, port);
+  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
+  QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+
+  return (ret);
 }
 
 void	UdpAsyncSocket::close()
@@ -27,7 +30,13 @@ void	UdpAsyncSocket::close()
 
 bool	UdpAsyncSocket::bind(uint16_t port = 0)
 {
-  return (m_socket.bind(port, QUdpSocket::ShareAddress));
+  bool	ret;
+
+  ret =  m_socket.bind(port, QUdpSocket::ShareAddress);
+  QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(onRead()));
+  QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
+
+  return (ret);
 }
 
 bool	UdpAsyncSocket::hasPendingDatagrams() const
