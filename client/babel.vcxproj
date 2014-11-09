@@ -1,0 +1,650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release2|Win32">
+      <Configuration>Release2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BBBD4FA6-5E00-36DA-A8AA-7595B24E93AE}</ProjectGuid>
+    <RootNamespace>babel</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <PlatformToolSet>v120</PlatformToolSet>
+    <OutputDirectory>release\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>src\</IntermediateDirectory>
+    <PrimaryOutput>babel</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <PlatformToolSet>v120</PlatformToolSet>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>src\</IntermediateDirectory>
+    <PrimaryOutput>babel</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'" Label="Configuration">
+    <PlatformToolSet>v120</PlatformToolSet>
+    <OutputDirectory>debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>src\</IntermediateDirectory>
+    <PrimaryOutput>babel</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">babel</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">babel</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">babel</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>libopus\include;include;libportaudio\include;$(QTDIR)\include;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;$(QTDIR)\mkspecs\win32-msvc2013;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -g3 -ggdb -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>src\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;NDEBUG;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opus.lib;silk_float.lib;silk_fixed.lib;silk_common.lib;celt.lib;$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5Core.lib;libportaudio.lib;$(QTDIR)\lib\Qt5Network.lib;$(QTDIR)\lib\Qt5Gui.lib;libEGL.lib;libGLESv2.lib;gdi32.lib;user32.lib;Qt5Widgets.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>libopus\lib;libportaudio\libs;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\babel.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manu\Documents\Tek 3\babel\opus\include;include;libportaudio\include;C:\Qt\Qt5.3.2\5.3\msvc2013\include;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtNetwork;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtGui;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtANGLE;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtCore;debug;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -g3 -ggdb -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>src\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;$(QTDIR)\lib\Qt5Cored.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\celt.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\silk_common.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\silk_fixed.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\silk_float.lib;C:\Users\Manu\Documents\Tek 3\babel\portaudio\lib\libportaudio.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\opus.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Guid.lib;libEGLd.lib;libGLESv2d.lib;gdi32.lib;user32.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\babel.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Manu\Documents\Tek 3\babel\opus\include;include;libportaudio\include;C:\Qt\Qt5.3.2\5.3\msvc2013\include;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtNetwork;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtGui;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtANGLE;C:\Qt\Qt5.3.2\5.3\msvc2013\include\QtCore;debug;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zm200 -g3 -ggdb -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>src\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;$(QTDIR)\lib\Qt5Cored.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\celt.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\silk_common.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\silk_fixed.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\silk_float.lib;C:\Users\Manu\Documents\Tek 3\babel\portaudio\lib\libportaudio.lib;C:\Users\Manu\Documents\Tek 3\babel\opus\lib\opus.lib;$(QTDIR)\lib\Qt5Networkd.lib;$(QTDIR)\lib\Qt5Guid.lib;libEGLd.lib;libGLESv2d.lib;gdi32.lib;user32.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(QTDIR)\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\babel.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NETWORK_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_OPENGL_ES_2;QT_OPENGL_ES_2_ANGLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneratedFiles\qrc_resources.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\APAAudioStream.cpp" />
+    <ClCompile Include="src\AudioBuffer.cpp" />
+    <ClCompile Include="src\AudioCallConfirmationDialog.cpp" />
+    <ClCompile Include="src\AudioConversationWindow.cpp" />
+    <ClCompile Include="src\AudioPlayer.cpp" />
+    <ClCompile Include="src\AudioRecorder.cpp" />
+    <ClCompile Include="src\BabelCoreClient.cpp" />
+    <ClCompile Include="src\CircularBuffer.cpp" />
+    <ClCompile Include="src\ConversationWindow.cpp" />
+    <ClCompile Include="src\Functor.cpp" />
+    <ClCompile Include="src\LoginDialog.cpp" />
+    <ClCompile Include="src\LoginEntryDialog.cpp" />
+    <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\Mutex.cpp" />
+    <ClCompile Include="src\OpusAudioCoder.cpp" />
+    <ClCompile Include="src\PAAudioDevice.cpp" />
+    <ClCompile Include="src\PAAudioInputStream.cpp" />
+    <ClCompile Include="src\PAAudioOutputStream.cpp" />
+    <ClCompile Include="src\PAAudioService.cpp" />
+    <ClCompile Include="src\RegisterEntryDialog.cpp" />
+    <ClCompile Include="src\SampleFormat.cpp" />
+    <ClCompile Include="src\TcpAsyncSocket.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
+    <ClCompile Include="src\UdpAsyncSocket.cpp" />
+    <ClCompile Include="src\User.cpp" />
+    <ClCompile Include="src\WidgetButton.cpp" />
+    <ClCompile Include="src\WidgetListView.cpp" />
+    <ClCompile Include="src\WidgetTextView.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\APAAudioStream.hh" />
+    <ClInclude Include="include\AudioBuffer.hh" />
+    <CustomBuild Include="include\AudioCallConfirmationDialog.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\AudioCallConfirmationDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\AudioCallConfirmationDialog.hh -o release\moc_AudioCallConfirmationDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\AudioCallConfirmationDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_AudioCallConfirmationDialog.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\AudioCallConfirmationDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\AudioCallConfirmationDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\AudioCallConfirmationDialog.hh -o debug\moc_AudioCallConfirmationDialog.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\AudioCallConfirmationDialog.hh -o debug\moc_AudioCallConfirmationDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\AudioCallConfirmationDialog.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\AudioCallConfirmationDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_AudioCallConfirmationDialog.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_AudioCallConfirmationDialog.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\AudioConversationWindow.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\AudioConversationWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\AudioConversationWindow.hh -o release\moc_AudioConversationWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\AudioConversationWindow.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_AudioConversationWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\AudioConversationWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\AudioConversationWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\AudioConversationWindow.hh -o debug\moc_AudioConversationWindow.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\AudioConversationWindow.hh -o debug\moc_AudioConversationWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\AudioConversationWindow.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\AudioConversationWindow.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_AudioConversationWindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_AudioConversationWindow.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="include\AudioPlayer.hh" />
+    <ClInclude Include="include\AudioRecorder.hh" />
+    <ClInclude Include="include\AudioStreamListener.hh" />
+    <ClInclude Include="include\BabelCoreClient.hh" />
+    <ClInclude Include="include\CircularBuffer.hh" />
+    <CustomBuild Include="include\ConversationWindow.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\ConversationWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\ConversationWindow.hh -o release\moc_ConversationWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\ConversationWindow.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_ConversationWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\ConversationWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\ConversationWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\ConversationWindow.hh -o debug\moc_ConversationWindow.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\ConversationWindow.hh -o debug\moc_ConversationWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\ConversationWindow.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\ConversationWindow.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_ConversationWindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_ConversationWindow.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="include\Functor.hh" />
+    <ClInclude Include="include\IAudioCoder.hh" />
+    <ClInclude Include="include\IAudioDevice.hh" />
+    <ClInclude Include="include\IAudioInputStream.hh" />
+    <ClInclude Include="include\IAudioInputStreamListener.hh" />
+    <ClInclude Include="include\IAudioOutputStream.hh" />
+    <ClInclude Include="include\IAudioOutputStreamListener.hh" />
+    <ClInclude Include="include\IAudioService.hh" />
+    <ClInclude Include="include\IAudioStream.hh" />
+    <ClInclude Include="include\ICallErrorListener.hh" />
+    <ClInclude Include="include\ICallListener.hh" />
+    <ClInclude Include="include\IConnectListener.hh" />
+    <ClInclude Include="include\IDisconnectListener.hh" />
+    <ClInclude Include="include\IErrorListener.hh" />
+    <ClInclude Include="include\IFunctor.hh" />
+    <ClInclude Include="include\IKoCallListener.hh" />
+    <ClInclude Include="include\ILoginListener.hh" />
+    <ClInclude Include="include\IMsgErrorListener.hh" />
+    <ClInclude Include="include\IMsgListener.hh" />
+    <ClInclude Include="include\IMutex.hh" />
+    <CustomBuild Include="include\IQTcpSocketListener.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\IQTcpSocketListener.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\IQTcpSocketListener.hh -o release\moc_IQTcpSocketListener.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\IQTcpSocketListener.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_IQTcpSocketListener.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\IQTcpSocketListener.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\IQTcpSocketListener.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\IQTcpSocketListener.hh -o debug\moc_IQTcpSocketListener.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\IQTcpSocketListener.hh -o debug\moc_IQTcpSocketListener.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\IQTcpSocketListener.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\IQTcpSocketListener.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_IQTcpSocketListener.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_IQTcpSocketListener.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\IQUdpSocketListener.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\IQUdpSocketListener.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\IQUdpSocketListener.hh -o release\moc_IQUdpSocketListener.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\IQUdpSocketListener.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_IQUdpSocketListener.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\IQUdpSocketListener.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\IQUdpSocketListener.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\IQUdpSocketListener.hh -o debug\moc_IQUdpSocketListener.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\IQUdpSocketListener.hh -o debug\moc_IQUdpSocketListener.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\IQUdpSocketListener.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\IQUdpSocketListener.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_IQUdpSocketListener.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_IQUdpSocketListener.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="include\IRegisterListener.hh" />
+    <ClInclude Include="include\ITcpAsyncSocketListener.hh" />
+    <ClInclude Include="include\ITimerListener.hh" />
+    <ClInclude Include="include\IUdpAsyncSocketListener.hh" />
+    <ClInclude Include="include\IUserInfoListener.hh" />
+    <ClInclude Include="include\IWidgetListener.hh" />
+    <CustomBuild Include="include\LoginDialog.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\LoginDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\LoginDialog.hh -o release\moc_LoginDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\LoginDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_LoginDialog.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\LoginDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\LoginDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\LoginDialog.hh -o debug\moc_LoginDialog.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\LoginDialog.hh -o debug\moc_LoginDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\LoginDialog.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\LoginDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_LoginDialog.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_LoginDialog.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\LoginEntryDialog.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\LoginEntryDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\LoginEntryDialog.hh -o release\moc_LoginEntryDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\LoginEntryDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_LoginEntryDialog.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\LoginEntryDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\LoginEntryDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\LoginEntryDialog.hh -o debug\moc_LoginEntryDialog.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\LoginEntryDialog.hh -o debug\moc_LoginEntryDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\LoginEntryDialog.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\LoginEntryDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_LoginEntryDialog.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_LoginEntryDialog.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\MainWindow.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\MainWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\MainWindow.hh -o release\moc_MainWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\MainWindow.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_MainWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\MainWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\MainWindow.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\MainWindow.hh -o debug\moc_MainWindow.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\MainWindow.hh -o debug\moc_MainWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\MainWindow.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\MainWindow.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_MainWindow.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_MainWindow.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="include\Mutex.hh" />
+    <ClInclude Include="include\OpusAudioCoder.hh" />
+    <ClInclude Include="include\PAAudioDevice.hh" />
+    <ClInclude Include="include\PAAudioInputStream.hh" />
+    <ClInclude Include="include\PAAudioOutputStream.hh" />
+    <ClInclude Include="include\PAAudioService.hh" />
+    <ClInclude Include="include\Protocol.hh" />
+    <CustomBuild Include="include\RegisterEntryDialog.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\RegisterEntryDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\RegisterEntryDialog.hh -o release\moc_RegisterEntryDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\RegisterEntryDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_RegisterEntryDialog.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\RegisterEntryDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\RegisterEntryDialog.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\RegisterEntryDialog.hh -o debug\moc_RegisterEntryDialog.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\RegisterEntryDialog.hh -o debug\moc_RegisterEntryDialog.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\RegisterEntryDialog.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\RegisterEntryDialog.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_RegisterEntryDialog.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_RegisterEntryDialog.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="include\ResourceManager.hpp" />
+    <ClInclude Include="include\SampleFormat.hh" />
+    <CustomBuild Include="include\TcpAsyncSocket.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\TcpAsyncSocket.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\TcpAsyncSocket.hh -o release\moc_TcpAsyncSocket.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\TcpAsyncSocket.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_TcpAsyncSocket.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\TcpAsyncSocket.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\TcpAsyncSocket.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\TcpAsyncSocket.hh -o debug\moc_TcpAsyncSocket.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\TcpAsyncSocket.hh -o debug\moc_TcpAsyncSocket.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\TcpAsyncSocket.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\TcpAsyncSocket.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_TcpAsyncSocket.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_TcpAsyncSocket.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\Timer.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\Timer.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\Timer.hh -o release\moc_Timer.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\Timer.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_Timer.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\Timer.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\Timer.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\Timer.hh -o debug\moc_Timer.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\Timer.hh -o debug\moc_Timer.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\Timer.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\Timer.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_Timer.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_Timer.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\UdpAsyncSocket.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\UdpAsyncSocket.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\UdpAsyncSocket.hh -o release\moc_UdpAsyncSocket.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\UdpAsyncSocket.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_UdpAsyncSocket.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\UdpAsyncSocket.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\UdpAsyncSocket.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\UdpAsyncSocket.hh -o debug\moc_UdpAsyncSocket.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\UdpAsyncSocket.hh -o debug\moc_UdpAsyncSocket.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\UdpAsyncSocket.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\UdpAsyncSocket.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_UdpAsyncSocket.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_UdpAsyncSocket.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="include\User.hh" />
+    <ClInclude Include="include\WidgetButton.hh" />
+    <CustomBuild Include="include\WidgetListView.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\WidgetListView.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\WidgetListView.hh -o release\moc_WidgetListView.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\WidgetListView.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_WidgetListView.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\WidgetListView.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\WidgetListView.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\WidgetListView.hh -o debug\moc_WidgetListView.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\WidgetListView.hh -o debug\moc_WidgetListView.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\WidgetListView.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\WidgetListView.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_WidgetListView.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_WidgetListView.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\WidgetTextView.hh">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include\WidgetTextView.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\WidgetTextView.hh -o release\moc_WidgetTextView.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MOC include\WidgetTextView.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\moc_WidgetTextView.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include\WidgetTextView.hh;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">include\WidgetTextView.hh;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\WidgetTextView.hh -o debug\moc_WidgetTextView.cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_OPENGL_ES_2 -DQT_OPENGL_ES_2_ANGLE -D_MSC_VER=1800 -D_WIN32 -IC:/qt/qt5.3.2/5.3/msvc2013/mkspecs/win32-msvc2013 -I"C:/Users/Manu/Documents/Tek 3/babel/client" -I"C:/Users/Manu/Documents/Tek 3/babel/client/include" -I"C:/Users/Manu/Documents/Tek 3/babel/client/libportaudio/include" -IC:/qt/qt5.3.2/5.3/msvc2013/include -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtNetwork -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtGui -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtANGLE -IC:/qt/qt5.3.2/5.3/msvc2013/include/QtCore include\WidgetTextView.hh -o debug\moc_WidgetTextView.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MOC include\WidgetTextView.hh</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">MOC include\WidgetTextView.hh</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\moc_WidgetTextView.cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">debug\moc_WidgetTextView.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <ClInclude Include="libportaudio\include\pa_asio.h" />
+    <ClInclude Include="libportaudio\include\pa_jack.h" />
+    <ClInclude Include="libportaudio\include\pa_linux_alsa.h" />
+    <ClInclude Include="libportaudio\include\pa_mac_core.h" />
+    <ClInclude Include="libportaudio\include\pa_win_ds.h" />
+    <ClInclude Include="libportaudio\include\pa_win_wasapi.h" />
+    <ClInclude Include="libportaudio\include\pa_win_waveformat.h" />
+    <ClInclude Include="libportaudio\include\pa_win_wdmks.h" />
+    <ClInclude Include="libportaudio\include\pa_win_wmme.h" />
+    <ClInclude Include="libportaudio\include\portaudio.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="debug\moc_AudioCallConfirmationDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_AudioCallConfirmationDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_AudioConversationWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_AudioConversationWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_ConversationWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_ConversationWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_IQTcpSocketListener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_IQTcpSocketListener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_IQUdpSocketListener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_IQUdpSocketListener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_LoginDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_LoginDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_LoginEntryDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_LoginEntryDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_MainWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_MainWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_RegisterEntryDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_RegisterEntryDialog.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_TcpAsyncSocket.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_TcpAsyncSocket.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_Timer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_Timer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_UdpAsyncSocket.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_UdpAsyncSocket.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_WidgetListView.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_WidgetListView.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_WidgetTextView.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_WidgetTextView.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\blue_pellet.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\button_hovered.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\button_normal.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\button_pressed.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\call_background.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\red_pellet.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+    <CustomBuild Include="resources.qrc">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath);.\res\button_hovered.jpg;.\res\button_normal.jpg;.\res\button_pressed.jpg;.\res\call_background.jpg;.\res\wait_background.jpg;.\res\blue_pellet.png;.\res\red_pellet.png;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath);.\res\button_hovered.jpg;.\res\button_normal.jpg;.\res\button_pressed.jpg;.\res\call_background.jpg;.\res\wait_background.jpg;.\res\blue_pellet.png;.\res\red_pellet.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">%(FullPath);.\res\button_hovered.jpg;.\res\button_normal.jpg;.\res\button_pressed.jpg;.\res\call_background.jpg;.\res\wait_background.jpg;.\res\blue_pellet.png;.\res\red_pellet.png;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">Rcc%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="res\wait_background.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" Qt5Version_x0020_Win32="msvc2013" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

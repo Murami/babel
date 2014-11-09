@@ -40,5 +40,5 @@ unsigned int	BoostAsyncTimer::getCurrentTime() const
 {
   boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
   boost::posix_time::ptime epoch = boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
-  return ((time - epoch).total_milliseconds());
+  return (static_cast<unsigned int>((time - epoch).total_milliseconds()));
 }

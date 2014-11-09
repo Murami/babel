@@ -1,6 +1,12 @@
 #ifndef _BABEL_PROTOCOL_HH_
 # define _BABEL_PROTOCOL_HH_
 
+#ifdef WIN32
+# define PACKED(__body__) __pragma(pack(push, 1)) struct __body__ __pragma(pack(pop))
+#else
+# define PACKED(__body__) struct __attribute__((packed)) __body__
+#endif
+
 # include <stdint.h>
 
 # define PORT		1234
@@ -40,49 +46,49 @@ enum Status{CONNECTED = 1, DISCONNECTED = 2};
 enum Protocol {TCP = 1, UDP = 2};
 enum DataType {AUDIO = 1, VIDEO = 2};
 
-struct		Header
+PACKED(Header
 {
   Type		type;
   uint32_t	size;
-}__attribute__((packed));
+};)
 
-struct		LoginInfo
+PACKED(LoginInfo
 {
   char		user[LOGIN_SIZE];
   char		md5_pass[MD5_PASS_SIZE];
-}__attribute__((packed));
+};)
 
-struct		UserInfo
+PACKED(UserInfo
 {
   char		user[LOGIN_SIZE];
   Status	status;
-}__attribute__((packed));
+};)
 
-struct		Call
+PACKED(Call
 {
   char		user[LOGIN_SIZE];
   char		ip[IP_SIZE];
   uint32_t	port;
   Protocol	prot;
   DataType	type;
-}__attribute__((packed));
+};)
 
-struct		Msg
+PACKED(Msg
 {
   char		user[LOGIN_SIZE];
   char		msg[MSG_SIZE];
-}__attribute__((packed));
+};)
 
-struct Sample
+PACKED(Sample
 {
   uint32_t	size;
   char		rawData[RAW_SIZE];
-}__attribute__((packed));
+};)
 
-struct Img
+PACKED(Img
 {
   uint32_t	size;
   char		img[JPEG_SIZE];
-}__attribute__((packed));
+};)
 
 #endif /* _BABEL_PROTOCOL_HH_ */

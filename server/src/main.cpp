@@ -1,6 +1,7 @@
 #include <exception>
 #include "Babel.hh"
 #include "BabelProtocol.hh"
+#include <iostream>
 
 int	main()
 {

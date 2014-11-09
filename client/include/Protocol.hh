@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+#ifdef WIN32
+# define PACKED(__body__) __pragma(pack(push, 1)) struct __body__ __pragma(pack(pop))
+#else
+# define PACKED(__body__) struct __attribute__((packed)) __body__
+#endif
+
 namespace NET
 {
 
@@ -18,14 +24,14 @@ namespace NET
       T_HEADER		= 0,
       T_LOGIN		= 1,
       T_LOGOUT		= 2,
-      T_REGISTER	= 3,
-      T_USERINFO	= 4,
+      T_REGISTER		= 3,
+      T_USERINFO		= 4,
       T_SENDMSG		= 5,
       T_RECVMSG		= 6,
       T_CALL		= 7,
       T_HANGOUT		= 8,
-      T_OK_LOGIN	= 9,
-      T_KO_LOGIN	= 10,
+      T_OK_LOGIN		= 9,
+      T_KO_LOGIN		= 10,
       T_OK_REGISTER	= 11,
       T_KO_REGISTER	= 12,
       T_OK_CALL		= 13,
@@ -45,8 +51,8 @@ namespace NET
 
   enum Protocol
     {
-      TCP		= 1,
-      UDP		= 2
+      TCP			= 1,
+      UDP			= 2
     };
 
   enum DataType
@@ -55,56 +61,56 @@ namespace NET
       VIDEO		= 2
     };
 
-  struct Header
+  PACKED(Header
   {
     Type		type;
     uint32_t		size;
-  } __attribute__((packed));
+  };)
 
-  struct LoginInfo
+  PACKED(LoginInfo
   {
-    char		user[LOGIN_SIZE];
-    char		md5_pass[MD5_PASS_SIZE];
-  } __attribute__((packed));
+    char			user[LOGIN_SIZE];
+    char			md5_pass[MD5_PASS_SIZE];
+  };)
 
-  struct UserInfo
+  PACKED(UserInfo
   {
-    char		user[LOGIN_SIZE];
+    char			user[LOGIN_SIZE];
     Status		status;
-  } __attribute__((packed));
+  };)
 
-  struct CallInfo
+  PACKED(CallInfo
   {
-    char		user[LOGIN_SIZE];
-    char		ip[IP_SIZE];
+    char			user[LOGIN_SIZE];
+    char			ip[IP_SIZE];
     uint32_t		port;
     Protocol		prot;
     DataType		type;
-  } __attribute__((packed));
+  };)
 
-  struct MsgInfo
+  PACKED(MsgInfo
   {
-    char		user[LOGIN_SIZE];
-    char		msg[MSG_SIZE];
-  } __attribute__((packed));
+    char			user[LOGIN_SIZE];
+    char			msg[MSG_SIZE];
+  };)
 
-  struct Sample
-  {
-    uint32_t		size;
-    char		rawData[RAW_SIZE];
-  } __attribute__((packed));
-
-  struct Img
+  PACKED(Sample
   {
     uint32_t		size;
-    char		img[JPEG_SIZE];
-  } __attribute__((packed));
+    char			rawData[RAW_SIZE];
+  };)
 
-  struct SamplePacket
+  PACKED(Img
+  {
+    uint32_t		size;
+    char			img[JPEG_SIZE];
+  };)
+
+  PACKED(SamplePacket
   {
     Header header;
     Sample sample;
-  } __attribute__((packed));
+  };)
 
 }
 

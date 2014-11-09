@@ -1,0 +1,44 @@
+﻿La génération a démarré 29/10/2014 20:09:31.
+     1>Projet "C:\Users\magail_a\Downloads\opus-1.1\opus-1.1\win32\VS2010\opus.vcxproj" sur le nœud 2 (Rebuild cible(s)).
+     1>PreBuildEvent:
+         "C:\Users\magail_a\Downloads\opus-1.1\opus-1.1\win32\VS2010\..\..\win32\genversion.bat" "C:\Users\magail_a\Downloads\opus-1.1\opus-1.1\win32\VS2010\..\..\win32\version.h" PACKAGE_VERSION
+         :VCEnd
+         'git' n'est pas reconnu en tant que commande interne
+         ou externe, un programme exécutable ou un fichier de commandes.
+                 1 fichier(s) copié(s).
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../../silk /I../../celt /I../../win32 /I../../include /Zi /nologo /W3 /WX- /Od /Oy- /D HAVE_CONFIG_H /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Win32\Debug\opus\\" /Fd"Win32\Debug\opus\vc120.pdb" /Gd /TC /wd4996 /analyze- /errorReport:prompt ..\..\src\analysis.c ..\..\src\mlp.c ..\..\src\mlp_data.c ..\..\src\opus.c ..\..\src\opus_compare.c ..\..\src\opus_decoder.c ..\..\src\opus_encoder.c ..\..\src\opus_multistream.c ..\..\src\opus_multistream_decoder.c ..\..\src\opus_multistream_encoder.c ..\..\src\repacketizer.c
+         repacketizer.c
+         opus_multistream_encoder.c
+         opus_multistream_decoder.c
+         opus_multistream.c
+         opus_encoder.c
+         opus_decoder.c
+         opus_compare.c
+     1>..\..\src\opus_compare.c(78): warning C4244: '=' : conversion de 'int' en 'float', perte possible de données
+     1>..\..\src\opus_compare.c(233): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+     1>..\..\src\opus_compare.c(349): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+     1>..\..\src\opus_compare.c(367): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+         opus.c
+         mlp_data.c
+         mlp.c
+         analysis.c
+         Génération de code en cours...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"Win32\Debug\opus.lib" /NOLOGO Win32\Debug\opus\analysis.obj
+         Win32\Debug\opus\mlp.obj
+         Win32\Debug\opus\mlp_data.obj
+         Win32\Debug\opus\opus.obj
+         Win32\Debug\opus\opus_compare.obj
+         Win32\Debug\opus\opus_decoder.obj
+         Win32\Debug\opus\opus_encoder.obj
+         Win32\Debug\opus\opus_multistream.obj
+         Win32\Debug\opus\opus_multistream_decoder.obj
+         Win32\Debug\opus\opus_multistream_encoder.obj
+         Win32\Debug\opus\repacketizer.obj
+         opus.vcxproj -> C:\Users\magail_a\Downloads\opus-1.1\opus-1.1\win32\VS2010\Win32\Debug\opus.lib
+     1>Génération du projet "C:\Users\magail_a\Downloads\opus-1.1\opus-1.1\win32\VS2010\opus.vcxproj" terminée (Rebuild cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:02.41
