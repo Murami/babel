@@ -28,13 +28,13 @@ BabelCoreClient::BabelCoreClient()
 {
   typeNeeded = NET::T_HEADER;
 
-  m_timer.setInterval(512);
+  m_timer.setInterval(20);
   m_timer.addListener(this);
   m_socket.addListener(this);
   m_audio_socket_read.addListener(this);
   PAAudioService::getInstance()->initialize();
   m_player = new AudioPlayer;
-  m_recorder = new AudioRecorder;
+  m_recorder = new AudioRecorder(*this);
   m_isConnected = false;
 }
 
@@ -47,46 +47,28 @@ BabelCoreClient::~BabelCoreClient()
 
 void BabelCoreClient::onTimeout(int)
 {
-  NET::Header		header;
-  NET::Sample		sample;
-  NET::SamplePacket	packet;
-  void*			frame;
-  int			frameSize;
+  // NET::Header		header;
+  // NET::Sample		sample;
+  // NET::SamplePacket	packet;
+  // void*			frame;
+  // int			frameSize;
 
-  header.type = NET::T_SAMPLE;
-  header.size = sizeof(sample);
-  sample.size = 0;
-  std::cout << "Write samples" << std::endl;
-  while (m_recorder->size() && m_recorder->nextFrameSize() + sample.size < 4096)
-    {
-      frameSize = m_recorder->nextFrameSize();
-      frame = m_recorder->popFrame();
-      memcpy(sample.rawData + sample.size, frame, frameSize);
-      sample.size += frameSize;
-    }
-  std::cout << "sent to" << m_udpAddress <<std::endl;
-  std::string addr("255.255.255.255");
-  memcpy(&packet.sample, &sample, sizeof(sample));
-  memcpy(&packet.header, &header, sizeof(header));
-
-  m_audio_socket_write.writeDatagram(&packet, sizeof(NET::SamplePacket), addr, m_udpPort);
-
-  std::cout << "======= PACKET SENT =======\n";
-  std::cout << packet.header.size << "\n";
-  std::cout << packet.sample.size << "\n";
-  std::cout << *((int*)packet.sample.rawData) << "\n";
-
-  //std::cout << "  " << m_audio_socket_write.writeDatagram(&sample, sizeof(sample), addr, m_udpPort) << std::endl;
-
-  // std::cout << m_audio_socket.writeDatagram(&header, sizeof(header), m_udpAddress, m_udpPort);
-  // std::cout << "  " << m_audio_socket.writeDatagram(&sample, sizeof(sample), m_udpAddress, m_udpPort) << std::endl;
-
-  // while (m_audio_socket.hasPendingDatagrams() &&
-  // 	 m_audio_socket.pendingDatagramSize() >= static_cast<int>(sizeof(NET::SamplePacket)))
+  // header.type = NET::T_SAMPLE;
+  // header.size = sizeof(sample);
+  // sample.size = 0;
+  // while (m_recorder->size() / 14)
   //   {
-  //     std::cout << "WAT ?" << std::endl;
-  //     m_audio_socket.readDatagram(&packet, sizeof(packet));
-  //     m_player->pushFrames(packet.sample.rawData, packet.sample.size);
+  //     while (m_recorder->size() && m_recorder->nextFrameSize() + sample.size < RAW_SIZE)
+  // 	{
+  // 	  frameSize = m_recorder->nextFrameSize();
+  // 	  frame = m_recorder->popFrame();
+  // 	  memcpy(sample.rawData + sample.size, frame, frameSize);
+  // 	  sample.size += frameSize;
+  // 	}
+  //     std::string addr("255.255.255.255");
+  //     memcpy(&packet.sample, &sample, sizeof(sample));
+  //     memcpy(&packet.header, &header, sizeof(header));
+  //     m_audio_socket_write.writeDatagram(&packet, sizeof(NET::SamplePacket), addr, m_udpPort);
   //   }
 }
 
@@ -141,14 +123,8 @@ void BabelCoreClient::onUdpRead()
     {
       std::string str;
       uint16_t port;
+
       m_audio_socket_read.readDatagram(&packet, sizeof(packet), &str, &port);
-
-      std::cout << "======= PACKET RECEIVED =======\n";
-      std::cout << packet.header.size << "\n";
-      std::cout << packet.sample.size << "\n";
-      std::cout << *((int*)packet.sample.rawData) << "\n";
-
-      std::cout << str << ":" << port << std::endl;
       m_player->pushFrames(packet.sample.rawData, packet.sample.size);
     }
 }
@@ -314,6 +290,25 @@ void BabelCoreClient::onPing()
 }
 
 /* core control */
+
+void BabelCoreClient::sendAudioFrame(void* frame, int size)
+{
+  NET::Header		header;
+  NET::Sample		sample;
+  NET::SamplePacket	packet;
+  int			frameSize;
+
+  std::string addr("255.255.255.255");
+  packet.sample.size = size;
+  packet.header.size = sizeof(sample);
+  packet.header.type = NET::T_SAMPLE;
+  memcpy(&packet.sample.rawData, frame, size);
+  // std::cout << "========= SEND AUDIO FRAME =========" << std::endl;
+  // std::cout << "header.size = " << packet.header.size << std::endl;
+  // std::cout << "sample.size = " << packet.sample.size << std::endl;
+  // std::cout << "header.nbBytes[1] = " << *((int*)packet.sample.rawData) << std::endl;
+  m_audio_socket_write.writeDatagram(&packet, sizeof(NET::SamplePacket), addr, m_udpPort);
+}
 
 void BabelCoreClient::connectAudio()
 {

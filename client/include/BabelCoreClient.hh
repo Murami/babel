@@ -82,6 +82,7 @@ public:
   uint16_t		getUdpPort();
   void			setUdpAddress(std::string address);
   void			setUdpPort(uint16_t port);
+  void			sendAudioFrame(void* frame, int size);
 
   void			addCallListener(ICallListener * listener);
   void			addConnectListener(IConnectListener * listener);

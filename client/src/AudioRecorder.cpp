@@ -2,13 +2,14 @@
 #include "AudioRecorder.hh"
 #include "PAAudioInputStream.hh"
 #include "OpusAudioCoder.hh"
-
 #include "SampleFormat.hh"
+#include "BabelCoreClient.hh"
 
 #include <iostream>
 #include <cstring>
 
-AudioRecorder::AudioRecorder()
+AudioRecorder::AudioRecorder(BabelCoreClient& core) :
+  m_core(core)
 {
   m_coder = new OpusAudioCoder(48000, 2, 64000);
   m_stream = new PAAudioInputStream(2, 44100, 960, Int16, this);
@@ -61,7 +62,7 @@ int	AudioRecorder::nextFrameSize()
   m_mutex.lock();
   memcpy(&size, m_frameQueue.front(), 4);
   m_mutex.unlock();
-  return (960);
+  // return (960);
   return (size + 4);
 }
 
@@ -84,10 +85,9 @@ int	AudioRecorder::onStreamRequest(const void* input,
   size_t		size;
   char*			frame;
 
-  //size = m_coder->encode(static_cast<const int16_t*>(input), cbits);
-  frame = new char[960];
-  //memcpy(frame, cbits, size);
-  memcpy(frame, input, 960);
-  pushFrame(frame);
+  size = m_coder->encode(static_cast<const int16_t*>(input), cbits);
+  frame = new char[size];
+  memcpy(frame, cbits, size);
+  m_core.sendAudioFrame(frame, size);
   return (true);
 }

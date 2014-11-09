@@ -10,6 +10,7 @@
 class AudioBuffer;
 class IAudioInputStream;
 class IAudioCoder;
+class BabelCoreClient;
 
 class AudioRecorder : public IAudioInputStreamListener
 {
@@ -17,9 +18,10 @@ private:
   std::queue<void*>	m_frameQueue;
   IAudioCoder*		m_coder;
   IAudioInputStream*	m_stream;
+  BabelCoreClient&	m_core;
 
 public:
-  AudioRecorder();
+  AudioRecorder(BabelCoreClient& core);
   ~AudioRecorder();
 
   void	start();
