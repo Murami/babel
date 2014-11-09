@@ -55,10 +55,7 @@ void	BoostTcpAsyncClient::onRead(char* buffer, std::size_t size, std::size_t tra
   if (!e && size == transferred)
     notifyRead(buffer, transferred);
   else
-    {
-      notifyRead(buffer, 0);
-      std::cout << "socket error read" << std::endl;
-    }
+    notifyRead(buffer, 0);
 }
 
 void	BoostTcpAsyncClient::onWrite(char* buffer, std::size_t transferred,
@@ -66,10 +63,6 @@ void	BoostTcpAsyncClient::onWrite(char* buffer, std::size_t transferred,
 {
   if (!e)
     notifyWrite(buffer, transferred);
-  else
-    {
-      std::cout << "boost socket write error" << std::endl;
-    }
 }
 
 void	BoostTcpAsyncClient::close()
