@@ -38,8 +38,13 @@ void CallFunctor::operator()(BabelCoreClient & core, void *data)
       core.setTypeNeeded(NET::T_HEADER);
       NET::CallInfo *tmp = reinterpret_cast<NET::CallInfo*>(data);
       core.notifyCall(*tmp);
+
       core.setUdpAddress(tmp->ip);
       core.setUdpPort(tmp->port);
+
+      // core.setUdpAddress("127.0.0.1");
+      // core.setUdpPort(1235);
+
       // core.getRecorder()->start();
       // core.getPlayer()->start();
       // core.getTimer().start();

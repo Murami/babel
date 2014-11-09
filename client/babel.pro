@@ -1,5 +1,5 @@
 CONFIG += qt
-QT += core gui widgets network
+QT += core gui network
 LIBS += libportaudio/libs/libportaudio.a -lopus -lasound -ljack
 INCLUDEPATH +=  include libportaudio/include
 
