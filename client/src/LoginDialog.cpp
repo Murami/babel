@@ -12,16 +12,6 @@ int		LoginDialog::HEIGHT = 200;
 
 LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(parent), _core(core)
 {
-  if (parent != 0)
-    this->_mainWindow = static_cast<MainWindow*>(parent);
-  else
-    this->_mainWindow = new MainWindow(core);
-
-  this->_loginDialog = new LoginEntryDialog(this->_core, this);
-  this->_core.addLoginListener(this->_loginDialog);
-  this->_registerDialog = new RegisterEntryDialog(this->_core, this);
-  this->_core.addRegisterListener(this->_registerDialog);
-
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
   this->_layout = new QVBoxLayout();
@@ -32,21 +22,31 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
   this->_layout->addWidget(this->_signInButton);
   this->_layout->setAlignment(this->_signInButton, Qt::AlignHCenter);
   this->setLayout(this->_layout);
+  this->_initialize();
+}
+
+void		LoginDialog::_initialize()
+{
+  this->_mainWindow = NULL;
+  this->_loginDialog = NULL;
+  this->_registerDialog = NULL;
+
   connect(this->_signInButton, SIGNAL(clicked()), this, SLOT(createSignInDialog()));
   connect(this->_logInButton, SIGNAL(clicked()), this, SLOT(createLogInDialog()));
-  connect(this->_mainWindow, SIGNAL(closeMainWindow()), this, SLOT(display()));
-  core.addErrorListener(this);
-  core.addDisconnectListener(this);
+  this->_core.addErrorListener(this);
+  this->_core.addDisconnectListener(this);
 }
 
 void		LoginDialog::display()
 {
-  this->_mainWindow->deleteAudioWindow();
-  this->show();
+  this->close();
 }
 
 void		LoginDialog::onLogin(const QString& username)
 {
+  std::cout << __FUNCTION__ << std::endl;
+  this->_mainWindow = new MainWindow(this->_core);
+  connect(this->_mainWindow, SIGNAL(closeMainWindow()), this, SLOT(display()));
   this->_mainWindow->setConnectedUserName(username);
   this->_mainWindow->show();
   this->hide();
@@ -54,6 +54,9 @@ void		LoginDialog::onLogin(const QString& username)
 
 void		LoginDialog::onRegister(const QString& username)
 {
+  std::cout << __FUNCTION__ << std::endl;
+  this->_mainWindow = new MainWindow(this->_core);
+  connect(this->_mainWindow, SIGNAL(closeMainWindow()), this, SLOT(display()));
   this->_mainWindow->setConnectedUserName(username);
   this->_mainWindow->show();
   this->hide();
@@ -61,13 +64,27 @@ void		LoginDialog::onRegister(const QString& username)
 
 void		LoginDialog::createLogInDialog()
 {
-  this->_loginDialog->reset();
+  std::cout << __FUNCTION__ << std::endl;
+  if (this->_loginDialog)
+    {
+      this->_core.deleteLoginListener(this->_loginDialog);
+      delete this->_loginDialog;
+    }
+  this->_loginDialog = new LoginEntryDialog(this->_core, this);
+  this->_core.addLoginListener(this->_loginDialog);
   this->_loginDialog->show();
 }
 
 void		LoginDialog::createSignInDialog()
 {
-  this->_registerDialog->reset();
+  std::cout << __FUNCTION__ << std::endl;
+  if (this->_registerDialog)
+    {
+      this->_core.deleteRegisterListener(this->_registerDialog);
+      delete this->_registerDialog;
+    }
+  this->_registerDialog = new RegisterEntryDialog(this->_core, this);
+  this->_core.addRegisterListener(this->_registerDialog);
   this->_registerDialog->show();
 }
 

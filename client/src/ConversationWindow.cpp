@@ -33,7 +33,6 @@ ConversationWindow::ConversationWindow(BabelCoreClient& core,
   this->_messageTextView = new WidgetTextView(this->_username, this->_connectedMate);
   this->_messageEdit = new QLineEdit();
   this->_messageEdit->setFocus();
-  //this->_messageTextView->setReadOnly(true);
   mainLayout->addWidget(this->_messageTextView);
   mainLayout->addWidget(this->_messageEdit);
   layout->addWidget(this->_sendMessageButton);
