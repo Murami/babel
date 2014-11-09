@@ -96,8 +96,8 @@ int	AudioPlayer::size()
 
 int	AudioPlayer::onStreamRequest(void* output,
 				     unsigned long frames,
-				     unsigned int channels,
-				     SampleFormat sampleFormat)
+				     unsigned int,
+				     SampleFormat)
 {
   if (!m_frameQueue.empty())
     {

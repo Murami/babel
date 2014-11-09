@@ -11,7 +11,6 @@ WidgetButton::WidgetButton(const QString& text, QWidget *parent) : QPushButton(p
   this->_text = text;
   this->_image = ResourceManager::getInstance()->getNormalButtonPixmap();
   this->setFixedSize(100, 50);
-  //this->setFixedSize(text.length() * 15, 50);
 }
 
 void		WidgetButton::paintEvent(QPaintEvent *event)
@@ -25,9 +24,8 @@ void		WidgetButton::paintEvent(QPaintEvent *event)
   painter.drawText(event->rect(), Qt::AlignCenter, this->_text);
 }
 
-void			WidgetButton::onCall(NET::CallInfo info)
+void			WidgetButton::onCall(NET::CallInfo)
 {
-  std::cout << info.user << std::endl;
 }
 
 void			WidgetButton::enterEvent(QEvent *)

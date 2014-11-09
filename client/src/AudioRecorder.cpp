@@ -77,7 +77,7 @@ int	AudioRecorder::size()
 }
 
 int	AudioRecorder::onStreamRequest(const void* input,
-				       unsigned long frames,
+				       unsigned long,
 				       unsigned int,
 				       SampleFormat)
 {

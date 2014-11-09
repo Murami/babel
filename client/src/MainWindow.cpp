@@ -132,10 +132,17 @@ void		MainWindow::onCall(NET::CallInfo info)
   if (this->_audioWindow == NULL)
     {
       QString mate(info.user);
-      AudioCallConfirmationDialog *dialog = new AudioCallConfirmationDialog(this->_core,
-      									    mate, this);
-      dialog->show();
+      this->_audioConfirmation = new AudioCallConfirmationDialog(this->_core,
+								 mate, this);
+      this->_core.addKoCallListener(this);
+      this->_audioConfirmation->show();
     }
+}
+
+void		MainWindow::onKoCall()
+{
+  this->_audioConfirmation->close();
+  this->_core.deleteKoCallListener(this);
 }
 
 void		MainWindow::onMsg(NET::MsgInfo info)

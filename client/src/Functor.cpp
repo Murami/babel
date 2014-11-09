@@ -38,16 +38,8 @@ void CallFunctor::operator()(BabelCoreClient & core, void *data)
       core.setTypeNeeded(NET::T_HEADER);
       NET::CallInfo *tmp = reinterpret_cast<NET::CallInfo*>(data);
       core.notifyCall(*tmp);
-
       core.setUdpAddress(tmp->ip);
       core.setUdpPort(tmp->port);
-
-      // core.setUdpAddress("127.0.0.1");
-      // core.setUdpPort(1235);
-
-      // core.getRecorder()->start();
-      // core.getPlayer()->start();
-      // core.getTimer().start();
     }
 }
 
@@ -112,7 +104,6 @@ void KoCallFunctor::operator()(BabelCoreClient & core, void *data)
       if (core.getRecorder()->active() == true)
 	core.getRecorder()->stop();
       core.disconnectAudio();
-      std::cout << "\033[41mKO CALL\033[0m" << std::endl;
       core.notifyKoCall();
     }
 }
@@ -131,11 +122,11 @@ void KoMsgFunctor::operator()(BabelCoreClient & core, void *data)
   core.notifyMsgError(false);
 }
 
-void SampleFunctor::operator()(BabelCoreClient & core, void *data)
+void SampleFunctor::operator()(BabelCoreClient &, void *)
 {
 }
 
-void ImgFunctor::operator()(BabelCoreClient & core, void *data)
+void ImgFunctor::operator()(BabelCoreClient &, void *)
 {
 
 }

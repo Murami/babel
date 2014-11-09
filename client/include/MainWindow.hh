@@ -13,7 +13,9 @@
 # include	"ICallListener.hh"
 # include	"ConversationWindow.hh"
 # include	"AudioConversationWindow.hh"
+# include	"IKoCallListener.hh"
 
+class		AudioCallConfirmationDialog;
 class		LoginDialog;
 class		BabelCoreClient;
 class		WidgetButton;
@@ -23,7 +25,8 @@ class		LoginDialog;
 class		MainWindow : public QWidget,
 			     public IMsgListener,
 			     public IDisconnectListener,
-			     public ICallListener
+			     public ICallListener,
+			     public IKoCallListener
 {
   Q_OBJECT
 
@@ -48,6 +51,7 @@ private:
   std::list<std::string>		_conversationWindowList;
   std::list<ConversationWindow*>	_conversationWindows;
   AudioConversationWindow*		_audioWindow;
+  AudioCallConfirmationDialog*		_audioConfirmation;
 
 public:
   void			setConnectedUserName(const QString&);
@@ -58,6 +62,7 @@ public:
   virtual void		onMsg(NET::MsgInfo);
   virtual void		onDisconnect(void);
   virtual void		onCall(NET::CallInfo);
+  virtual void		onKoCall();
 
 signals:
   void			closeMainWindow();

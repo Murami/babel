@@ -88,7 +88,6 @@ void	UdpAsyncSocket::onError(QAbstractSocket::SocketError error)
 
 void	UdpAsyncSocket::onRead()
 {
-  std::cout << "\033[41monRead\033[0m\n";
   notifyRead();
 }
 

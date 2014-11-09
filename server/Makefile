@@ -28,8 +28,7 @@ DBIN		=	.
 DINC		=	include		\
 			template
 
-CFLAGS		=	-Wall		\
-			-Wextra
+CFLAGS		=	-Wextra
 
 MAKED		=	make --no-print-directory -C
 

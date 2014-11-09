@@ -13,7 +13,7 @@ int		AudioConversationWindow::HEIGHT = 480;
 
 AudioConversationWindow::AudioConversationWindow(BabelCoreClient& core,
 						 const std::string& mate,
-						 const std::string& user,
+						 const std::string&,
 						 QWidget *parent) :
   QWidget(parent), _core(core)
 {

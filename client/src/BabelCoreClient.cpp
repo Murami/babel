@@ -108,8 +108,6 @@ void BabelCoreClient::onUdpRead()
 
 void BabelCoreClient::onUserMsg(QString login, QString msg)
 {
-  std::cout << __FUNCTION__ << std::endl;
-
   NET::Header		header;
   NET::MsgInfo		info;
   std::string		s_msg;
@@ -237,7 +235,6 @@ void BabelCoreClient::onUserHangout(QString login)
   NET::Header	header;
   NET::UserInfo info;
 
-  std::cout << "\033[42mHangout from : " << login.toStdString() << "\033[0m\n";
   header.type = NET::T_HANGOUT;
   header.size = sizeof(info);
   memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
@@ -639,7 +636,7 @@ void BabelCoreClient::notifyError(QString error)
       (*it).second->onError(error);
 }
 
-void BabelCoreClient::notifyCallError(bool rep, NET::UserInfo info)
+void BabelCoreClient::notifyCallError(bool rep, NET::UserInfo)
 {
   std::list<std::pair<bool, ICallErrorListener *> >::iterator it;
 

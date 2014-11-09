@@ -44,7 +44,6 @@ void		LoginDialog::display()
 
 void		LoginDialog::onLogin(const QString& username)
 {
-  std::cout << __FUNCTION__ << std::endl;
   this->_mainWindow = new MainWindow(this->_core);
   connect(this->_mainWindow, SIGNAL(closeMainWindow()), this, SLOT(display()));
   this->_mainWindow->setConnectedUserName(username);
@@ -54,7 +53,6 @@ void		LoginDialog::onLogin(const QString& username)
 
 void		LoginDialog::onRegister(const QString& username)
 {
-  std::cout << __FUNCTION__ << std::endl;
   this->_mainWindow = new MainWindow(this->_core);
   connect(this->_mainWindow, SIGNAL(closeMainWindow()), this, SLOT(display()));
   this->_mainWindow->setConnectedUserName(username);
@@ -64,7 +62,6 @@ void		LoginDialog::onRegister(const QString& username)
 
 void		LoginDialog::createLogInDialog()
 {
-  std::cout << __FUNCTION__ << std::endl;
   if (this->_loginDialog)
     {
       this->_core.deleteLoginListener(this->_loginDialog);
@@ -77,7 +74,6 @@ void		LoginDialog::createLogInDialog()
 
 void		LoginDialog::createSignInDialog()
 {
-  std::cout << __FUNCTION__ << std::endl;
   if (this->_registerDialog)
     {
       this->_core.deleteRegisterListener(this->_registerDialog);
