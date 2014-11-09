@@ -111,6 +111,7 @@ void TcpAsyncSocket::notifyDisconnect()
   it = m_listenerList.begin();
   for (; it != m_listenerList.end(); ++it)
     (*it)->onTcpDisconnect();
+  m_listenerList.clear();
 }
 
 void TcpAsyncSocket::notifyError(int error)

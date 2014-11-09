@@ -16,8 +16,12 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
     this->_mainWindow = static_cast<MainWindow*>(parent);
   else
     this->_mainWindow = new MainWindow(core);
-  this->_loginDialog = new LoginEntryDialog(core, this);
-  this->_registerDialog = new RegisterEntryDialog(core, this);
+
+  this->_loginDialog = new LoginEntryDialog(this->_core, this);
+  this->_core.addLoginListener(this->_loginDialog);
+  this->_registerDialog = new RegisterEntryDialog(this->_core, this);
+  this->_core.addRegisterListener(this->_registerDialog);
+
   this->setWindowTitle("Logging in");
   this->setFixedSize(LoginDialog::WIDTH, LoginDialog::HEIGHT);
   this->_layout = new QVBoxLayout();
@@ -37,19 +41,12 @@ LoginDialog::LoginDialog(BabelCoreClient& core, QWidget *parent) : QDialog(paren
 
 void		LoginDialog::display()
 {
-  this->_mainWindow->close();
   this->show();
-}
-
-void		LoginDialog::onDisconnect()
-{
-  std::cout << "\033[41mON DISCONNECT\033[0m" << std::endl;
-  // REMOVE DISCONNECT LISTENER ICI
-  //this->_core.deleteDisconnectListener(this);
 }
 
 void		LoginDialog::onLogin(const QString& username)
 {
+  std::cout << "\033[41mON LOGIN\033[0m" << std::endl;
   this->_mainWindow->setConnectedUserName(username);
   this->_mainWindow->show();
   this->hide();
@@ -64,19 +61,24 @@ void		LoginDialog::onRegister(const QString& username)
 
 void		LoginDialog::createLogInDialog()
 {
-  this->_core.addLoginListener(this->_loginDialog);
+  this->_loginDialog->reset();
   this->_loginDialog->show();
 }
 
 void		LoginDialog::createSignInDialog()
 {
-  this->_core.addRegisterListener(this->_registerDialog);
+  this->_registerDialog->reset();
   this->_registerDialog->show();
 }
 
 void		LoginDialog::onError(QString error)
 {
   std::cerr << "\033[31m" << error.toStdString() << "\033[0m" << std::endl;
+  this->close();
+}
+
+void		LoginDialog::onDisconnect()
+{
   this->close();
 }
 

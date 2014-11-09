@@ -52,6 +52,12 @@ void		LoginEntryDialog::sendData()
     this->_core.onUserLogin(this->_user, pass);
 }
 
+void		LoginEntryDialog::reset()
+{
+  this->_pseudoEdit->clear();
+  this->_passwordEdit->clear();
+}
+
 void		LoginEntryDialog::onLogin(bool success)
 {
   if (success)
@@ -63,7 +69,6 @@ void		LoginEntryDialog::onLogin(bool success)
     {
       this->_createErrorBox("Unable to log in",
 			    "Error : combination login/password is not correct");
-      this->close();
     }
 }
 

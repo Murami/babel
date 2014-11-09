@@ -52,6 +52,7 @@ void		AudioConversationWindow::onCallError(bool lol)
 
 void		AudioConversationWindow::hangout()
 {
+  this->_core.onUserHangout(this->_username);
   emit closed();
   this->close();
 }

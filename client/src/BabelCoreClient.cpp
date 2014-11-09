@@ -33,6 +33,7 @@ BabelCoreClient::BabelCoreClient()
   PAAudioService::getInstance()->initialize();
   m_player = new AudioPlayer;
   m_recorder = new AudioRecorder;
+  m_isConnected = false;
 }
 
 BabelCoreClient::~BabelCoreClient()
@@ -73,8 +74,6 @@ void BabelCoreClient::onTcpConnect()
 
 void BabelCoreClient::onTcpDisconnect()
 {
-  std::cout << __FUNCTION__ << "core disconnect detected" << std::endl;
-  notifyDisconnect();
 }
 
 void BabelCoreClient::onTcpError(int error)
@@ -86,17 +85,18 @@ void BabelCoreClient::onTcpError(int error)
 void BabelCoreClient::onTcpRead()
 {
   std::cout << "core data read to read" << std::endl;
-
   while (m_socket.bytesAvailable() >= sizeTypeMap[typeNeeded])
     {
       m_socket.read(buffer, sizeTypeMap[typeNeeded]);
       if (typeNeeded == NET::T_HEADER)
 	{
+	  std::cout << "\033[42m" << typeNeeded << "\033[0m\n";
 	  NET::Header* tmp = reinterpret_cast<NET::Header*>(buffer);
 	  (*functorTypeMap[tmp->type])(*this, buffer);
 	}
       else
 	{
+	  std::cout << "\033[41m" << typeNeeded << "\033[0m\n";
 	  (*functorTypeMap[typeNeeded])(*this, buffer);
 	}
     }
@@ -143,7 +143,7 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
   header.size = sizeof(NET::Header);
   header.size = sizeof(info);
 
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
 
   while (it != s_msg.end())
     {
@@ -159,7 +159,7 @@ void BabelCoreClient::onUserMsg(QString login, QString msg)
 
 void BabelCoreClient::onUserCall(QString login)
 {
-  std::cout << __FUNCTION__ << std::endl;
+  //std::cout << __FUNCTION__ << std::endl;
 
   NET::Header		header;
   NET::CallInfo		info;
@@ -171,7 +171,7 @@ void BabelCoreClient::onUserCall(QString login)
   std::cout << "OK" << std::endl;
   header.type = NET::T_CALL;
   header.size = sizeof(info);
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   memset(info.ip, 0, IP_SIZE);
   info.port = 1235;
   info.prot = NET::UDP;
@@ -193,7 +193,7 @@ void BabelCoreClient::onUserLogin(QString login, QString pass)
 
   header.type = NET::T_LOGIN;
   header.size = sizeof(info);
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
   m_socket.write(&header, sizeof(header));
   m_socket.write(&info, sizeof(info));
@@ -222,7 +222,7 @@ void BabelCoreClient::onUserRegister(QString login, QString pass)
 
   header.type = NET::T_REGISTER;
   header.size = sizeof(info);
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   memcpy(info.md5_pass, md5_pass.toStdString().c_str(), MD5_PASS_SIZE);
   m_socket.write(&header, sizeof(header));
   m_socket.write(&info, sizeof(info));
@@ -237,7 +237,7 @@ void BabelCoreClient::onUserAcceptCall(QString login)
 
   header.type = NET::T_OK_CALL;
   header.size = sizeof(info);
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
@@ -252,7 +252,7 @@ void BabelCoreClient::onUserDeclineCall(QString login)
 
   header.type = NET::T_KO_CALL;
   header.size = sizeof(info);
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
@@ -267,7 +267,7 @@ void BabelCoreClient::onUserHangout(QString login)
 
   header.type = NET::T_HANGOUT;
   header.size = sizeof(info);
-  memcpy(info.user, login.toStdString().c_str(), LOGIN_SIZE);
+  memcpy(info.user, login.toStdString().c_str(), login.length() + 1);
   info.status = NET::CONNECTED;
   m_socket.write(&header, sizeof(NET::Header));
   m_socket.write(&info, sizeof(info));
@@ -294,17 +294,22 @@ void BabelCoreClient::connect()
   QString address("127.0.0.1");
   uint16_t port(1234);
 
-  if (settings->contains("ip") == true)
-    address = settings->value("ip").toString();
+  if (!m_isConnected)
+    {
+      if (settings->contains("ip") == true)
+	address = settings->value("ip").toString();
 
-  if (settings->contains("port") == true)
-    port = settings->value("port").toUInt();
+      if (settings->contains("port") == true)
+	port = settings->value("port").toUInt();
 
-  m_socket.connect(address.toStdString(), port);
+      m_socket.connect(address.toStdString(), port);
+      m_isConnected = true;
+    }
 }
 
 void BabelCoreClient::disconnect()
 {
+  m_isConnected = false;
   m_socket.disconnect();
 }
 
@@ -441,6 +446,7 @@ void BabelCoreClient::addErrorListener(IErrorListener * listener)
 
 void BabelCoreClient::addCallErrorListener(ICallErrorListener * listener)
 {
+  std::cout << "\033[33mADDING NEW CALL ERROR LISTENER\033[0m" << std::endl;
   CallErrorListenerList.push_front(listener);
 }
 
@@ -476,7 +482,7 @@ void BabelCoreClient::deleteDisconnectListener(IDisconnectListener * listener)
   std::list<IDisconnectListener *>::iterator it;
 
   it = DisconnectListenerList.begin();
-  for (; it != DisconnectListenerList.end(); ++it)
+  for (; it != DisconnectListenerList.end(); it++)
     if ((*it) == listener)
       DisconnectListenerList.erase(it);
 }
@@ -508,23 +514,22 @@ void BabelCoreClient::notifyDisconnect(void)
   it = DisconnectListenerList.begin();
   for (; it != DisconnectListenerList.end(); ++it)
     (*it)->onDisconnect();
+  DisconnectListenerList.clear();
 }
 
 void BabelCoreClient::notifyError(QString error)
 {
   std::list<IErrorListener *>::iterator it;
-
   it = ErrorListenerList.begin();
   for (; it != ErrorListenerList.end(); ++it)
     (*it)->onError(error);
 }
 
-void BabelCoreClient::notifyCallError(bool rep)
+void BabelCoreClient::notifyCallError(bool rep, NET::UserInfo info)
 {
   std::list<ICallErrorListener *>::iterator it;
-
   it = CallErrorListenerList.begin();
-  for (; it != CallErrorListenerList.end(); ++it)
+  for (; it != CallErrorListenerList.end(); it++)
     (*it)->onCallError(rep);
 }
 

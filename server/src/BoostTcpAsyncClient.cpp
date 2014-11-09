@@ -52,21 +52,24 @@ boost::asio::ip::tcp::socket&	BoostTcpAsyncClient::getSocket()
 
 void	BoostTcpAsyncClient::onRead(char* buffer, std::size_t size, std::size_t transferred, const boost::system::error_code& e)
 {
-  if (size != transferred)
-    notifyRead(buffer, 0);
-  if (!e)
+  if (!e && size == transferred)
     notifyRead(buffer, transferred);
+  else
+    {
+      notifyRead(buffer, 0);
+      std::cout << "socket error read" << std::endl;
+    }
 }
-
-// #include <boost/asio/errors.hpp>
 
 void	BoostTcpAsyncClient::onWrite(char* buffer, std::size_t transferred,
 				     const boost::system::error_code& e)
 {
   if (!e)
     notifyWrite(buffer, transferred);
-  std::cout << e.value() << std::endl;
-
+  else
+    {
+      std::cout << "boost socket write error" << std::endl;
+    }
 }
 
 void	BoostTcpAsyncClient::close()
