@@ -7,7 +7,6 @@
 # include "ITcpAsyncSocketListener.hh"
 # include "IUdpAsyncSocketListener.hh"
 # include "IWidgetListener.hh"
-# include "ITimerListener.hh"
 # include "TcpAsyncSocket.hh"
 # include "UdpAsyncSocket.hh"
 # include "AudioRecorder.hh"
@@ -30,8 +29,7 @@ class IUserInfoListener;
 
 class BabelCoreClient : public ITcpAsyncSocketListener,
 			public IUdpAsyncSocketListener,
-			public IWidgetListener,
-			public ITimerListener
+			public IWidgetListener
 {
 private:
   typedef std::map<NET::Type, size_t>				SizeTypeMap;
@@ -51,9 +49,6 @@ public:
 public:
   void			onUdpError(int error);
   void			onUdpRead();
-
-public:
-  void			onTimeout(int id);
 
 public:
   void			onUserMsg(QString login, QString msg);
@@ -77,7 +72,6 @@ public:
   NET::Type		getTypeNeeded();
   AudioRecorder*	getRecorder();
   AudioPlayer*		getPlayer();
-  Timer&		getTimer();
   std::string		getUdpAddress();
   uint16_t		getUdpPort();
   void			setUdpAddress(std::string address);
@@ -135,7 +129,6 @@ private:
   AudioRecorder					*m_recorder;
   AudioPlayer					*m_player;
   NET::Type					typeNeeded;
-  Timer						m_timer;
   char						buffer[4096];
   std::string					m_udpAddress;
   uint16_t					m_udpPort;

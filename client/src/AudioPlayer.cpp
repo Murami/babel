@@ -3,14 +3,15 @@
 #include "PAAudioOutputStream.hh"
 #include "OpusAudioCoder.hh"
 
-
 #include <iostream>
 #include <cstring>
+#include <stdexcept>
+#include <exception>
 
 AudioPlayer::AudioPlayer()
 {
   m_coder = new OpusAudioCoder(48000, 2, 64000);
-  m_stream = new PAAudioOutputStream(2, 44100, 120, Int16, this);
+  m_stream = new PAAudioOutputStream(2, 44100, 960, Int16, this);
   m_stream->open();
 }
 
@@ -51,6 +52,10 @@ void  AudioPlayer::pushFrames(void* frames, size_t size)
     {
       memcpy(&_size, static_cast<char*>(frames) + i, 4);
       _size += 4;
+      if (_size > size)
+	{
+	  throw std::runtime_error("Bad sample received !");
+	}
       frame = new char[_size];
       memcpy(frame, static_cast<char*>(frames) + i, _size);
       this->pushFrame(frame);

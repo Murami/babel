@@ -12,7 +12,7 @@ AudioRecorder::AudioRecorder(BabelCoreClient& core) :
   m_core(core)
 {
   m_coder = new OpusAudioCoder(48000, 2, 64000);
-  m_stream = new PAAudioInputStream(2, 44100, 120, Int16, this);
+  m_stream = new PAAudioInputStream(2, 44100, 960, Int16, this);
   m_stream->open();
 }
 
@@ -62,7 +62,6 @@ int	AudioRecorder::nextFrameSize()
   m_mutex.lock();
   memcpy(&size, m_frameQueue.front(), 4);
   m_mutex.unlock();
-  // return (960);
   return (size + 4);
 }
 
@@ -78,8 +77,8 @@ int	AudioRecorder::size()
 
 int	AudioRecorder::onStreamRequest(const void* input,
 				       unsigned long frames,
-				       unsigned int /*channels*/,
-				       SampleFormat /*sampleFormat*/)
+				       unsigned int,
+				       SampleFormat)
 {
   unsigned char		cbits[4096];
   size_t		size;
@@ -88,7 +87,12 @@ int	AudioRecorder::onStreamRequest(const void* input,
   size = m_coder->encode(static_cast<const int16_t*>(input), cbits);
   std::cout << "encode " << size << std::endl;
   frame = new char[size];
+
   memcpy(frame, cbits, size);
-  m_core.sendAudioFrame(frame, size);
+  if (this->size() >= 10)
+    {
+      for (int i = 0; i != 10; i++)
+	m_core.sendAudioFrame(popFrame(), size);
+    }
   return (true);
 }

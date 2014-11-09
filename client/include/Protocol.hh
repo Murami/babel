@@ -10,7 +10,7 @@ namespace NET
 #define LOGIN_SIZE	0x80
 #define MD5_PASS_SIZE	0x80
 #define MSG_SIZE	0x400
-#define RAW_SIZE	100//0x1000
+#define RAW_SIZE	0x1000
 #define JPEG_SIZE	0x40000
 
   enum Type
@@ -18,14 +18,14 @@ namespace NET
       T_HEADER		= 0,
       T_LOGIN		= 1,
       T_LOGOUT		= 2,
-      T_REGISTER		= 3,
-      T_USERINFO		= 4,
+      T_REGISTER	= 3,
+      T_USERINFO	= 4,
       T_SENDMSG		= 5,
       T_RECVMSG		= 6,
       T_CALL		= 7,
       T_HANGOUT		= 8,
-      T_OK_LOGIN		= 9,
-      T_KO_LOGIN		= 10,
+      T_OK_LOGIN	= 9,
+      T_KO_LOGIN	= 10,
       T_OK_REGISTER	= 11,
       T_KO_REGISTER	= 12,
       T_OK_CALL		= 13,
@@ -45,8 +45,8 @@ namespace NET
 
   enum Protocol
     {
-      TCP			= 1,
-      UDP			= 2
+      TCP		= 1,
+      UDP		= 2
     };
 
   enum DataType
@@ -63,20 +63,20 @@ namespace NET
 
   struct LoginInfo
   {
-    char			user[LOGIN_SIZE];
-    char			md5_pass[MD5_PASS_SIZE];
+    char		user[LOGIN_SIZE];
+    char		md5_pass[MD5_PASS_SIZE];
   } __attribute__((packed));
 
   struct UserInfo
   {
-    char			user[LOGIN_SIZE];
+    char		user[LOGIN_SIZE];
     Status		status;
   } __attribute__((packed));
 
   struct CallInfo
   {
-    char			user[LOGIN_SIZE];
-    char			ip[IP_SIZE];
+    char		user[LOGIN_SIZE];
+    char		ip[IP_SIZE];
     uint32_t		port;
     Protocol		prot;
     DataType		type;
@@ -84,20 +84,20 @@ namespace NET
 
   struct MsgInfo
   {
-    char			user[LOGIN_SIZE];
-    char			msg[MSG_SIZE];
+    char		user[LOGIN_SIZE];
+    char		msg[MSG_SIZE];
   } __attribute__((packed));
 
   struct Sample
   {
     uint32_t		size;
-    char			rawData[RAW_SIZE];
+    char		rawData[RAW_SIZE];
   } __attribute__((packed));
 
   struct Img
   {
     uint32_t		size;
-    char			img[JPEG_SIZE];
+    char		img[JPEG_SIZE];
   } __attribute__((packed));
 
   struct SamplePacket
